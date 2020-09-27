@@ -5,15 +5,16 @@ import { Container, Header, Title, Content, Button, Icon, Left, Right, Body, Tex
 import { firebase } from './firebase';
 
 const Lobby = () => {
-  const [lobbyNames, setLobbyNames] = useState({});
+  const [lobbyNames, setLobbyNames] = useState(null);
   useEffect(() => {
     const db = firebase.database().ref('Lobby');
     const handleData = snap => {
       if (snap.val())  {
-        setLobbyNames(snap.val());
-        console.log(snap.val())
+        const json = snap.val()
+        const lobby = Object.values(json)
         console.log('lobby names are: ')
-        console.log(lobbyNames)
+        console.log(lobby)
+        setLobbyNames(lobby)
       }
     }
     db.on('value', handleData, error => alert(error));
@@ -24,9 +25,9 @@ const Lobby = () => {
   return (
     <Content>
       <List>
-        {lobbyNames ? dbNames.map(user => (
-        <ListItem key={user}>
-          <Text>{user}</Text>
+        {lobbyNames ? lobbyNames.map(user => (
+        <ListItem key={user.Name}>
+          <Text>{user.Name}</Text>
         </ListItem>)) : <Text>loading</Text>}
       </List>
     </Content>
