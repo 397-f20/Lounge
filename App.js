@@ -9,10 +9,10 @@ export default function App() {
   const [user, setUser] = useState(false);
   
   
-  // useEffect(() => {
-  //   if (user)
-  //    onlineStatus(user);
-  // }, []);
+  useEffect(() => {
+    if (user)
+     onlineStatus(user);
+  }, [user]);
 
   return (
     <View style={styles.container}>
