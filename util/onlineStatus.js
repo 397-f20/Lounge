@@ -6,7 +6,7 @@ import { firebase } from '../firebase';
     
      // Create a reference to this user's specific status node.
      // This is where we will store data about being online/offline.
-     var userStatusDatabaseRef = firebase.database().ref('/status/' + uid);
+     var userStatusDatabaseRef = firebase.database().ref('/lobby/' + uid);
      
      // We'll create two constants which we will write to 
      // the Realtime database when this device is offline
@@ -34,7 +34,7 @@ import { firebase } from '../firebase';
          // method to add a set which will only trigger once this 
          // client has disconnected by closing the app, 
          // losing internet, or any other means.
-         userStatusDatabaseRef.onDisconnect().set(isOfflineForDatabase).then(function() {
+         userStatusDatabaseRef.onDisconnect().set(null).then(function() {
              // The promise returned from .onDisconnect().set() will
              // resolve as soon as the server acknowledges the onDisconnect() 
              // request, NOT once we've actually disconnected:
@@ -42,7 +42,7 @@ import { firebase } from '../firebase';
      
              // We can now safely set ourselves as 'online' knowing that the
              // server will mark us as offline once we lose connection.
-             userStatusDatabaseRef.set(isOnlineForDatabase);
+             userStatusDatabaseRef.update(isOnlineForDatabase);
          });
      });
  }

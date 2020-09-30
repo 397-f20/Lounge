@@ -7,17 +7,18 @@ import NameForm from './components/NameForm';
 
 export default function App() {
   const [user, setUser] = useState(false);
+  const [uid, setUid] = useState(false);
   
   
   useEffect(() => {
-    if (user)
-     onlineStatus(user);
-  }, [user]);
+    if (uid)
+     onlineStatus(uid);
+  }, [uid]);
 
   return (
     <View style={styles.container}>
       {user ?
-        <Lobby user={user}/>
+        <Lobby user={user} setUser={setUser} setUid={setUid}/>
         :
         <NameForm setUser={setUser}/>
       }

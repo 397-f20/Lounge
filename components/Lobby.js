@@ -5,16 +5,14 @@ import Constants from "expo-constants";
 
 const image = { uri: "https://cdn.apartmenttherapy.info/image/upload/f_auto,q_auto:eco,c_fit,w_1460,h_822/at%2Fart%2Fdesign%2Fzoom-backgrounds%2FAT-zoom-background-stayhome" };
 
-const Lobby = ({user}) => {
+const Lobby = ({user, setUser, setUid}) => {
     const [lobbyNames, setLobbyNames] = useState(null);
-    const db = firebase.database().ref('Lobby');
+    const db = firebase.database().ref('lobby');
     useEffect(() => {
         const handleData = snap => {
             if (snap.val()) {
                 const json = snap.val()
                 const lobby = Object.values(json)
-                console.log('lobby names are: ')
-                console.log(lobby)
                 setLobbyNames(lobby)
             }
         }
@@ -24,10 +22,11 @@ const Lobby = ({user}) => {
 
     const addToLobby = () => {
         const newUser = {
-            name: user,
+            name: user.name,
             voteToClose: false
         };
-        db.push(newUser);
+        var key = db.push(newUser).getKey();
+        setUid(key);
     }
 
   
@@ -35,7 +34,7 @@ const Lobby = ({user}) => {
         <View style={styles.container}>
             {/* </View><ImageBackground source={image} style={styles.image}> */}
             <View>
-                <Text style={styles.header}>Hello {user}</Text>
+                <Text style={styles.header}>Hello {user.name}</Text>
                 <Button style={styles.button} title={"Join Lobby"} onPress={addToLobby} >
                     <Text>Join Lounge</Text>
                 </Button>
