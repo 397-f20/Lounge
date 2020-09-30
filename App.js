@@ -18,7 +18,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       {user ?
-        <Lobby user={user} setUser={setUser} setUid={setUid}/>
+        <Lobby user={user} setUser={setUser} uid={uid} setUid={setUid}/>
         :
         <NameForm setUser={setUser}/>
       }
@@ -28,9 +28,10 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    psoition: "relative",
-    margin: "0 auto",
+    flex: 1,
+    flexDirection: "column",
     maxWidth: 1200,
     alignItems: "center",
+    justifyContent: 'center',
   },
 });

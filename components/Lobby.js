@@ -5,7 +5,7 @@ import Constants from "expo-constants";
 
 const image = { uri: "https://cdn.apartmenttherapy.info/image/upload/f_auto,q_auto:eco,c_fit,w_1460,h_822/at%2Fart%2Fdesign%2Fzoom-backgrounds%2FAT-zoom-background-stayhome" };
 
-const Lobby = ({user, setUser, setUid}) => {
+const Lobby = ({user, setUser, uid, setUid}) => {
     const [lobbyNames, setLobbyNames] = useState(null);
     const db = firebase.database().ref('lobby');
     useEffect(() => {
@@ -14,6 +14,7 @@ const Lobby = ({user, setUser, setUid}) => {
                 const json = snap.val()
                 const lobby = Object.values(json)
                 setLobbyNames(lobby)
+                console.log(lobby);
             }
         }
         db.on('value', handleData, error => alert(error));
@@ -21,12 +22,14 @@ const Lobby = ({user, setUser, setUid}) => {
     }, []);
 
     const addToLobby = () => {
-        const newUser = {
-            name: user.name,
-            voteToClose: false
-        };
-        var key = db.push(newUser).getKey();
-        setUid(key);
+        if(!uid) {
+            const newUser = {
+                name: user.name,
+                voteToClose: false
+            };
+            var key = db.push(newUser).getKey();
+            setUid(key);
+        }
     }
 
   
