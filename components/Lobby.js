@@ -8,6 +8,9 @@ const image = { uri: "https://cdn.apartmenttherapy.info/image/upload/f_auto,q_au
 const Lobby = ({user, setUser, uid, setUid}) => {
     const [lobbyNames, setLobbyNames] = useState(null);
     const db = firebase.database().ref('lobby');
+    const [myVote, setMyVote] = useState(false);
+    const [joinLobby, setJoinLobby] = useState(false);
+
     useEffect(() => {
         const handleData = snap => {
             if (snap.val()) {
@@ -21,6 +24,11 @@ const Lobby = ({user, setUser, uid, setUid}) => {
         return () => { db.off('value', handleData); };
     }, []);
 
+    const voteToClose = () => {
+        var voteRef = firebase.database().ref('/lobby/' + uid);
+        voteRef.update({voteToClose:true});
+    }
+
     const addToLobby = () => {
         if(!uid) {
             const newUser = {
@@ -29,6 +37,7 @@ const Lobby = ({user, setUser, uid, setUid}) => {
             };
             var key = db.push(newUser).getKey();
             setUid(key);
+            setJoinLobby(true);
         }
     }
 
@@ -38,13 +47,26 @@ const Lobby = ({user, setUser, uid, setUid}) => {
             {/* </View><ImageBackground source={image} style={styles.image}> */}
             <View>
                 <Text style={styles.header}>Hello {user.name}</Text>
-                <Button style={styles.button} title={"Join Lobby"} onPress={addToLobby} >
-                    <Text>Join Lounge</Text>
-                </Button>
-                {lobbyNames ? lobbyNames.map(user => (
-                <Text style={styles.list} key={user.name}>{user.name}</Text>))
+                {(!joinLobby) &&
+                    <Button style={styles.button} title={"Join Lobby"} onPress={addToLobby} >
+                        <Text>Join Lounge</Text>
+                    </Button>
+                }
+
+                {lobbyNames ? (
+                    <View>
+                    {lobbyNames.map(user => (
+                        <Text style={styles.list} key={user.name}>{user.name}</Text>    
+                    ))} 
+                    {!myVote && joinLobby &&
+                        <Button title={"Vote to Close"} onPress={voteToClose}>
+                            <Text>Vote to Close</Text>
+                        </Button>}
+                    </View>
+                )
                 :
-                <Text>loading</Text>}                
+                <Text>loading</Text>} 
+
             </View>
         </View>
     )
