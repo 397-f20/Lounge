@@ -6,18 +6,20 @@ import Constants from "expo-constants";
 const image = { uri: "https://cdn.apartmenttherapy.info/image/upload/f_auto,q_auto:eco,c_fit,w_1460,h_822/at%2Fart%2Fdesign%2Fzoom-backgrounds%2FAT-zoom-background-stayhome" };
 
 const Lobby = ({user, setUser, uid, setUid}) => {
-    const [lobbyNames, setLobbyNames] = useState(null);
+    const [lobby, setLobby] = useState(null);
     const db = firebase.database().ref('lobby');
     const [myVote, setMyVote] = useState(false);
     const [joinLobby, setJoinLobby] = useState(false);
+    const [lobbyClosed, setLobbyClosed] = useState(false);
 
     useEffect(() => {
         const handleData = snap => {
             if (snap.val()) {
                 const json = snap.val()
                 const lobby = Object.values(json)
-                setLobbyNames(lobby)
-                console.log(lobby);
+                setLobby(lobby)
+                setLobbyClosed(isLobbyClosed(lobby))
+                
             }
         }
         db.on('value', handleData, error => alert(error));
@@ -26,19 +28,29 @@ const Lobby = ({user, setUser, uid, setUid}) => {
 
     const voteToClose = () => {
         var voteRef = firebase.database().ref('/lobby/' + uid);
-        voteRef.update({voteToClose:true});
+        voteRef.update({voteToClose:"true"});
     }
 
     const addToLobby = () => {
         if(!uid) {
             const newUser = {
                 name: user.name,
-                voteToClose: false
+                voteToClose: "false"
             };
             var key = db.push(newUser).getKey();
             setUid(key);
             setJoinLobby(true);
         }
+    }
+
+    const isLobbyClosed = (lobby) => {
+        if (lobby) {
+            console.log(lobby);
+            var arr = lobby.filter(user => user.voteToClose == "false")
+            
+            return (arr.length == 0)
+        }
+        return false
     }
 
   
@@ -53,10 +65,13 @@ const Lobby = ({user, setUser, uid, setUid}) => {
                     </Button>
                 }
 
-                {lobbyNames ? (
+                {lobby ? (
                     <View>
-                    {lobbyNames.map(user => (
-                        <Text style={styles.list} key={user.name}>{user.name}</Text>    
+                    {lobby.map(user => (
+                        <View key={user.name}>
+                            <Text style={styles.list}>{user.name}</Text>  
+                            <Text style={styles.list}>Vote to Close: {user.voteToClose}</Text>
+                        </View>  
                     ))} 
                     {!myVote && joinLobby &&
                         <Button title={"Vote to Close"} onPress={voteToClose}>
@@ -84,8 +99,8 @@ const styles = StyleSheet.create({
     },
     list: {
         //backgroundColor: "#f9c2ff",
-        margin: 50,
-        height: 30,
+        margin: 20,
+        height: 10,
     },
     image: {
         flex: 1,
