@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { ImageBackground, Button, TextInput, Text, View, StyleSheet, SafeAreaView, SectionList } from 'react-native';
+import { TouchableOpacity, ImageBackground, Text, View, StyleSheet, SafeAreaView } from 'react-native';
 import { firebase } from '../firebase';
-import Constants from "expo-constants";
 
 const image = { uri: "https://cdn.apartmenttherapy.info/image/upload/f_auto,q_auto:eco,c_fit,w_1460,h_822/at%2Fart%2Fdesign%2Fzoom-backgrounds%2FAT-zoom-background-stayhome" };
 
@@ -51,56 +50,89 @@ const Lobby = ({ user, setUser, uid, setUid }) => {
         return false
     }
 
-
     return (
         <View style={styles.container}>
-            {/* </View><ImageBackground source={image} style={styles.image}> */}
             <View>
-                <Text style={styles.header}>Hello {user.name}</Text>
+                <Text style={styles.header}>Hello {user.name}!</Text>
                 {(!joinLobby) &&
-                    <Button style={styles.button} title={"Join Lobby"} onPress={addToLobby} >
-                        <Text>Join Lounge</Text>
-                    </Button>
+                    <TouchableOpacity style={styles.button} title={"Join Lobby"} onPress={addToLobby} >
+                        <Text style={styles.buttonText}>Join Lounge</Text>
+                    </TouchableOpacity>
                 }
                 {lobby ? (
                     <View>
                         {lobby.map(user => (
-                            <View key={user.name}>
-                                <Text style={styles.list}>{user.name}</Text>
-                                <Text style={styles.list}>Vote to Close: {user.voteToClose}</Text>
+                            <View key={user.name} style={styles.list}>
+                                <Text style={styles.listText}>Name: {user.name}</Text>
+                                <Text style={styles.listText}>Vote to Close: {user.voteToClose}</Text>
                             </View>
                         ))}
                         {!myVote && joinLobby &&
-                            <Button title={"Vote to Close"} onPress={voteToClose}>
-                                <Text>Vote to Close</Text>
-                            </Button>}
+                            <TouchableOpacity style={styles.button} title={"Vote to Close"} onPress={voteToClose}>
+                                <Text style={styles.buttonText}>Vote to Close</Text>
+                            </TouchableOpacity>}
                     </View>)
                     :
-                    <Text>Lobby is empty</Text>}
+                    <Text style={styles.text}>Lobby is empty now!</Text>}
             </View>
         </View>
     )
 }
+
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: Constants.statusBarHeight,
-        marginHorizontal: 16
+        justifyContent: 'center',
+        backgroundColor: '#8FBC8F',
+        //width: 400,
+        //height: 400,
+        width: '100%',
+        height: '100%',
     },
     header: {
         fontSize: 32,
-        //backgroundColor: "#fff",
-        margin: 50
+        marginVertical: 60,
+        color: '#F5F5DC',
+        justifyContent: 'center',
+        textAlign: 'center',
+    },
+    text: {
+        fontSize: 24,
+        color: '#F5F5DC',
+        alignItems: 'center',
+        textAlign: 'center'
+    },
+    textInput: {
+        margin: 10,
+        height: 30,
+        borderColor: '#F5F5DC',
+        borderWidth: 4,
+        marginVertical: 30,
+    },
+    button: {
+        backgroundColor: '#556B2F',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 15, 
+        //width: 200,
+        height: 50,
+    },
+    buttonText: {
+        fontSize: 18,
+        color: '#F5F5DC',
     },
     list: {
-        //backgroundColor: "#f9c2ff",
+        fontSize: 15,
+        padding: 15,
+        color: '#F5F5DC',
+        backgroundColor: '#556B2F',
+        borderRadius: 15,
         margin: 20,
-        height: 10,
     },
-    image: {
-        flex: 1,
-        resizeMode: "cover",
-        justifyContent: "center"
+    listText: {
+        fontSize: 18,
+        color: '#F5F5DC',
+        textAlign: 'center'
     },
 });
 

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, TextInput, Button, Text, View, StyleSheet, SafeAreaView, SectionList } from 'react-native';
+import { TouchableOpacity, TextInput, ImageBackground, Text, View, StyleSheet, SafeAreaView } from 'react-native';
 import Constants from "expo-constants";
 
 const NameForm = ({ setUser }) => {
@@ -10,19 +10,18 @@ const NameForm = ({ setUser }) => {
         }
         setUser(u);
     }
+
     return (
         <SafeAreaView style={styles.container}>
             <View>
-                <Text style={styles.header}> Enter your name </Text>
-                <TextInput autoFocus style={styles.textInput} value={nameField} placeholder="eg. John Doe" onChangeText={text => setNameField(text)} />
-                <TouchableOpacity onPress={() => newUser(nameField)}>
-                    <View style={{
-                        backgroundColor: 'red', alignItems: 'center',
-                        justifyContent: 'center', borderRadius: 15, width: 200
-                    }}>
-                        <Text style={{ color: 'white' }}>Submit Name</Text>
-                    </View>
-                </TouchableOpacity>
+                {/*<ImageBackground source={require('../bg.jpg')} style={styles.image}>*/}
+                    <Text style={styles.header}>Wellcome to Lunge!</Text>
+                    <Text style={styles.text}> Enter your name here </Text>
+                    <TextInput autoFocus style={styles.textInput} value={nameField} placeholder="eg. John Doe" onChangeText={text => setNameField(text)} />
+                    <TouchableOpacity style={styles.button} onPress={() => newUser(nameField)}>
+                        <Text style={styles.buttonText}>Submit Name</Text>
+                    </TouchableOpacity>
+                {/* </ImageBackground> */}
             </View>
         </SafeAreaView>
     );
@@ -31,31 +30,50 @@ const NameForm = ({ setUser }) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        marginTop: Constants.statusBarHeight,
-        marginHorizontal: 16
-    },
-    item: {
-        backgroundColor: "#f9c2ff",
-        padding: 20,
-        marginVertical: 8
+        justifyContent: 'center',
+        backgroundColor: '#8FBC8F',
+        //width: 400,
+        //height: 400,
+        width: '100%',
+        height: '100%',
     },
     header: {
         fontSize: 32,
-        backgroundColor: "#fff"
+        marginVertical: 60,
+        color: '#F5F5DC',
+        justifyContent: 'center',
+        textAlign: 'center',
     },
-    title: {
-        fontSize: 24
+    text: {
+        fontSize: 24,
+        color: '#F5F5DC',
     },
     textInput: {
         margin: 10,
-        height: 30,
-        borderColor: '#7a42f4',
-        borderWidth: 1,
+        height: 40,
+        borderColor: '#F5F5DC',
+        color: '#F5F5DC',
+        borderWidth: 4,
+        marginVertical: 30,
+        fontSize: 18,
     },
     button: {
-        borderRadius: 15,
-        padding: 20
-    }
+        backgroundColor: '#556B2F',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 15, 
+        //width: 200,
+        height: 50,
+    },
+    buttonText: {
+        fontSize: 18,
+        color: '#F5F5DC',
+    },
+    image: {
+        flex: 1,
+        resizeMode: "cover",
+        justifyContent: "center"
+    },
 });
 
 export default NameForm;

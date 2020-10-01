@@ -29,9 +29,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column",
-    maxWidth: 1200,
-    alignItems: "center",
+    alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: 20,
   },
 });
