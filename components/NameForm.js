@@ -12,31 +12,20 @@ const NameForm = ({ setUser }) => {
     }
 
     return (
-        <SafeAreaView style={styles.container}>
-            <View>
-                {/*<ImageBackground source={require('../bg.jpg')} style={styles.image}>*/}
-                    <Text style={styles.header}>Wellcome to Lunge!</Text>
-                    <Text style={styles.text}> Enter your name here </Text>
-                    <TextInput autoFocus style={styles.textInput} value={nameField} placeholder="eg. John Doe" onChangeText={text => setNameField(text)} />
-                    <TouchableOpacity style={styles.button} onPress={() => newUser(nameField)}>
-                        <Text style={styles.buttonText}>Submit Name</Text>
-                    </TouchableOpacity>
-                {/* </ImageBackground> */}
-            </View>
-        </SafeAreaView>
+        <View>
+            {/*<ImageBackground source={require('../bg.jpg')} style={styles.image}>*/}
+                <Text style={styles.header}>Wellcome to Lunge!</Text>
+                <Text style={styles.text}> Enter your name here </Text>
+                <TextInput autoFocus style={styles.textInput} value={nameField} placeholder="eg. John Doe" onChangeText={text => setNameField(text)} />
+                <TouchableOpacity style={styles.button} onPress={() => newUser(nameField)}>
+                    <Text style={styles.buttonText}>Submit Name</Text>
+                </TouchableOpacity>
+            {/* </ImageBackground> */}
+        </View>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        backgroundColor: '#8FBC8F',
-        //width: 400,
-        //height: 400,
-        width: '100%',
-        height: '100%',
-    },
     header: {
         fontSize: 32,
         marginVertical: 60,
