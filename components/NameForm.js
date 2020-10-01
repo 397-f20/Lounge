@@ -12,57 +12,59 @@ const NameForm = ({ setUser }) => {
     }
 
     return (
-        <View>
-            {/*<ImageBackground source={require('../bg.jpg')} style={styles.image}>*/}
-                <Text style={styles.header}>Wellcome to Lunge!</Text>
-                <Text style={styles.text}> Enter your name here </Text>
-                <TextInput autoFocus style={styles.textInput} value={nameField} placeholder="eg. John Doe" onChangeText={text => setNameField(text)} />
-                <TouchableOpacity style={styles.button} onPress={() => newUser(nameField)}>
-                    <Text style={styles.buttonText}>Submit Name</Text>
+        <View style={[styles.center]}>
+            <Text style={[styles.header, styles.center]}>Welcome to Lounge!</Text>
+            <Text style={[styles.text, styles.center]}> What's your name? </Text>
+            <TextInput autoFocus maxLength={40} style={[styles.textInput, styles.center]} value={nameField} placeholder="eg. John Doe" onChangeText={text => setNameField(text)} />
+            <View style={[styles.container, styles.center]}>
+                <TouchableOpacity style={[styles.button, styles.center]} onPress={() => newUser(nameField)}>
+                    <Text style={[styles.buttonText, styles.center]}>Done</Text>
                 </TouchableOpacity>
-            {/* </ImageBackground> */}
+            </View>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
+    container: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '100%',
+    },
     header: {
         fontSize: 32,
         marginVertical: 60,
         color: '#F5F5DC',
-        justifyContent: 'center',
-        textAlign: 'center',
     },
     text: {
         fontSize: 24,
         color: '#F5F5DC',
     },
     textInput: {
-        margin: 10,
-        height: 40,
-        borderColor: '#F5F5DC',
-        color: '#F5F5DC',
-        borderWidth: 4,
+        height: 50,
+        backgroundColor: '#F5F5DC',
+        color: '#000000',
         marginVertical: 30,
-        fontSize: 18,
+        fontSize: 20,
+        borderRadius: 5,
+        width: '100%',
     },
     button: {
         backgroundColor: '#556B2F',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 15, 
-        //width: 200,
-        height: 50,
+        borderRadius: 5,
+        width: '100%',
+        height: 40,
+        maxWidth: 300,
     },
     buttonText: {
-        fontSize: 18,
+        fontSize: 20,
         color: '#F5F5DC',
     },
-    image: {
-        flex: 1,
-        resizeMode: "cover",
-        justifyContent: "center"
-    },
+    center: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center',
+    }
 });
 
 export default NameForm;

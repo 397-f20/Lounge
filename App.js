@@ -47,7 +47,7 @@ export default function App() {
   }
 
   return (
-    <SafeAreaView style={[styles.backaground, styles.center]}>
+    <SafeAreaView style={[styles.background, styles.center]}>
       <View style={[styles.container, styles.center]}>
         {!isLobbyClosed(lobby) ?
           <View style={styles.container}>
@@ -69,17 +69,18 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    width: '80%',
+    width: '90%',
     height: '100%',
     maxWidth: 600,
+    minWidth: 200,
   },
-  backaground: {
+  background: {
     backgroundColor: '#8FBC8F',
     width: '100%',
     height: '100%',
   },
   center: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
   }
