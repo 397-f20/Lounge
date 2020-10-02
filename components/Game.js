@@ -25,9 +25,9 @@ const Game = ({ numUsers, jitsiLink }) => {
       <Text style={[styles.center, { color: '#3b45b5', fontWeight: "bold" }]}
         onPress={() => {
           if (Platform.OS == 'web') {
-            window.open('https://meet.jit.si/' + { jitsiLink }, '_blank');
+            window.open('https://meet.jit.si/' + JSON.stringify(jitsiLink).slice(1, -1), '_blank');
           } else {
-            Linking.openURL('https://meet.jit.si/' + { jitsiLink })
+            Linking.openURL('https://meet.jit.si/' + JSON.stringify(jitsiLink).slice(1, -1))
           }
         }
         }>
