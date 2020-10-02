@@ -4,7 +4,6 @@ import { firebase } from './firebase';
 import onlineStatus from './util/onlineStatus';
 import Lobby from './components/Lobby';
 import NameForm from './components/NameForm';
-import Game from './components/Game';
 
 export default function App() {
   const db = firebase.database().ref('lobby');
