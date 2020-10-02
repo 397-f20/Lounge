@@ -15,24 +15,24 @@ export default function App() {
   // lobby
   const [lobby, setLobby] = useState(null);
   useEffect(() => {
-    
+
     const handleData = snap => {
-        if (snap.val()) {
-          const json = snap.val()
-          setUids(Object.keys(json))
-          const lobby = Object.values(json)
-          setLobby(lobby)
-        }
+      if (snap.val()) {
+        const json = snap.val()
+        setUids(Object.keys(json))
+        const lobby = Object.values(json)
+        setLobby(lobby)
+      }
     }
     db.on('value', handleData, error => alert(error));
     return () => { db.off('value', handleData); };
-}, []);
+  }, []);
 
   // lobby closed
   const isLobbyClosed = (lobby) => {
     if (lobby) {
-        var arr = lobby.filter(user => user.voteToClose == "false")
-        return (arr.length == 0)
+      var arr = lobby.filter(user => user.voteToClose == "false")
+      return (arr.length == 0)
     }
     return false
   }
@@ -53,14 +53,17 @@ export default function App() {
           <View style={styles.container}>
             {user ?
               <Lobby user={user}
-                    uid={uid} setUid={setUid} 
-                    lobby={lobby}/>
+                uid={uid}
+                setUid={setUid}
+                lobby={lobby} />
               :
               <NameForm setUser={setUser} />
             }
           </View>
           :
-          <Game numUsers={lobby.length} generateLink={generateLink(uids)}/>
+          <View style={[styles.container, styles.center]}>
+            <Game numUsers={lobby.length} jitsiLink={generateLink(uids)} />
+          </View>
         }
       </View>
     </SafeAreaView>

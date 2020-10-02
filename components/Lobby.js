@@ -44,11 +44,11 @@ const Lobby = ({ user, uid, setUid, lobby }) => {
                     ))}
                     {!myVote && joinLobby &&
                         <TouchableOpacity style={[styles.button, styles.center]} title={"Vote to Close"} onPress={voteToClose}>
-                            <Text style={[styles.buttonText, styles.center]}>Vote to Close</Text>
+                            <Text style={[styles.buttonText, styles.center]}>Vote to Close Lobby</Text>
                         </TouchableOpacity>}
                 </View>)
                 :
-                <Text style={styles.text}>Lobby is empty now!</Text>}
+                <Text style={styles.text}>No one is in the Lounge. Be the first to join!</Text>}
         </View>
     )
 }
@@ -83,6 +83,7 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 40,
         maxWidth: 300,
+        marginBottom: 20,
     },
     buttonText: {
         fontSize: 20,
