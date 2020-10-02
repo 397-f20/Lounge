@@ -32,7 +32,7 @@ export default function App() {
   const isLobbyClosed = (lobby) => {
     if (lobby) {
       var arr = lobby.filter(user => user.voteToClose == "false")
-      return (arr.length == 0)
+      return (arr.length == 0 && lobby.length > 1)
     }
     return false
   }

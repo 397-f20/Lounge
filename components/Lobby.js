@@ -37,15 +37,15 @@ const Lobby = ({ user, uid, setUid, lobby }) => {
             }
             {lobby ? (
                 <View style={[styles.container, styles.center]}>
+                    {!myVote && joinLobby &&
+                        <TouchableOpacity style={[styles.button, styles.center]} title={"Vote to Close"} onPress={voteToClose}>
+                            <Text style={[styles.buttonText, styles.center]}>Vote to Close Lobby</Text>
+                        </TouchableOpacity>}
                     {lobby.map(user => (
                         <View key={user.name} style={styles.list}>
                             <Text style={[styles.listHeader, styles.center]}>{user.name}{user.voteToClose == "true" && " ✅"} </Text>
                         </View>
                     ))}
-                    {!myVote && joinLobby &&
-                        <TouchableOpacity style={[styles.button, styles.center]} title={"Vote to Close"} onPress={voteToClose}>
-                            <Text style={[styles.buttonText, styles.center]}>Vote to Close Lobby</Text>
-                        </TouchableOpacity>}
                 </View>)
                 :
                 <Text style={styles.text}>No one is in the Lounge. Be the first to join!</Text>}
