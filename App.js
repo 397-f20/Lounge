@@ -43,7 +43,8 @@ export default function App() {
   }, [uid]);
 
   const generateLink = (uids) => {
-    return uids.join('');
+    return uids[0]
+    //return uids.join('');
   }
 
   return (
