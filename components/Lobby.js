@@ -5,14 +5,21 @@ import { firebase } from '../firebase';
 const image = { uri: "https://cdn.apartmenttherapy.info/image/upload/f_auto,q_auto:eco,c_fit,w_1460,h_822/at%2Fart%2Fdesign%2Fzoom-backgrounds%2FAT-zoom-background-stayhome" };
 
 const Lobby = ({ user, uid, setUid, lobby }) => {
-    const db = firebase.database().ref('lobby');
+    const db = firebase.database().ref('lobby/users/');
     const [myVote, setMyVote] = useState(false);
     const [joinLobby, setJoinLobby] = useState(false);
 
 
     const voteToClose = () => {
-        var voteRef = firebase.database().ref('/lobby/' + uid);
+        var voteRef = firebase.database().ref('/lobby/users/' + uid);
         voteRef.update({ voteToClose: "true" });
+        setMyVote(true);
+    }
+
+    const removeVote = () => {
+        var voteRef = firebase.database().ref('/lobby/users/' + uid);
+        voteRef.update({ voteToClose: "false" });
+        setMyVote(false);
     }
 
     const addToLobby = () => {
@@ -40,6 +47,10 @@ const Lobby = ({ user, uid, setUid, lobby }) => {
                     {!myVote && joinLobby &&
                         <TouchableOpacity style={[styles.button, styles.center]} title={"Vote to Close"} onPress={voteToClose}>
                             <Text style={[styles.buttonText, styles.center]}>Vote to Close Lobby</Text>
+                        </TouchableOpacity>}
+                    {myVote && joinLobby &&
+                        <TouchableOpacity style={[styles.button, styles.center]} title={"Cancel vote"} onPress={removeVote}>
+                            <Text style={[styles.buttonText, styles.center]}>Cancel vote</Text>
                         </TouchableOpacity>}
                     {lobby.map(user => (
                         <View key={user.name} style={styles.list}>

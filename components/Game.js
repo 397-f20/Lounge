@@ -1,27 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet, SafeAreaView, Linking, Platform } from 'react-native';
+import { firebase } from '../firebase';
 
-const Game = ({ numUsers, jitsiLink }) => {
+const Game = ({jitsiLink, gameName }) => {
+  const [gameInfo, setGameInfo] = useState({});
+  var getGameRef = firebase.database().ref('games/' + gameName + "/");
+
+  useEffect(() => {
+    const handleData = snap => {
+      if (snap.val()) {
+        const json = snap.val()
+        console.log(gameName)
+        console.log(gameInfo)
+        setGameInfo(json)
+        console.log(gameInfo.name)
+        console.log(gameInfo.description)
+      }
+    }
+    getGameRef.on('value', handleData, error => alert(error));
+    return () => { getGameRef.off('value', handleData); };
+  }, [gameName]);
+
   return (
     <View style={[styles.header, styles.container]}> 
-      { numUsers >= 10 &&
         <View styles={styles.center}>
-          <Text style={[styles.header, styles.center]} >📐 We're playing "Guess Heights" </Text>
-          <Text style={[styles.list, styles.text, styles.center]} > style={styles.text} Guess everyone’s height, one person at a time. One point goes to whoever is closest and whoever gets the most points wins. </Text>
-        </View>}
-
-      { numUsers < 10 && numUsers >= 5 &&
-        <View styles={styles.center}>
-          <Text style={[styles.header, styles.center]} >🔎 We're playing "Two Truths and a Lie" </Text>
-          <Text style={[styles.list, styles.text, styles.center]} > Each person tells two truths and a lie about themselves. Everyone else tries to guess which is the lie. How well do you know your fellow Loungers? </Text>
-        </View>}
-
-      { numUsers < 5 &&
-        <View>
-          <Text style={[styles.header, styles.center]}>🤣 We're playing "Would you rather? </Text>
-          <Text style={[styles.list, styles.text, styles.center]}> Make each other make tough decisions! Everyone, including the person who asks, has to answer. For example: Would you rather lie in a pit of snakes or eat ten spiders? Enjoy! </Text>
-        </View>}
-
+          <Text style={[styles.header, styles.center]} >We are playing:{"\n"}   {gameInfo.name}  👀 </Text>
+          <Text style={[styles.list, styles.text, styles.center]} >  {gameInfo.description}  🤣 </Text>
+        </View>
       <Text style={[styles.center, { color: '#3b45b5', fontWeight: "bold" }]}
         onPress={() => {
           if (Platform.OS == 'web') {

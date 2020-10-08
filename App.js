@@ -5,12 +5,14 @@ import onlineStatus from './util/onlineStatus';
 import Lobby from './components/Lobby';
 import NameForm from './components/NameForm';
 import Game from './components/Game';
+import Activities from './components/Activities';
 
 export default function App() {
-  const db = firebase.database().ref('lobby');
+  const db = firebase.database().ref('lobby/users/');
   const [user, setUser] = useState(false);
   const [uid, setUid] = useState(false);
   const [uids, setUids] = useState([]);
+
 
   // lobby
   const [lobby, setLobby] = useState(null);
@@ -35,6 +37,38 @@ export default function App() {
       return (arr.length == 0 && lobby.length > 1)
     }
     return false
+  }
+
+  const isGameChosen = (lobby) => {
+    console.log(lobby)
+    if (lobby) {
+      var arr = lobby.filter(user => user.voteGame != null)
+      console.log(lobby)
+      console.log(arr.length)
+      console.log(arr)
+      if (arr.length == lobby.length){
+        return true
+      }
+      else
+        return false
+    }
+  }
+
+  const theGameChosen = (lobby) => {
+    var arr = lobby.filter(user => user.voteGame != null)
+    var map = {};
+    var mostFrequentElement = arr[0].voteGame;
+    for(var i = 0; i<arr.length; i++){
+      if(!map[arr[i].voteGame]){
+          map[arr[i].voteGame]=1;
+      }else{
+          ++map[arr[i].voteGame];
+          if(map[arr[i].voteGame]>map[mostFrequentElement]){
+              mostFrequentElement = arr[i].voteGame;
+          }
+      }
+    }
+    return mostFrequentElement
   }
 
   useEffect(() => {
@@ -62,9 +96,14 @@ export default function App() {
             }
           </View>
           :
-          <View style={[styles.container, styles.center]}>
-            <Game numUsers={lobby.length} jitsiLink={generateLink(uids)} />
-          </View>
+          !isGameChosen(lobby) ?
+            <View style={[styles.container, styles.center]}>
+              <Activities numUsers={lobby.length} uid={uid} lobby={lobby}/>
+            </View> 
+            :
+            <View style={[styles.container, styles.center]}>
+              <Game jitsiLink={generateLink(uids)} gameName={theGameChosen(lobby)} />
+            </View>
         }
       </View>
     </SafeAreaView>
