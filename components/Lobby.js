@@ -4,7 +4,7 @@ import { firebase } from '../firebase';
 
 const image = { uri: "https://cdn.apartmenttherapy.info/image/upload/f_auto,q_auto:eco,c_fit,w_1460,h_822/at%2Fart%2Fdesign%2Fzoom-backgrounds%2FAT-zoom-background-stayhome" };
 
-const Lobby = ({ user, uid, setUid, lobby }) => {
+const Lobby = ({ user, setUid, lobby }) => {
     const db = firebase.database().ref('lobby/users/');
     const [myVote, setMyVote] = useState(false);
     const [joinLobby, setJoinLobby] = useState(false);
@@ -23,20 +23,21 @@ const Lobby = ({ user, uid, setUid, lobby }) => {
     }
 
     const addToLobby = () => {
-        if (!uid) {
+        if (!user) {
             const newUser = {
-                name: user.name,
+                name: user.email,
                 voteToClose: "false"
             };
-            var key = db.push(newUser).getKey();
-            setUid(key);
+            var key = user.uid;
+            var userUidRef = firebase.database().ref('/lobby/users/' + uid);
+            userUidRef.update(newUser);
             setJoinLobby(true);
         }
     }
 
     return (
         <View style={styles.container}>
-            <Text style={[styles.header, styles.center]}>Hello {user.name}!</Text>
+            <Text style={[styles.header, styles.center]}>Hello {user.email}!</Text>
             {(!joinLobby) &&
                 <TouchableOpacity style={[styles.button, styles.center]} title={"Join Lobby"} onPress={addToLobby} >
                     <Text style={styles.buttonText}>Join Lounge</Text>
@@ -57,6 +58,9 @@ const Lobby = ({ user, uid, setUid, lobby }) => {
                             <Text style={[styles.listHeader, styles.center]}>{user.name}{user.voteToClose == "true" && " ✅"} </Text>
                         </View>
                     ))}
+                    <TouchableOpacity style={[styles.button, styles.center]} onPress={() => firebase.auth().signOut()}>
+                        <Text style={[styles.buttonText, styles.center]}>Logout</Text>
+                    </TouchableOpacity>
                 </View>)
                 :
                 <Text style={styles.text}>No one is in the Lounge. Be the first to join!</Text>}

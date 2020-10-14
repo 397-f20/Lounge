@@ -6,12 +6,17 @@ import Lobby from './components/Lobby';
 import NameForm from './components/NameForm';
 import Game from './components/Game';
 import Activities from './components/Activities';
+import LoginForm from './components/Login';
 
 export default function App() {
   const db = firebase.database().ref('lobby/users/');
   const [user, setUser] = useState(false);
-  const [uid, setUid] = useState(false);
   const [uids, setUids] = useState([]);
+
+
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged(setUser);
+  }, []);
 
 
   // lobby
@@ -72,9 +77,9 @@ export default function App() {
   }
 
   useEffect(() => {
-    if (uid)
-      onlineStatus(uid);
-  }, [uid]);
+    if (user)
+      onlineStatus(user.uid);
+  }, [user]);
 
   const generateLink = (uids) => {
     return uids[0]
@@ -88,11 +93,11 @@ export default function App() {
           <View style={styles.container}>
             {user ?
               <Lobby user={user}
-                uid={uid}
-                setUid={setUid}
                 lobby={lobby} />
+                
               :
-              <NameForm setUser={setUser} />
+              <LoginForm/>
+              
             }
           </View>
           :
