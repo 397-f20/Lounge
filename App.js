@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Button, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, Button, Text, View } from 'react-native';
 import { firebase } from './firebase';
 import onlineStatus from './util/onlineStatus';
 import Lobby from './components/Lobby';
