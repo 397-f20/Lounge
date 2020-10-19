@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react';
 
 
 
-const Activities = ({numUsers, uid, lobby}) => {
+const Activities = ({numUsers, user, lobby}) => {
   const [myGameVote, setMyGameVote] = useState("");
   const [votedGames, setVotedGames] = useState([]);
   
@@ -22,13 +22,13 @@ const Activities = ({numUsers, uid, lobby}) => {
   }
 
   const voteGame = (gameName) => {
-    var voteGameRef = firebase.database().ref('lobby/users/' + uid);
+    var voteGameRef = firebase.database().ref('lobby/users/' + user.uid);
     voteGameRef.update({ voteGame: gameName });
     setMyGameVote(gameName);
   }
 
 const removeVoteGame = (gameName) => {
-    var voteGameRef = firebase.database().ref('lobby/users/' + uid);
+  var voteGameRef = firebase.database().ref('lobby/users/' + user.uid);
     voteGameRef.update({ voteGame: null });
     setMyGameVote("");
   }

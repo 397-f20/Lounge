@@ -103,7 +103,7 @@ export default function App() {
           :
           !isGameChosen(lobby) ?
             <View style={[styles.container, styles.center]}>
-              <Activities numUsers={lobby.length} uid={uid} lobby={lobby}/>
+              <Activities numUsers={lobby.length} user={user} lobby={lobby}/>
             </View> 
             :
             <View style={[styles.container, styles.center]}>

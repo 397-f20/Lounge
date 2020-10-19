@@ -11,13 +11,13 @@ const Lobby = ({ user, setUid, lobby }) => {
 
 
     const voteToClose = () => {
-        var voteRef = firebase.database().ref('/lobby/users/' + uid);
+        var voteRef = firebase.database().ref('/lobby/users/' + user.uid);
         voteRef.update({ voteToClose: "true" });
         setMyVote(true);
     }
 
     const removeVote = () => {
-        var voteRef = firebase.database().ref('/lobby/users/' + uid);
+        var voteRef = firebase.database().ref('/lobby/users/' + user.uid);
         voteRef.update({ voteToClose: "false" });
         setMyVote(false);
     }
@@ -29,7 +29,7 @@ const Lobby = ({ user, setUid, lobby }) => {
                 voteToClose: "false"
             };
             var key = user.uid;
-            var userUidRef = firebase.database().ref('/lobby/users/' + uid);
+            var userUidRef = firebase.database().ref('/lobby/users/' + user.uid);
             userUidRef.update(newUser);
             setJoinLobby(true);
         }
