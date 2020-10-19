@@ -23,7 +23,7 @@ const Lobby = ({ user, setUid, lobby }) => {
     }
 
     const addToLobby = () => {
-        if (!user) {
+        if (user) {
             const newUser = {
                 name: user.email,
                 voteToClose: "false"
