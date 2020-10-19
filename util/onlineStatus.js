@@ -15,6 +15,7 @@ const onlineStatus = (uid) => {
         voteGame: null,
         voteToClose: 'false',
         state: 'offline',
+        inLobby: 'false',
         last_changed: firebase.database.ServerValue.TIMESTAMP,
     };
 

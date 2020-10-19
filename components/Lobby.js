@@ -26,9 +26,9 @@ const Lobby = ({ user, setUid, lobby }) => {
         if (user) {
             const newUser = {
                 name: user.email,
-                voteToClose: "false"
+                voteToClose: "false",
+                inLobby: "true"
             };
-            var key = user.uid;
             var userUidRef = firebase.database().ref('/lobby/users/' + user.uid);
             userUidRef.update(newUser);
             setJoinLobby(true);
