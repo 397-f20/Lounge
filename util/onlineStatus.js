@@ -12,6 +12,8 @@ const onlineStatus = (uid) => {
     // the Realtime database when this device is offline
     // or online.
     var isOfflineForDatabase = {
+        voteGame: null,
+        voteToClose: 'false',
         state: 'offline',
         last_changed: firebase.database.ServerValue.TIMESTAMP,
     };
@@ -34,7 +36,7 @@ const onlineStatus = (uid) => {
         // method to add a set which will only trigger once this 
         // client has disconnected by closing the app, 
         // losing internet, or any other means.
-        userStatusDatabaseRef.onDisconnect().set(null).then(function () {
+        userStatusDatabaseRef.onDisconnect().update(isOfflineForDatabase).then(function () {
             // The promise returned from .onDisconnect().set() will
             // resolve as soon as the server acknowledges the onDisconnect() 
             // request, NOT once we've actually disconnected:
