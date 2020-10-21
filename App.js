@@ -4,6 +4,7 @@ import { firebase } from './firebase';
 import onlineStatus from './util/onlineStatus';
 import Lobby from './components/Lobby';
 import NameForm from './components/NameForm';
+import Teams from './components/Teams';
 import Game from './components/Game';
 import Activities from './components/Activities';
 import LoginForm from './components/Login';
@@ -12,6 +13,7 @@ export default function App() {
   const db = firebase.database().ref('lobby/users/');
   const [user, setUser] = useState(false);
   const [uids, setUids] = useState([]);
+  const [team, setTeam] = useState("");
 
 
   useEffect(() => {
@@ -91,13 +93,14 @@ export default function App() {
       <View style={[styles.container, styles.center]}>
         {!isLobbyClosed(lobby) ?
           <View style={styles.container}>
-            {user ?
-              <Lobby user={user}
-                lobby={lobby} />
-                
+            {!user ?
+            <LoginForm/> :
+              team == "" ? 
+              <Teams user={user}
+                lobby={lobby} />     
               :
-              <LoginForm/>
-              
+              <Lobby user={user}
+              lobby={lobby} />
             }
           </View>
           :
