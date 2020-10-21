@@ -2,10 +2,7 @@ import { Text, View, StyleSheet, SafeAreaView, Linking, Platform, TouchableOpaci
 import { firebase } from '../firebase';
 import React, { useEffect, useState } from 'react';
 
-
-
-
-const Activities = ({numUsers, user, lobby}) => {
+const Activities = ({numUsers, user, teamInfo, teamId}) => {
   const [myGameVote, setMyGameVote] = useState("");
   const [votedGames, setVotedGames] = useState([]);
   
@@ -47,17 +44,14 @@ const removeVoteGame = (gameName) => {
     return () => { gamesRef.off('value', handleData); };
   }, []);
 
-
-  
   const countGameVotes = (GameName) => {
-    if (lobby){
-      var arr = lobby.filter(user => user.voteGame == GameName)
+    if (teamInfo){
+      var arr = teamInfo.filter(user => user.voteGame == GameName)
       return (arr.length)
     }
     else
       return 0
   }
-
 
   return ( 
      <View>

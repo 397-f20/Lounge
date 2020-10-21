@@ -10,50 +10,51 @@ import Activities from './components/Activities';
 import LoginForm from './components/Login';
 
 export default function App() {
-  const db = firebase.database().ref('lobby/users/');
   const [user, setUser] = useState(false);
   const [uids, setUids] = useState([]);
-  const [team, setTeam] = useState("");
-
+  const [teamId, setTeamId] = useState("");
+  const [teamInfo, setTeamInfo] = useState(null);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(setUser);
   }, []);
 
-
-  // lobby
-  const [lobby, setLobby] = useState(null);
+  // watch data for users in team, etc
   useEffect(() => {
-
+    const db = firebase.database().ref('/teams/' + teamId + "/members");
+    console.log(db);
     const handleData = snap => {
       if (snap.val()) {
         const json = snap.val()
+        console.log(json);
         setUids(Object.keys(json))
-        const lobby = Object.values(json)
-        setLobby(lobby)
+        const teamInfo = Object.values(json)
+        setTeamInfo(teamInfo)
       }
     }
     db.on('value', handleData, error => alert(error));
     return () => { db.off('value', handleData); };
-  }, []);
+  }, [teamId]);
 
-  // lobby closed
-  const isLobbyClosed = (lobby) => {
-    if (lobby) {
-      var arr = lobby.filter(user => user.voteToClose == "false")
-      return (arr.length == 0 && lobby.length > 1)
+  // teamInfo closed
+  const isLobbyClosed = (teamInfo) => {
+    if (teamInfo) {
+      var arr = teamInfo.filter(user => !user.voteToClose)
+      console.log(teamInfo.length)
+      console.log(arr)
+      return (arr.length == 0 && teamInfo.length > 1)
     }
     return false
   }
 
-  const isGameChosen = (lobby) => {
-    console.log(lobby)
-    if (lobby) {
-      var arr = lobby.filter(user => user.voteGame != null)
-      console.log(lobby)
-      console.log(arr.length)
-      console.log(arr)
-      if (arr.length == lobby.length){
+  const isGameChosen = (teamInfo) => {
+    console.log(teamInfo)
+    if (teamInfo) {
+      var arr = teamInfo.filter(user => user.voteGame != null)
+      // console.log(teamInfo)
+      // console.log(arr.length)
+      // console.log(arr)
+      if (arr.length == teamInfo.length){
         return true
       }
       else
@@ -61,8 +62,8 @@ export default function App() {
     }
   }
 
-  const theGameChosen = (lobby) => {
-    var arr = lobby.filter(user => user.voteGame != null)
+  const theGameChosen = (teamInfo) => {
+    var arr = teamInfo.filter(user => user.voteGame != null)
     var map = {};
     var mostFrequentElement = arr[0].voteGame;
     for(var i = 0; i<arr.length; i++){
@@ -79,9 +80,11 @@ export default function App() {
   }
 
   useEffect(() => {
-    if (user)
-      onlineStatus(user.uid);
-  }, [user]);
+    console.log(user)
+    console.log(teamId)
+    if (user && teamId != "")
+      onlineStatus(user.uid, teamId);
+  }, [teamId]);
 
   const generateLink = (uids) => {
     return uids[0]
@@ -91,26 +94,25 @@ export default function App() {
   return (
     <SafeAreaView style={[styles.background, styles.center]}>
       <View style={[styles.container, styles.center]}>
-        {!isLobbyClosed(lobby) ?
+        {!isLobbyClosed(teamInfo) ?
           <View style={styles.container}>
             {!user ?
             <LoginForm/> :
-              team == "" ? 
-              <Teams user={user}
-                lobby={lobby} />     
+              teamId == "" ? 
+              <Teams user={user} setTeamId={setTeamId} />     
               :
               <Lobby user={user}
-              lobby={lobby} />
+              teamId={teamId} teamInfo={teamInfo}/>
             }
           </View>
           :
-          !isGameChosen(lobby) ?
+          !isGameChosen(teamInfo) ?
             <View style={[styles.container, styles.center]}>
-              <Activities numUsers={lobby.length} user={user} lobby={lobby}/>
+              <Activities numUsers={teamInfo.length} user={user} teamInfo={teamInfo} teamId={teamId}/>
             </View> 
             :
             <View style={[styles.container, styles.center]}>
-              <Game jitsiLink={generateLink(uids)} gameName={theGameChosen(lobby)} />
+              <Game jitsiLink={generateLink(uids)} gameName={theGameChosen(teamInfo)} />
             </View>
         }
       </View>

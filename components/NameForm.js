@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { TouchableOpacity, TextInput, ImageBackground, Text, View, StyleSheet, SafeAreaView } from 'react-native';
-import Constants from "expo-constants";
 
 const NameForm = ({ setUser }) => {
     const [nameField, setNameField] = useState('');

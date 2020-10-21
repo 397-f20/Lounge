@@ -1,12 +1,12 @@
 import { firebase } from '../firebase';
 
-const onlineStatus = (uid) => {
+const onlineStatus = (uid, teamId) => {
     // Fetch the current user's ID from Firebase Authentication.
-
 
     // Create a reference to this user's specific status node.
     // This is where we will store data about being online/offline.
-    var userStatusDatabaseRef = firebase.database().ref('/lobby/users/' + uid);
+    console.log('/teams/' + teamId + "/members/" + uid);
+    var userStatusDatabaseRef = firebase.database().ref('/teams/' + teamId + "/members/" + uid);
 
     // We'll create two constants which we will write to 
     // the Realtime database when this device is offline
@@ -14,13 +14,12 @@ const onlineStatus = (uid) => {
     var isOfflineForDatabase = {
         voteGame: null,
         voteToClose: 'false',
-        state: 'offline',
-        inLobby: 'false',
+        status: 'offline',
         last_changed: firebase.database.ServerValue.TIMESTAMP,
     };
 
     var isOnlineForDatabase = {
-        state: 'online',
+        status: 'online1234',
         last_changed: firebase.database.ServerValue.TIMESTAMP,
     };
 

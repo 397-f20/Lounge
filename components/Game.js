@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet, SafeAreaView, Linking, Platform } from 'react-native';
 import { firebase } from '../firebase';
 
-const Game = ({jitsiLink, gameName }) => {
+const Game = ({ jitsiLink, gameName }) => {
   const [gameInfo, setGameInfo] = useState({});
   var getGameRef = firebase.database().ref('games/' + gameName + "/");
 

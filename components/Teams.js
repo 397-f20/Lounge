@@ -1,14 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, TextInput, ImageBackground, Text, View, StyleSheet, SafeAreaView } from 'react-native';
-import Constants from "expo-constants";
+import { firebase } from "../firebase";
 
+const Teams = ({ user, setTeamId }) => {
+    const [teamIds, setTeamsIds] = useState([]);
+    const db = firebase.database().ref('users/' + user.uid + "/teams");
 
+    useEffect(() => {
+        const handleData = snap => {
+            if (snap.val()) {
+                const json = snap.val();
+                var teamIds = Object.keys(json);
+                console.log(teamIds);
+                setTeamsIds(teamIds);
+            }
+        }
+        db.on('value', handleData, error => alert(error));
+        return () => { db.off('value', handleData); };
+    }, []);
 
-
-const Teams = ({ setUser }) => {
     return (
         <View style={[styles.center]}>
             <Text style={[styles.header, styles.center]}>Teams!</Text>
+            {teamIds.map(team => (
+                        <TouchableOpacity key={team} style={styles.list} onPress={() => setTeamId(team)}>
+                            <Text style={[styles.listHeader, styles.center]}> {team} </Text>
+                        </TouchableOpacity>
+                    ))}
         </View>
     );
 };
