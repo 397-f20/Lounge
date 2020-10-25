@@ -17,12 +17,12 @@ const LoginForm = () => {
         firebase.auth().signInWithEmailAndPassword(emailField, passField).catch(function (error) {
             setSignInError(error.message);
         })
-        : passField != confirmPassField?
+        : passField == confirmPassField?
         firebase.auth().createUserWithEmailAndPassword(emailField, passField)
             .then(user => registerNewUser(user)).catch(function (error) {
             setSignInError(error.message);
         }) :
-        console.Log("Confirm Password not valid")       
+        console.log("Confirm Password not valid")       
     }
 
     const registerNewUser = (user) => {
@@ -60,7 +60,7 @@ const LoginForm = () => {
                     <Text style={[styles.text, styles.center]}> Password </Text>
                     <TextInput autoFocus maxLength={40} style={[styles.textInput, styles.center]} value={passField} onChangeText={text => setPassField(text)} secureTextEntry />
                     <Text style={[styles.text, styles.center]}> Confirm Password </Text>
-                    <TextInput autoFocus maxLength={40} style={[styles.textInput, styles.center]} value={passField} onChangeText={text => setConfirmPassField(text)} secureTextEntry />
+                    <TextInput autoFocus maxLength={40} style={[styles.textInput, styles.center]} value={confirmPassField} onChangeText={text => setConfirmPassField(text)} secureTextEntry />
                     <TouchableOpacity style={[styles.button, styles.center]} onPress={() => handleOnSubmit()}>
                         <Text style={[styles.buttonText, styles.center]}>Sign Up</Text>
                     </TouchableOpacity>

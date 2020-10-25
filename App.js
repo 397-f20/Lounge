@@ -8,12 +8,14 @@ import Teams from './components/Teams';
 import Game from './components/Game';
 import Activities from './components/Activities';
 import LoginForm from './components/Login';
+import JoinTeam from './components/JoinTeam';
 
 export default function App() {
   const [user, setUser] = useState(false);
   const [uids, setUids] = useState([]);
   const [teamId, setTeamId] = useState("");
   const [teamInfo, setTeamInfo] = useState(null);
+  const [route, setRoute] = useState("")
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(setUser);
@@ -98,11 +100,13 @@ export default function App() {
           <View style={styles.container}>
             {!user ?
             <LoginForm/> :
-              teamId == "" ? 
-              <Teams user={user} setTeamId={setTeamId} />     
-              :
-              <Lobby user={user}
-              teamId={teamId} teamInfo={teamInfo}/>
+              teamId != "" ?
+                <Lobby user={user} teamId={teamId} teamInfo={teamInfo}/>
+                :
+                route == "joinTeam" ?
+                  <JoinTeam setRoute={setRoute}></JoinTeam>
+                  :
+                  <Teams user={user} setTeamId={setTeamId} setRoute={setRoute}/> 
             }
           </View>
           :

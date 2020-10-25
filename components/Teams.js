@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, TextInput, ImageBackground, Text, View, StyleSheet, SafeAreaView } from 'react-native';
 import { firebase } from "../firebase";
 
-const Teams = ({ user, setTeamId }) => {
+const Teams = ({ user, setTeamId, setRoute }) => {
     const [teamIds, setTeamsIds] = useState([]);
     const db = firebase.database().ref('users/' + user.uid + "/teams");
 
@@ -27,7 +27,11 @@ const Teams = ({ user, setTeamId }) => {
                             <Text style={[styles.listHeader, styles.center]}> {team} </Text>
                         </TouchableOpacity>
                     ))}
+            <TouchableOpacity onPress={() => setRoute("joinTeam")}>
+                <Text style={[styles.buttonText, styles.center]}>Join New Team</Text>
+            </TouchableOpacity>
         </View>
+        
     );
 };
 

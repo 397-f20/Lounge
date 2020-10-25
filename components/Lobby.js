@@ -4,19 +4,19 @@ import { firebase } from '../firebase';
 
 const Lobby = ({ user, teamInfo, teamId }) => {
     console.log(teamId);
-    const db = firebase.database().ref('/teams/' + teamId + "/members");
+    const teamUserRef = firebase.database().ref('/teams/' + teamId + "/members/" + user.uid);
     const [myVote, setMyVote] = useState(false);
     const [joinLobby, setJoinLobby] = useState(false);
 
     const voteToClose = () => {
-        var voteRef = firebase.database().ref('/teams/' + teamId);
-        voteRef.update({ voteToClose: "true" });
+        // var voteRef = firebase.database().ref('/teams/' + teamId + "/members/" + user.uid);
+        teamUserRef.update({ voteToClose: "true" });
         setMyVote(true);
     }
 
     const removeVote = () => {
-        var voteRef = firebase.database().ref('/lobby/users/' + user.uid);
-        voteRef.update({ voteToClose: "false" });
+        // var voteRef = firebase.database().ref('/teams/' + teamId + "/members/" + user.uid);
+        teamUserRef.update({ voteToClose: "false" });
         setMyVote(false);
     }
 
@@ -26,8 +26,8 @@ const Lobby = ({ user, teamInfo, teamId }) => {
                 status: "online",
                 voteToClose: "false",
             };
-            var teamMemberRef = firebase.database().ref('/teams/' + teamId + "/members/" + user.uid);
-            teamMemberRef.update(onlineStatus);
+            // var teamMemberRef = firebase.database().ref('/teams/' + teamId + "/members/" + user.uid);
+            teamUserRef.update(onlineStatus);
             setJoinLobby(true);
         }
     }
@@ -35,6 +35,7 @@ const Lobby = ({ user, teamInfo, teamId }) => {
     return (
         <View style={styles.container}>
             <Text style={[styles.header, styles.center]}>Hello {user.email}!</Text>
+            <Text style={[styles.center]}>Team ID: {teamId}</Text>
             {(!joinLobby) &&
                 <TouchableOpacity style={[styles.button, styles.center]} title={"Join Lobby"} onPress={goOnlineInTeam} >
                     <Text style={styles.buttonText}>Join Lounge</Text>

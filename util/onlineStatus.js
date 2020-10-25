@@ -19,7 +19,7 @@ const onlineStatus = (uid, teamId) => {
     };
 
     var isOnlineForDatabase = {
-        status: 'online1234',
+        status: 'online',
         last_changed: firebase.database.ServerValue.TIMESTAMP,
     };
 
