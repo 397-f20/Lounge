@@ -2,31 +2,28 @@ import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, ImageBackground, Text, View, StyleSheet, SafeAreaView } from 'react-native';
 import { firebase } from '../firebase';
 
-const Lobby = ({ user, teamInfo, teamId }) => {
+const Lobby = ({ auth, teamInfo, teamId }) => {
     console.log(teamId);
-    const teamUserRef = firebase.database().ref('/teams/' + teamId + "/members/" + user.uid);
+    const teamUserRef = firebase.database().ref('/teams/' + teamId + "/members/" + auth.uid);
     const [myVote, setMyVote] = useState(false);
     const [joinLobby, setJoinLobby] = useState(false);
 
     const voteToClose = () => {
-        // var voteRef = firebase.database().ref('/teams/' + teamId + "/members/" + user.uid);
         teamUserRef.update({ voteToClose: "true" });
         setMyVote(true);
     }
 
     const removeVote = () => {
-        // var voteRef = firebase.database().ref('/teams/' + teamId + "/members/" + user.uid);
         teamUserRef.update({ voteToClose: "false" });
         setMyVote(false);
     }
 
     const goOnlineInTeam = () => {
-        if (user) {
+        if (auth) {
             const onlineStatus = {
                 status: "online",
                 voteToClose: "false",
             };
-            // var teamMemberRef = firebase.database().ref('/teams/' + teamId + "/members/" + user.uid);
             teamUserRef.update(onlineStatus);
             setJoinLobby(true);
         }
@@ -34,7 +31,7 @@ const Lobby = ({ user, teamInfo, teamId }) => {
 
     return (
         <View style={styles.container}>
-            <Text style={[styles.header, styles.center]}>Hello {user.email}!</Text>
+            <Text style={[styles.header, styles.center]}>Hello {auth.email}!</Text>
             <Text style={[styles.center]}>Team ID: {teamId}</Text>
             {(!joinLobby) &&
                 <TouchableOpacity style={[styles.button, styles.center]} title={"Join Lobby"} onPress={goOnlineInTeam} >

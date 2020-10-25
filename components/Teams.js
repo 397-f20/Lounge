@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { TouchableOpacity, TextInput, ImageBackground, Text, View, StyleSheet, SafeAreaView } from 'react-native';
 import { firebase } from "../firebase";
 
-const Teams = ({ user, setTeamId, setRoute }) => {
+const Teams = ({ auth, setTeamId, setRoute }) => {
     const [teamIds, setTeamsIds] = useState([]);
-    const db = firebase.database().ref('users/' + user.uid + "/teams");
+    const db = firebase.database().ref('users/' + auth.uid + "/teams");
 
     useEffect(() => {
         const handleData = snap => {

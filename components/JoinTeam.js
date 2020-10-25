@@ -3,20 +3,33 @@ import { TouchableOpacity, ImageBackground, TextInput, Text, View, StyleSheet, S
 import { firebase } from '../firebase';
 
 
-const LoginForm = () => {
+const JoinTeam = ({user,auth}) => {
     const [teamIDField, setTeamIDField] = useState("")
 
-    async function handleOnSubmit() {
+
+    function addUserToTeam() {
+        console.log(user.firstName)
+        const userUpdate = {firstName: user.firstName, lastName: user.lastName, voteToClose: false, status: 'offline'}
+        const teamUpdate = {teamIDField: true}
+        var updates = {};
+        updates['/teams/' + teamIDField + '/members/' + auth.uid] = userUpdate;
+        updates['/users/' + auth.uid + '/teams/'] = teamUpdate;
+
+        return firebase.database().ref().update(updates);
+    }
+
+    function handleOnSubmit() {
         const teamRef = firebase.database().ref('/teams/' + teamIDField);
         teamRef.on("value", function(snapshot) {
             if(snapshot.val()) {
-                //do something
+                addUserToTeam()
             }
             console.log(snapshot.val());
             snapshot.forEach(function(data) {
                 console.log(data.key);
             });
         });
+        console.log(teamIDField)
     }
 
     return (
@@ -25,7 +38,7 @@ const LoginForm = () => {
                 <Text style={[styles.text, styles.center]}> Team ID </Text>
                 <TextInput autoFocus maxLength={40} style={[styles.textInput, styles.center]} value={teamIDField} onChangeText={text => setTeamIDField(text)} />
                 <TouchableOpacity style={[styles.button, styles.center]} onPress={() => handleOnSubmit()}>
-                    <Text style={[styles.buttonText, styles.center]}>Login</Text>
+                    <Text style={[styles.buttonText, styles.center]}>Join Team</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -75,4 +88,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default LoginForm;
+export default JoinTeam;

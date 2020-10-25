@@ -3,7 +3,6 @@ import { StyleSheet, Button, Text, View, SafeAreaView } from 'react-native';
 import { firebase } from './firebase';
 import onlineStatus from './util/onlineStatus';
 import Lobby from './components/Lobby';
-import NameForm from './components/NameForm';
 import Teams from './components/Teams';
 import Game from './components/Game';
 import Activities from './components/Activities';
@@ -12,14 +11,29 @@ import JoinTeam from './components/JoinTeam';
 
 export default function App() {
   const [user, setUser] = useState(false);
+  const [auth, setAuth] = useState(false);
   const [uids, setUids] = useState([]);
   const [teamId, setTeamId] = useState("");
   const [teamInfo, setTeamInfo] = useState(null);
   const [route, setRoute] = useState("")
 
   useEffect(() => {
-    firebase.auth().onAuthStateChanged(setUser);
+    firebase.auth().onAuthStateChanged(setAuth)
   }, []);
+
+  useEffect(() => {
+    if (auth){
+    const db = firebase.database().ref('/users/' + auth.uid)
+      const handleData = snap => {
+        if (snap.val()) {
+          const json = snap.val()
+          setUser(json);
+        }
+      }
+      db.on('value', handleData, error => alert(error));
+      return () => { db.off('value', handleData); };
+    }
+  }, [auth]);
 
   // watch data for users in team, etc
   useEffect(() => {
@@ -82,10 +96,10 @@ export default function App() {
   }
 
   useEffect(() => {
-    console.log(user)
+    console.log(auth)
     console.log(teamId)
-    if (user && teamId != "")
-      onlineStatus(user.uid, teamId);
+    if (auth && teamId != "")
+      onlineStatus(auth.uid, teamId);
   }, [teamId]);
 
   const generateLink = (uids) => {
@@ -98,21 +112,21 @@ export default function App() {
       <View style={[styles.container, styles.center]}>
         {!isLobbyClosed(teamInfo) ?
           <View style={styles.container}>
-            {!user ?
+            {!auth ?
             <LoginForm/> :
               teamId != "" ?
-                <Lobby user={user} teamId={teamId} teamInfo={teamInfo}/>
+                <Lobby auth={auth} teamId={teamId} teamInfo={teamInfo}/>
                 :
                 route == "joinTeam" ?
-                  <JoinTeam setRoute={setRoute}></JoinTeam>
+                  <JoinTeam auth={auth} user={user} setRoute={setRoute}></JoinTeam>
                   :
-                  <Teams user={user} setTeamId={setTeamId} setRoute={setRoute}/> 
+                  <Teams auth={auth} setTeamId={setTeamId} setRoute={setRoute}/> 
             }
           </View>
           :
           !isGameChosen(teamInfo) ?
             <View style={[styles.container, styles.center]}>
-              <Activities numUsers={teamInfo.length} user={user} teamInfo={teamInfo} teamId={teamId}/>
+              <Activities numUsers={teamInfo.length} auth={auth} teamInfo={teamInfo} teamId={teamId}/>
             </View> 
             :
             <View style={[styles.container, styles.center]}>
