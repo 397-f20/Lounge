@@ -3,27 +3,29 @@ import { TouchableOpacity, ImageBackground, TextInput, Text, View, StyleSheet, S
 import { firebase } from '../firebase';
 
 
-const JoinTeam = ({user,auth}) => {
+const JoinTeam = ({user,auth, setRoute}) => {
     const [teamIDField, setTeamIDField] = useState("")
 
 
     function addUserToTeam() {
         console.log(user.firstName)
         const userUpdate = {firstName: user.firstName, lastName: user.lastName, voteToClose: false, status: 'offline'}
-        const teamUpdate = {teamIDField: true}
+        const teamUpdate = {[teamIDField]: true}
         var updates = {};
         updates['/teams/' + teamIDField + '/members/' + auth.uid] = userUpdate;
         updates['/users/' + auth.uid + '/teams/'] = teamUpdate;
-
-        return firebase.database().ref().update(updates);
+        return firebase.database().ref().update(updates)
+            .then( () => setRoute("someRoute"))
+            .catch((error) => alert(error));
     }
 
     function handleOnSubmit() {
         const teamRef = firebase.database().ref('/teams/' + teamIDField);
         teamRef.on("value", function(snapshot) {
-            if(snapshot.val()) {
+            snapshot.val() ? 
                 addUserToTeam()
-            }
+                :
+                alert("Team Does Not Exist");
             console.log(snapshot.val());
             snapshot.forEach(function(data) {
                 console.log(data.key);

@@ -115,7 +115,7 @@ export default function App() {
             {!auth ?
             <LoginForm/> :
               teamId != "" ?
-                <Lobby auth={auth} teamId={teamId} teamInfo={teamInfo}/>
+                <Lobby auth={auth} teamId={teamId} teamInfo={teamInfo} setTeamId={setTeamId}/>
                 :
                 route == "joinTeam" ?
                   <JoinTeam auth={auth} user={user} setRoute={setRoute}></JoinTeam>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, ImageBackground, Text, View, StyleSheet, SafeAreaView } from 'react-native';
 import { firebase } from '../firebase';
 
-const Lobby = ({ auth, teamInfo, teamId }) => {
+const Lobby = ({ auth, teamInfo, teamId, setTeamId}) => {
     console.log(teamId);
     const teamUserRef = firebase.database().ref('/teams/' + teamId + "/members/" + auth.uid);
     const [myVote, setMyVote] = useState(false);
@@ -29,12 +29,20 @@ const Lobby = ({ auth, teamInfo, teamId }) => {
         }
     }
 
+    const logOut = () => {
+        const offlineStatus = {
+            status: "offline"
+        };
+        setTeamId("");
+        teamUserRef.update(offlineStatus).then(() => firebase.auth().signOut());
+    }
+
     return (
         <View style={styles.container}>
             <Text style={[styles.header, styles.center]}>Hello {auth.email}!</Text>
             <Text style={[styles.center]}>Team ID: {teamId}</Text>
             {(!joinLobby) &&
-                <TouchableOpacity style={[styles.button, styles.center]} title={"Join Lobby"} onPress={goOnlineInTeam} >
+                <TouchableOpacity style={[styles.button, styles.center]} title={"Join Lounge"} onPress={goOnlineInTeam} >
                     <Text style={styles.buttonText}>Join Lounge</Text>
                 </TouchableOpacity>
             }
@@ -53,7 +61,7 @@ const Lobby = ({ auth, teamInfo, teamId }) => {
                             <Text style={[styles.listHeader, styles.center]}>{user.firstName}{user.voteToClose == "true" && " ✅"} </Text>
                         </View>
                     ))}
-                    <TouchableOpacity style={[styles.button, styles.center]} onPress={() => firebase.auth().signOut()}>
+                    <TouchableOpacity style={[styles.button, styles.center]} onPress={() => logOut()}>
                         <Text style={[styles.buttonText, styles.center]}>Logout</Text>
                     </TouchableOpacity>
                 </View>)

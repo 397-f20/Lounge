@@ -44,7 +44,8 @@ const onlineStatus = (uid, teamId) => {
 
             // We can now safely set ourselves as 'online' knowing that the
             // server will mark us as offline once we lose connection.
-            userStatusDatabaseRef.update(isOnlineForDatabase);
+
+            // userStatusDatabaseRef.update(isOnlineForDatabase);
         });
     });
 }
