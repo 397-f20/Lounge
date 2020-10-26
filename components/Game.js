@@ -10,11 +10,9 @@ const Game = ({ jitsiLink, gameName }) => {
     const handleData = snap => {
       if (snap.val()) {
         const json = snap.val()
-        console.log(gameName)
-        console.log(gameInfo)
         setGameInfo(json)
-        console.log(gameInfo.name)
-        console.log(gameInfo.description)
+        // console.log(gameInfo.name)
+        // console.log(gameInfo.description)
       }
     }
     getGameRef.on('value', handleData, error => alert(error));

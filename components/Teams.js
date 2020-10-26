@@ -11,7 +11,6 @@ const Teams = ({ auth, setTeamId, setRoute }) => {
             if (snap.val()) {
                 const json = snap.val();
                 var teamIds = Object.keys(json);
-                console.log(teamIds);
                 setTeamsIds(teamIds);
             }
         }

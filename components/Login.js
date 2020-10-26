@@ -22,11 +22,10 @@ const LoginForm = () => {
             .then(user => registerNewUser(user)).catch(function (error) {
             setSignInError(error.message);
         }) :
-        console.log("Confirm Password not valid")       
+        alert("Confirm Password not valid")       
     }
 
     const registerNewUser = (user) => {
-        console.log(user);
         var user = firebase.auth().currentUser;
         var userRef = firebase.database().ref('/users/' + user.uid);
         userRef.update({ 

@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { TouchableOpacity, ImageBackground, Text, View, StyleSheet, SafeAreaView } from 'react-native';
+import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
+import onlineStatus from '../util/onlineStatus';
 import { firebase } from '../firebase';
 
 const Lobby = ({ auth, teamInfo, teamId, setTeamId}) => {
+    console.log("auth")
+    console.log(auth);
+    console.log("teamId")
     console.log(teamId);
+    console.log("teamInfo")
+    console.log(teamInfo);
     const teamUserRef = firebase.database().ref('/teams/' + teamId + "/members/" + auth.uid);
     const [myVote, setMyVote] = useState(false);
     const [joinLobby, setJoinLobby] = useState(false);
@@ -19,19 +25,15 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId}) => {
     }
 
     const goOnlineInTeam = () => {
-        if (auth) {
-            const onlineStatus = {
-                status: "online",
-                voteToClose: "false",
-            };
-            teamUserRef.update(onlineStatus);
+            if (teamId != "")
+                onlineStatus(auth.uid, teamId);
             setJoinLobby(true);
-        }
     }
 
     const logOut = () => {
         const offlineStatus = {
-            status: "offline"
+            status: "offline",
+            voteToClose: "false"
         };
         setTeamId("");
         teamUserRef.update(offlineStatus).then(() => firebase.auth().signOut());

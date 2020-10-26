@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Button, Text, View, SafeAreaView } from 'react-native';
 import { firebase } from './firebase';
-import onlineStatus from './util/onlineStatus';
 import Lobby from './components/Lobby';
 import Teams from './components/Teams';
 import Game from './components/Game';
@@ -38,11 +37,9 @@ export default function App() {
   // watch data for users in team, etc
   useEffect(() => {
     const db = firebase.database().ref('/teams/' + teamId + "/members");
-    console.log(db);
     const handleData = snap => {
       if (snap.val()) {
         const json = snap.val()
-        console.log(json);
         setUids(Object.keys(json))
         const teamInfo = Object.values(json)
         setTeamInfo(teamInfo)
@@ -56,15 +53,12 @@ export default function App() {
   const isLobbyClosed = (teamInfo) => {
     if (teamInfo) {
       var arr = teamInfo.filter(user => !user.voteToClose)
-      console.log(teamInfo.length)
-      console.log(arr)
       return (arr.length == 0 && teamInfo.length > 1)
     }
     return false
   }
 
   const isGameChosen = (teamInfo) => {
-    console.log(teamInfo)
     if (teamInfo) {
       var arr = teamInfo.filter(user => user.voteGame != null)
       // console.log(teamInfo)
@@ -95,12 +89,12 @@ export default function App() {
     return mostFrequentElement
   }
 
-  useEffect(() => {
-    console.log(auth)
-    console.log(teamId)
-    if (auth && teamId != "")
-      onlineStatus(auth.uid, teamId);
-  }, [teamId]);
+  // useEffect(() => {
+  //   console.log(auth)
+  //   console.log(teamId)
+  //   if (auth && teamId != "")
+  //     onlineStatus(auth.uid, teamId);
+  // }, [teamId]);
 
   const generateLink = (uids) => {
     return uids[0]

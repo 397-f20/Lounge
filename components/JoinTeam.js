@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { TouchableOpacity, ImageBackground, TextInput, Text, View, StyleSheet, SafeAreaView } from 'react-native';
+import { TouchableOpacity, TextInput, Text, View, StyleSheet } from 'react-native';
 import { firebase } from '../firebase';
 
 
-const JoinTeam = ({user,auth, setRoute}) => {
+const JoinTeam = ({user, auth, setRoute}) => {
     const [teamIDField, setTeamIDField] = useState("")
 
 
     function addUserToTeam() {
-        console.log(user.firstName)
-        const userUpdate = {firstName: user.firstName, lastName: user.lastName, voteToClose: false, status: 'offline'}
+        const userUpdate = {
+            firstName: user.firstName, 
+            lastName: user.lastName, 
+            voteToClose: false }
         const teamUpdate = {[teamIDField]: true}
         var updates = {};
         updates['/teams/' + teamIDField + '/members/' + auth.uid] = userUpdate;
@@ -21,17 +23,12 @@ const JoinTeam = ({user,auth, setRoute}) => {
 
     function handleOnSubmit() {
         const teamRef = firebase.database().ref('/teams/' + teamIDField);
-        teamRef.on("value", function(snapshot) {
+        teamRef.once("value", function(snapshot) {
             snapshot.val() ? 
                 addUserToTeam()
                 :
                 alert("Team Does Not Exist");
-            console.log(snapshot.val());
-            snapshot.forEach(function(data) {
-                console.log(data.key);
-            });
         });
-        console.log(teamIDField)
     }
 
     return (

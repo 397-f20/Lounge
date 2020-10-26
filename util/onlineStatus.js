@@ -5,7 +5,7 @@ const onlineStatus = (uid, teamId) => {
 
     // Create a reference to this user's specific status node.
     // This is where we will store data about being online/offline.
-    console.log('/teams/' + teamId + "/members/" + uid);
+    // console.log('/teams/' + teamId + "/members/" + uid);
     var userStatusDatabaseRef = firebase.database().ref('/teams/' + teamId + "/members/" + uid);
 
     // We'll create two constants which we will write to 
@@ -45,7 +45,7 @@ const onlineStatus = (uid, teamId) => {
             // We can now safely set ourselves as 'online' knowing that the
             // server will mark us as offline once we lose connection.
 
-            // userStatusDatabaseRef.update(isOnlineForDatabase);
+            userStatusDatabaseRef.update(isOnlineForDatabase);
         });
     });
 }
