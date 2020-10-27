@@ -16,7 +16,7 @@ const teamInfo = [{
 }]
 
 describe('<Lobby />', () => {
-    it('has 1 child', () => {
+    it('has 4 children', () => {
       const login = renderer.create(<Lobby auth={auth} teamID={teamId} teamInfo={teamInfo} />)
       const tree = login.toJSON();
       // console.log(tree)
