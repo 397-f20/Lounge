@@ -8,7 +8,7 @@
     "eject": "expo eject",
     "predeploy": "expo build:web",
     "deploy-hosting": "npm run predeploy && firebase deploy --only hosting",
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "cypress:open": "cypress open",
     "cypress:ci": "cypress run --config video=false",
     "test:ci": "jest --watchAll=false && start-server-and-test web http://localhost:19006 cypress:ci"
