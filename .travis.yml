@@ -8,7 +8,7 @@ script:
   - npm ci
   - npm install --global expo-cli
   - npm install cypress --save-dev
-  - npm test:ci
+  - npm run test:ci
   - npm run predeploy
 after_success:
   - npm install -g firebase-tools
