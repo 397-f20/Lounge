@@ -39,7 +39,7 @@ describe ('Test Login', () => {
       .should("have.value", "123456");
 
       // Finalize sign up
-      // Only works if this is your first time
+      // Only works if this is your first sign up
       cy.contains("Sign Up").click({force: true});
 
       // Safe to use but wont pass the test 
