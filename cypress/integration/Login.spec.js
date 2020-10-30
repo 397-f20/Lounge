@@ -8,7 +8,22 @@ function makeid(length) {
   return result;
 }
 
+Cypress.Commands.add('cleanUpXHR', function() {
+  cy.visit('/404', { failOnStatusCode: false });
+});
+
 describe ('Test Login', () => {
+
+    beforeEach('clear cache before the test',function(){
+    cy.clearLocalStorage()
+    cy.clearCookies()
+    //cy.reload(true);
+    }) 
+
+    afterEach(() => {
+      cy.cleanUpXHR();
+    });
+
     it ('launches', () => {
       // Navigate to the Sign Up page
       cy.visit ('/');
@@ -42,8 +57,8 @@ describe ('Test Login', () => {
       // It only works the first time you sign up.
       cy.contains("Sign Up").click({force: true});
 
-      // Safe to use but wont pass the test 
-      //cy.contains("Sign Up").click();
+
+
 
     });
   });
