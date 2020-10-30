@@ -114,7 +114,7 @@ export default function App() {
                 route == "joinTeam" ?
                   <JoinTeam auth={auth} user={user} setRoute={setRoute}></JoinTeam>
                   :
-                  <Teams auth={auth} setTeamId={setTeamId} setRoute={setRoute}/> 
+                  <Teams auth={auth} teamId={teamId} setTeamId={setTeamId} setRoute={setRoute}/> 
             }
           </View>
           :

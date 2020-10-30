@@ -1,49 +1,36 @@
-function makeid(length) {
-  var result           = '';
-  var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var charactersLength = characters.length;
-  for ( var i = 0; i < length; i++ ) {
-     result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
-
 describe ('Test Login', () => {
     it ('launches', () => {
-      // Navigate to the Sign Up page
+      // Navigate to the login page
       cy.visit ('/');
-      cy.contains("Sign Up").click();
+      cy.contains("Login").click();
 
-      // Test Sign Up
-      var email_test = makeid(3) + '@' + makeid(3) + ".com";
-      cy.get('input[placeholder="eg. JohnDoe@email.com"]')
-      .type(email_test)
-      .should("have.value", email_test);
-
-      cy.get('input[placeholder="eg. John"]')
-      .type("Han")
-      .should("have.value", "Han");
-
-      cy.get('input[placeholder="eg. Doe"]')
-      .type("Cao")
-      .should("have.value", "Cao");
+      // Fill login form
+      // UID is P7ZXY8P5mHWGqR7yaVFx9C2VaMy2
+      var email = "mytest@email.com"
+      var password = "mytestpassword"
+      cy.get('input[placeholder="eg. JohnDoe@email.co,"]')
+      .type(email)
+      .should("have.value", email);
 
       cy.get('input[type="password"]')
       .first()
-      .type("123456")
-      .should("have.value", "123456");
+      .type(password)
+      .should("have.value", password);
+
+      // Click login button
+      cy.contains("Login").click({force: true});
+
+      cy.contains("Join New Team")
+      .should("have.text", "Join New Team");
+
+      cy.contains("Logout").click({force: true});
+
+      cy.contains("Login").click();
+      cy.get('input[placeholder="eg. JohnDoe@email.co,"]')
+      .should("have.value", "");
 
       cy.get('input[type="password"]')
-      .last()
-      .type("123456")
-      .should("have.value", "123456");
-
-      // Finalize sign up
-      // It only works the first time you sign up.
-      cy.contains("Sign Up").click({force: true});
-
-      // Safe to use but wont pass the test 
-      //cy.contains("Sign Up").click();
-
+      .first()
+      .should("have.value", "");
     });
   });

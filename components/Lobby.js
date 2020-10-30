@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
 import onlineStatus from '../util/onlineStatus';
+import LogoutButton from './LogoutButton';
 import { firebase } from '../firebase';
 
 const Lobby = ({ auth, teamInfo, teamId, setTeamId}) => {
@@ -30,15 +31,6 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId}) => {
             setJoinLobby(true);
     }
 
-    const logOut = () => {
-        const offlineStatus = {
-            status: "offline",
-            voteToClose: "false"
-        };
-        setTeamId("");
-        teamUserRef.update(offlineStatus).then(() => firebase.auth().signOut());
-    }
-
     return (
         <View style={styles.container}>
             <Text style={[styles.header, styles.center]}>Hello {auth.email}!</Text>
@@ -63,9 +55,7 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId}) => {
                             <Text style={[styles.listHeader, styles.center]}>{user.firstName}{user.voteToClose == "true" && " ✅"} </Text>
                         </View>
                     ))}
-                    <TouchableOpacity style={[styles.button, styles.center]} onPress={() => logOut()}>
-                        <Text style={[styles.buttonText, styles.center]}>Logout</Text>
-                    </TouchableOpacity>
+                    <LogoutButton teamId={teamId} setTeamId={setTeamId} auth={auth} />
                 </View>)
                 :
                 <Text style={styles.text}>No one is in the Lounge. Be the first to join!</Text>}
