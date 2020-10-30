@@ -1,4 +1,19 @@
+Cypress.Commands.add('cleanUpXHR', function() {
+  cy.visit('/404', { failOnStatusCode: false });
+});
+
 describe ('Test Login', () => {
+
+    beforeEach('clear cache before the test',function(){
+    cy.clearLocalStorage()
+    cy.clearCookies()
+    //cy.reload(true);
+    }) 
+
+    afterEach(() => {
+      cy.cleanUpXHR();
+    });
+
     it ('launches', () => {
       // Navigate to the login page
       cy.visit ('/');
