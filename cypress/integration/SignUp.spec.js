@@ -1,49 +1,68 @@
-function makeid(length) {
-  var result = '';
-  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  var charactersLength = characters.length;
-  for (var i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  }
-  return result;
-}
-Cypress.Commands.add('cleanUpXHR', function () {
+describe('Test Login', () => {
+  it('launches', () => {
+    // Navigate to the login page
+    cy.visit('/');
+    cy.contains("Login").click();
+
+    // Fill login form
+    // UID is P7ZXY8P5mHWGqR7yaVFx9C2VaMy2
+    var email = "mytest@email.com"
+    var password = "mytestpassword"
+    cy.get('input[placeholder="eg. JohnDoe@email.co,"]')
+      .type(email)
+      .should("have.value", email);
+
+    cy.get('input[type="password"]')
+      .first()
+      .type(password)
+      .should("have.value", password);
+
+Cypress.Commands.add('cleanUpXHR', function() {
   cy.visit('/404', { failOnStatusCode: false });
 });
-describe('Test Signup', () => {
-  beforeEach('clear cache before the test', function () {
+
+describe ('Test Login', () => {
+
+    beforeEach('clear cache before the test',function(){
     cy.clearLocalStorage()
     cy.clearCookies()
     //cy.reload(true);
-  })
-  afterEach(() => {
-    cy.cleanUpXHR();
-  });
-  it('launches', () => {
-    // Navigate to the Sign Up page
-    cy.visit('/');
-    cy.contains("Sign Up").click();
-    // Test Sign Up
-    var email_test = makeid(3) + '@' + makeid(3) + ".com";
-    cy.get('input[placeholder="eg. JohnDoe@email.com"]')
-      .type(email_test)
-      .should("have.value", email_test);
-    cy.get('input[placeholder="eg. John"]')
-      .type("Han")
-      .should("have.value", "Han");
-    cy.get('input[placeholder="eg. Doe"]')
-      .type("Cao")
-      .should("have.value", "Cao");
+    }) 
+
+    afterEach(() => {
+      cy.cleanUpXHR();
+    });
+
+    it ('launches', () => {
+      // Navigate to the Sign Up page
+      cy.visit ('/');
+      cy.contains("Sign Up").click();
+
+    cy.contains("Join New Team")
+      .should("have.text", "Join New Team");
+
+    cy.contains("Logout").click({ force: true });
+
+    cy.contains("Login").click();
+    cy.get('input[placeholder="eg. JohnDoe@email.co,"]')
+      .should("have.value", "");
+
     cy.get('input[type="password"]')
       .first()
       .type("123456")
       .should("have.value", "123456");
-    cy.get('input[type="password"]')
+
+      cy.get('input[type="password"]')
       .last()
       .type("123456")
       .should("have.value", "123456");
-    // Finalize sign up
-    // It only works the first time you sign up.
-    cy.contains("Sign Up").click({ force: true });
+
+      // Finalize sign up
+      // It only works the first time you sign up.
+      cy.contains("Sign Up").click({force: true});
+
+
+
+
+    });
   });
-}); 
