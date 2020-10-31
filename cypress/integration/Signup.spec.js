@@ -17,8 +17,26 @@ describe('Test Login', () => {
       .type(password)
       .should("have.value", password);
 
-    // Click login button
-    cy.contains("Login").click({ force: true });
+Cypress.Commands.add('cleanUpXHR', function() {
+  cy.visit('/404', { failOnStatusCode: false });
+});
+
+describe ('Test Login', () => {
+
+    beforeEach('clear cache before the test',function(){
+    cy.clearLocalStorage()
+    cy.clearCookies()
+    //cy.reload(true);
+    }) 
+
+    afterEach(() => {
+      cy.cleanUpXHR();
+    });
+
+    it ('launches', () => {
+      // Navigate to the Sign Up page
+      cy.visit ('/');
+      cy.contains("Sign Up").click();
 
     cy.contains("Join New Team")
       .should("have.text", "Join New Team");
@@ -31,6 +49,20 @@ describe('Test Login', () => {
 
     cy.get('input[type="password"]')
       .first()
-      .should("have.value", "");
+      .type("123456")
+      .should("have.value", "123456");
+
+      cy.get('input[type="password"]')
+      .last()
+      .type("123456")
+      .should("have.value", "123456");
+
+      // Finalize sign up
+      // It only works the first time you sign up.
+      cy.contains("Sign Up").click({force: true});
+
+
+
+
+    });
   });
-});
