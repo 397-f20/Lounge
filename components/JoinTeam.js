@@ -35,7 +35,7 @@ const JoinTeam = ({user, auth, setRoute}) => {
         <View>
             <View>
                 <Text style={[styles.text, styles.center]}> Team ID </Text>
-                <TextInput autoFocus maxLength={40} style={[styles.textInput, styles.center]} value={teamIDField} onChangeText={text => setTeamIDField(text)} />
+                <TextInput autoFocus maxLength={40} style={[styles.textInput, styles.center]} value={teamIDField} onChangeText={text => setTeamIDField(text)} placeholder="-TeamID"/>
                 <TouchableOpacity style={[styles.button, styles.center]} onPress={() => handleOnSubmit()}>
                     <Text style={[styles.buttonText, styles.center]}>Join Team</Text>
                 </TouchableOpacity>
