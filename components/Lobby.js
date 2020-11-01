@@ -36,6 +36,20 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId}) => {
         alert("Team ID copied to clipboard");
     }
 
+    const onlineUsers = (teamInfo) => {
+        var arr = teamInfo.filter(user => user.status == "online")
+        console.log("online");
+        console.log(arr);
+        return arr;
+    }
+
+    const offlineUsers = (teamInfo) => {
+        var arr = teamInfo.filter(user => user.status == "offline")
+        console.log("offline");
+        console.log(arr);
+        return arr;
+    }
+
     return ( //Clipboard.setString('hello world');
         <View style={styles.container}>
             <Text style={[styles.header, styles.center]}>Hello {auth.email}!</Text>
@@ -57,11 +71,19 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId}) => {
                         <TouchableOpacity style={[styles.button, styles.center]} title={"Cancel vote"} onPress={removeVote}>
                             <Text style={[styles.buttonText, styles.center]}>Cancel vote</Text>
                         </TouchableOpacity>}
-                    {teamInfo.map(user => (
+                    <Text>Online Users</Text>
+                    {onlineUsers(teamInfo).map(user => (
                         <View key={user.firstName} style={styles.list}>
                             <Text style={[styles.listHeader, styles.center]}>{user.firstName}{user.voteToClose == "true" && " ✅"} </Text>
                         </View>
                     ))}
+                    <Text>offline Users</Text>
+                    {offlineUsers(teamInfo).map(user => (
+                        <View key={user.firstName} style={styles.list}>
+                            <Text style={[styles.listHeader, styles.center]}>{user.firstName}</Text>
+                        </View>
+                    ))}
+
                     <LogoutButton teamId={teamId} setTeamId={setTeamId} auth={auth} />
                 </View>)
                 :
