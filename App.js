@@ -52,8 +52,13 @@ export default function App() {
 
   // teamInfo closed
   const isLobbyClosed = (teamInfo) => {
+    console.log("teamInfo");
+    console.log(teamInfo);
     if (teamInfo) {
-      var arr = teamInfo.filter(user => !user.voteToClose)
+      // check for both false literal and false as a string just to be safe
+      var arr = teamInfo.filter(user => user.voteToClose == "false" || !user.voteToClose)
+      console.log("arr");
+      console.log(arr);
       return (arr.length == 0 && teamInfo.length > 1)
     }
     return false

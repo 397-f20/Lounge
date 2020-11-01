@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { TouchableOpacity, Text, View, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { TouchableOpacity, Text, View, StyleSheet, Clipboard } from 'react-native';
 import onlineStatus from '../util/onlineStatus';
 import LogoutButton from './LogoutButton';
 import { firebase } from '../firebase';
@@ -31,10 +31,17 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId}) => {
             setJoinLobby(true);
     }
 
-    return (
+    const copyTeamID = (teamId) => {
+        Clipboard.setString(teamId);
+        alert("Team ID copied to clipboard");
+    }
+
+    return ( //Clipboard.setString('hello world');
         <View style={styles.container}>
             <Text style={[styles.header, styles.center]}>Hello {auth.email}!</Text>
-            <Text style={[styles.center]}>Team ID: {teamId}</Text>
+            <TouchableOpacity style={[styles.button, styles.center]} title={"Join Lounge"} onPress={() => copyTeamID(teamId)} >
+            <Text style={[styles.center]} >Team ID: {teamId}</Text>
+                </TouchableOpacity>
             {(!joinLobby) &&
                 <TouchableOpacity style={[styles.button, styles.center]} title={"Join Lounge"} onPress={goOnlineInTeam} >
                     <Text style={styles.buttonText}>Join Lounge</Text>
