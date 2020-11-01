@@ -7,6 +7,7 @@ import Game from './components/Game';
 import Activities from './components/Activities';
 import LoginForm from './components/Login';
 import JoinTeam from './components/JoinTeam';
+import CreateTeam from './components/CreateTeam';
 
 export default function App() {
   const [user, setUser] = useState(false);
@@ -101,6 +102,7 @@ export default function App() {
     //return uids.join('');
   }
 
+  
   return (
     <SafeAreaView style={[styles.background, styles.center]}>
       <View style={[styles.container, styles.center]}>
@@ -114,7 +116,10 @@ export default function App() {
                 route == "joinTeam" ?
                   <JoinTeam auth={auth} user={user} setRoute={setRoute}></JoinTeam>
                   :
-                  <Teams auth={auth} teamId={teamId} setTeamId={setTeamId} setRoute={setRoute}/> 
+                  route == "createTeam" ?
+                    <CreateTeam auth={auth} user={user} setRoute={setRoute}></CreateTeam>
+                    :
+                    <Teams auth={auth} teamId={teamId} setTeamId={setTeamId} setRoute={setRoute}/> 
             }
           </View>
           :

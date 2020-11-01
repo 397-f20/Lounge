@@ -3,40 +3,46 @@ import { TouchableOpacity, TextInput, Text, View, StyleSheet } from 'react-nativ
 import { firebase } from '../firebase';
 
 
-const JoinTeam = ({user, auth, setRoute}) => {
-    const [teamIDField, setTeamIDField] = useState("")
+const CreateTeam = ({user, auth, setRoute}) => {
+    const [teamName, setTeamName] = useState("")
 
 
-    function addUserToTeam(teamName) {
+    function addTeam(teamID) {
         const userUpdate = {
             firstName: user.firstName, 
             lastName: user.lastName, 
             voteToClose: false }
         var updates = {};
-        updates['/teams/' + teamIDField + '/members/' + auth.uid] = userUpdate;
-        updates['/users/' + auth.uid + '/teams/' + teamIDField] = teamName;
+        updates['/teams/' + teamID + '/members/' + auth.uid] = userUpdate;
+        updates['/teams/' + teamID + '/name/'] = teamName;
+        updates['/users/' + auth.uid + '/teams/' + teamID] = teamName;
         return firebase.database().ref().update(updates)
             .then( () => setRoute("someRoute"))
             .catch((error) => alert(error));
     }
 
     function handleOnSubmit() {
-        const teamRef = firebase.database().ref('/teams/' + teamIDField);
-        teamRef.once("value", function(snapshot) {
-            snapshot.val().name ? 
-                addUserToTeam(snapshot.val().name)
-                :
-                alert("Team Does Not Exist");
-        });
+        const teamRef = firebase.database().ref('/teams/');
+        var teamID = teamRef.push().getKey();
+        addTeam(teamID);
+        // updates['/teams/' + teamIDField + '/members/' + auth.uid] = userUpdate;
+        // updates['/users/' + auth.uid + '/teams/' + teamIDField] = true;
+        // firebase.database().ref().update(updates)
+        // teamRef.once("value", function(snapshot) {
+        //     snapshot.val() ? 
+                
+        //         :
+        //         alert("Fail to create");
+        // });
     }
 
     return (
         <View>
             <View>
-                <Text style={[styles.text, styles.center]}> Team ID </Text>
-                <TextInput autoFocus maxLength={40} style={[styles.textInput, styles.center]} value={teamIDField} onChangeText={text => setTeamIDField(text)} placeholder="-TeamID"/>
+                <Text style={[styles.text, styles.center]}> Team Name </Text>
+                <TextInput autoFocus maxLength={40} style={[styles.textInput, styles.center]} value={teamName} onChangeText={text => setTeamName(text)} placeholder="-My first team"/>
                 <TouchableOpacity style={[styles.button, styles.center]} onPress={() => handleOnSubmit()}>
-                    <Text style={[styles.buttonText, styles.center]}>Join Team</Text>
+                    <Text style={[styles.buttonText, styles.center]}>Create Team</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -86,4 +92,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default JoinTeam;
+export default CreateTeam;

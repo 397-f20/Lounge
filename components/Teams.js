@@ -4,15 +4,15 @@ import { firebase } from "../firebase";
 import LogoutButton from './LogoutButton';
 
 const Teams = ({ auth, teamId, setTeamId, setRoute }) => {
-    const [teamIds, setTeamsIds] = useState([]);
+    const [teams, setTeams] = useState([]);
     const db = firebase.database().ref('users/' + auth.uid + "/teams");
 
     useEffect(() => {
         const handleData = snap => {
             if (snap.val()) {
                 const json = snap.val();
-                var teamIds = Object.keys(json);
-                setTeamsIds(teamIds);
+                var teams = Object.entries(json);
+                setTeams(teams);
             }
         }
         db.on('value', handleData, error => alert(error));
@@ -22,14 +22,17 @@ const Teams = ({ auth, teamId, setTeamId, setRoute }) => {
     return (
         <View style={[styles.center]}>
             <Text style={[styles.header, styles.center]}>Teams!</Text>
-            {teamIds.map(team => (
-                        <TouchableOpacity key={team} style={styles.list} onPress={() => setTeamId(team)}>
-                            <Text style={[styles.listHeader, styles.center]}> {team} </Text>
+            {teams.map(team => (
+                        <TouchableOpacity key={team[0]} style={styles.list} onPress={() => setTeamId(team[0])}>
+                            <Text style={[styles.listHeader, styles.center]}> {team[1]} </Text>
                         </TouchableOpacity>
                     ))}
             <TouchableOpacity onPress={() => setRoute("joinTeam")}>
                 <Text style={[styles.buttonText, styles.center]}>Join New Team</Text>
             </TouchableOpacity>
+            <TouchableOpacity style={[styles.button, styles.center]} onPress={() => setRoute("createTeam")}>
+                    <Text style={[styles.buttonText, styles.center]}>Create Team</Text>
+                </TouchableOpacity>
             <LogoutButton teamId={teamId} setTeamId={setTeamId}  auth={auth} />
         </View>
         
