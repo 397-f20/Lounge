@@ -4,13 +4,7 @@ import onlineStatus from '../util/onlineStatus';
 import LogoutButton from './LogoutButton';
 import { firebase } from '../firebase';
 
-const Lobby = ({ auth, teamInfo, teamId, setTeamId}) => {
-    console.log("auth")
-    console.log(auth);
-    console.log("teamId")
-    console.log(teamId);
-    console.log("teamInfo")
-    console.log(teamInfo);
+const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName}) => {
     const teamUserRef = firebase.database().ref('/teams/' + teamId + "/members/" + auth.uid);
     const [myVote, setMyVote] = useState(false);
     const [joinLobby, setJoinLobby] = useState(false);
@@ -38,21 +32,21 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId}) => {
 
     const onlineUsers = (teamInfo) => {
         var arr = teamInfo.filter(user => user.status == "online")
-        console.log("online");
-        console.log(arr);
+        // console.log("online");
+        // console.log(arr);
         return arr;
     }
 
     const offlineUsers = (teamInfo) => {
         var arr = teamInfo.filter(user => user.status == "offline")
-        console.log("offline");
-        console.log(arr);
+        //console.log("offline");
+        // console.log(arr);
         return arr;
     }
 
     return ( //Clipboard.setString('hello world');
         <View style={styles.container}>
-            <Text style={[styles.header, styles.center]}>Hello {auth.email}!</Text>
+            <Text style={[styles.header, styles.center]}>{teamName}</Text>
             <TouchableOpacity style={[styles.button, styles.center]} title={"Join Lounge"} onPress={() => copyTeamID(teamId)} >
             <Text style={[styles.center]} >Team ID: {teamId}</Text>
                 </TouchableOpacity>

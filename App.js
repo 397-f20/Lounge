@@ -16,6 +16,7 @@ export default function App() {
   const [teamId, setTeamId] = useState("");
   const [teamInfo, setTeamInfo] = useState(null);
   const [route, setRoute] = useState("")
+  const [teamName, setTeamName] = useState("")
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(setAuth)
@@ -37,12 +38,13 @@ export default function App() {
 
   // watch data for users in team, etc
   useEffect(() => {
-    const db = firebase.database().ref('/teams/' + teamId + "/members");
+    const db = firebase.database().ref('/teams/' + teamId);
     const handleData = snap => {
       if (snap.val()) {
         const json = snap.val()
-        setUids(Object.keys(json))
-        const teamInfo = Object.values(json)
+        setUids(Object.keys(json.members))
+        const teamInfo = Object.values(json.members)
+        setTeamName(json.name)
         setTeamInfo(teamInfo)
       }
     }
@@ -116,7 +118,7 @@ export default function App() {
             {!auth ?
             <LoginForm/> :
               teamId != "" ?
-                <Lobby auth={auth} teamId={teamId} teamInfo={teamInfo} setTeamId={setTeamId}/>
+                <Lobby auth={auth} teamId={teamId} teamInfo={teamInfo} setTeamId={setTeamId} teamName={teamName}/>
                 :
                 route == "joinTeam" ?
                   <JoinTeam auth={auth} user={user} setRoute={setRoute}></JoinTeam>
