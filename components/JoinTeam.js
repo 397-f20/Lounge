@@ -23,7 +23,7 @@ const JoinTeam = ({user, auth, setRoute}) => {
     function handleOnSubmit() {
         const teamRef = firebase.database().ref('/teams/' + teamIDField);
         teamRef.once("value", function(snapshot) {
-            snapshot.val().name ? 
+            snapshot.val() ? 
                 addUserToTeam(snapshot.val().name)
                 :
                 alert("Team Does Not Exist");
