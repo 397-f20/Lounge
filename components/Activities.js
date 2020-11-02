@@ -19,13 +19,13 @@ const Activities = ({numUsers, auth, teamInfo, teamId}) => {
   }
 
   const voteGame = (gameName) => {
-    var voteGameRef = firebase.database().ref('teams' + teamId + '/members/' + auth.uid);
+    var voteGameRef = firebase.database().ref('teams/' + teamId + '/members/' + auth.uid);
     voteGameRef.update({ voteGame: gameName });
     setMyGameVote(gameName);
   }
 
 const removeVoteGame = (gameName) => {
-  var voteGameRef = firebase.database().ref('teams' + teamId + '/members/' + auth.uid);
+  var voteGameRef = firebase.database().ref('teams/' + teamId + '/members/' + auth.uid);
     voteGameRef.update({ voteGame: null });
     setMyGameVote("");
   }
