@@ -40,6 +40,7 @@ export default function App() {
 
   // watch data for users in team, etc
   useEffect(() => {
+    if (teamId != ""){
     const db = firebase.database().ref('/teams/' + teamId);
     const handleData = snap => {
       if (snap.val()) {
@@ -52,6 +53,7 @@ export default function App() {
     }
     db.on('value', handleData, error => alert(error));
     return () => { db.off('value', handleData); };
+  }
   }, [teamId]);
 
   // teamInfo closed
