@@ -17,13 +17,15 @@ describe('<JoinTeam />', () => {
     
     // JoinTeam render
     expect(tree.children.length).toBe(1);
-    expect(tree.children[0].children.length).toBe(3);
+    expect(tree.children[0].children.length).toBe(4);
     
     // 'Team ID' filed
     expect(tree.children[0].children[0].children[0]).toBe(' Team ID ');
     // Text input
     // expect(tree.children[0].children[1].lenght).toBe(1);
-    // Join buttom
+    // Join button
     expect(tree.children[0].children[2].children[0].children[0]).toBe('Join Team');
+    // Back button
+    expect(tree.children[0].children[3].children[0].children[0]).toBe('Back');
   });
 });
