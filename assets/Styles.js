@@ -1,6 +1,9 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
+    screen:{
+        height:'100%',
+    },
     container: {
         alignItems: 'center',
         width: '100%',
@@ -12,7 +15,7 @@ const styles = StyleSheet.create({
       },
     header: {
         fontSize: 32,
-        marginVertical: 60,
+        margin: 20,
         color: '#F5F5DC',
     },
     teamNamesButton:{
@@ -56,7 +59,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         color: '#F5F5DC',
         borderRadius: 15,
-        margin: 20,
+        marginBottom: 10,
     },
     listHeader: {
         fontSize: 24,

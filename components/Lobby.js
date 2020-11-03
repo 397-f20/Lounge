@@ -46,11 +46,22 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName }) => {
         return arr;
     }
 
+    const back = () => {
+        const teamUserRef = firebase.database().ref('/teams/' + teamId + "/members/" + auth.uid);
+
+        const offlineStatus = {
+            status: "offline",
+            voteToClose: "false"
+        };
+        setTeamId("");
+        teamUserRef.update(offlineStatus);
+    };
+
     return ( //Clipboard.setString('hello world');
         <View style={styles.container}>
             <Text style={[styles.header, styles.center]}>{teamName}</Text>
             <TouchableOpacity style={[styles.button, styles.center]} title={"Join Lounge"} onPress={() => copyTeamID(teamId)} >
-                <Text style={[styles.center]} >Team ID: {teamId}</Text>
+                <Text style={[styles.buttonText, styles.center]} >Team ID: {teamId}</Text>
             </TouchableOpacity>
             {(!joinLobby) &&
                 <TouchableOpacity style={[styles.button, styles.center]} title={"Join Lounge"} onPress={goOnlineInTeam} >
@@ -67,21 +78,20 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName }) => {
                         <TouchableOpacity style={[styles.button, styles.center]} title={"Cancel vote"} onPress={removeVote}>
                             <Text style={[styles.buttonText, styles.center]}>Cancel vote</Text>
                         </TouchableOpacity>}
-                    <ScrollView>
-                    <Text>Online Users</Text>
-                    {onlineUsers(teamInfo).map(user => (
-                        <View key={user.firstName} style={styles.list}>
-                            <Text style={[styles.listHeader, styles.center]}>{user.firstName}{user.voteToClose == "true" && " ✅"} </Text>
-                        </View>
-                    ))}
-                    <Text>offline Users</Text>
-                    {offlineUsers(teamInfo).map(user => (
-                        <View key={user.firstName} style={styles.list}>
-                            <Text style={[styles.listHeader, styles.center]}>{user.firstName}</Text>
-                        </View>
-                    ))}
-                    </ScrollView>
-                    <TouchableOpacity style={[styles.button, styles.center]} title={"Cancel vote"} onPress={() => setTeamId("")}>
+                    
+                        <Text style={styles.header}>Online Users</Text>
+                        {onlineUsers(teamInfo).map(user => (
+                            <View key={user.firstName} style={styles.list}>
+                                <Text style={[styles.listText, styles.center]}>{user.firstName}{user.voteToClose == "true" && " ✅"} </Text>
+                            </View>
+                        ))}
+                        <Text style={styles.header}>Offline Users</Text>
+                        {offlineUsers(teamInfo).map(user => (
+                            <View key={user.firstName} style={styles.list}>
+                                <Text style={[styles.listText, styles.center]}>{user.firstName}</Text>
+                            </View>
+                        ))}
+                    <TouchableOpacity style={[styles.button, styles.center]} title={"Cancel vote"} onPress={back}>
                         <Text style={[styles.buttonText, styles.center]}>Back</Text>
                     </TouchableOpacity>
                 </View>)

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Button, Text, View, SafeAreaView } from 'react-native';
+import { StyleSheet, Button, Text, View, SafeAreaView, ScrollView } from 'react-native';
 import { firebase } from './firebase';
 import Lobby from './components/Lobby';
 import Teams from './components/Teams';
@@ -116,6 +116,7 @@ export default function App() {
   
   return (
     <SafeAreaView style={[styles.background, styles.center]}>
+      <ScrollView>
       <View style={[styles.container, styles.center]}>
         {!isLobbyClosed(teamInfo) ?
           <View style={styles.container}>
@@ -144,7 +145,9 @@ export default function App() {
             </View>
         }
       </View>
+      </ScrollView>
     </SafeAreaView>
+    
   );
 }
 
