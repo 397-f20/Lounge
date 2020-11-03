@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { TouchableOpacity, Text, View, StyleSheet, Clipboard } from 'react-native';
+import { TouchableOpacity, Text, View, StyleSheet, Clipboard, ScrollView } from 'react-native';
 import onlineStatus from '../util/onlineStatus';
 import LogoutButton from './LogoutButton';
 import { firebase } from '../firebase';
+import styles from "../assets/Styles";
 
-const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName}) => {
+
+const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName }) => {
     const teamUserRef = firebase.database().ref('/teams/' + teamId + "/members/" + auth.uid);
     const [myVote, setMyVote] = useState(false);
     const [joinLobby, setJoinLobby] = useState(false);
@@ -20,9 +22,9 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName}) => {
     }
 
     const goOnlineInTeam = () => {
-            if (teamId != "")
-                onlineStatus(auth.uid, teamId);
-            setJoinLobby(true);
+        if (teamId != "")
+            onlineStatus(auth.uid, teamId);
+        setJoinLobby(true);
     }
 
     const copyTeamID = (teamId) => {
@@ -48,8 +50,8 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName}) => {
         <View style={styles.container}>
             <Text style={[styles.header, styles.center]}>{teamName}</Text>
             <TouchableOpacity style={[styles.button, styles.center]} title={"Join Lounge"} onPress={() => copyTeamID(teamId)} >
-            <Text style={[styles.center]} >Team ID: {teamId}</Text>
-                </TouchableOpacity>
+                <Text style={[styles.center]} >Team ID: {teamId}</Text>
+            </TouchableOpacity>
             {(!joinLobby) &&
                 <TouchableOpacity style={[styles.button, styles.center]} title={"Join Lounge"} onPress={goOnlineInTeam} >
                     <Text style={styles.buttonText}>Join Lounge</Text>
@@ -65,6 +67,7 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName}) => {
                         <TouchableOpacity style={[styles.button, styles.center]} title={"Cancel vote"} onPress={removeVote}>
                             <Text style={[styles.buttonText, styles.center]}>Cancel vote</Text>
                         </TouchableOpacity>}
+                    <ScrollView>
                     <Text>Online Users</Text>
                     {onlineUsers(teamInfo).map(user => (
                         <View key={user.firstName} style={styles.list}>
@@ -77,72 +80,15 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName}) => {
                             <Text style={[styles.listHeader, styles.center]}>{user.firstName}</Text>
                         </View>
                     ))}
-
-                    <LogoutButton teamId={teamId} setTeamId={setTeamId} auth={auth} />
+                    </ScrollView>
+                    <TouchableOpacity style={[styles.button, styles.center]} title={"Cancel vote"} onPress={() => setTeamId("")}>
+                        <Text style={[styles.buttonText, styles.center]}>Back</Text>
+                    </TouchableOpacity>
                 </View>)
                 :
                 <Text style={styles.text}>No one is in the Lounge. Be the first to join!</Text>}
         </View>
     )
 }
-
-const styles = StyleSheet.create({
-    container: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
-    },
-    header: {
-        fontSize: 32,
-        marginVertical: 60,
-        color: '#F5F5DC',
-    },
-    text: {
-        fontSize: 24,
-        color: '#F5F5DC',
-    },
-    textInput: {
-        height: 50,
-        backgroundColor: '#F5F5DC',
-        color: '#000000',
-        marginVertical: 30,
-        fontSize: 20,
-        borderRadius: 5,
-        width: '100%',
-    },
-    button: {
-        backgroundColor: '#556B2F',
-        borderRadius: 5,
-        width: '100%',
-        height: 40,
-        maxWidth: 300,
-        marginBottom: 20,
-    },
-    buttonText: {
-        fontSize: 20,
-        color: '#F5F5DC',
-    },
-    list: {
-        fontSize: 15,
-        color: '#F5F5DC',
-        borderRadius: 15,
-        margin: 20,
-    },
-    listHeader: {
-        fontSize: 24,
-        color: '#F5F5DC',
-        textAlign: 'center'
-    },
-    listText: {
-        fontSize: 18,
-        color: '#F5F5DC',
-        textAlign: 'center'
-    },
-    center: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-    }
-});
 
 export default Lobby;

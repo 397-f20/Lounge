@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { TouchableOpacity, TextInput, ImageBackground, Text, View, StyleSheet, SafeAreaView } from 'react-native';
+import { TouchableOpacity, TextInput, ImageBackground, Text, View, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
 import { firebase } from "../firebase";
 import LogoutButton from './LogoutButton';
+import styles from "../assets/Styles";
 
 const Teams = ({ auth, teamId, setTeamId, setRoute }) => {
     const [teams, setTeams] = useState([]);
@@ -20,14 +21,16 @@ const Teams = ({ auth, teamId, setTeamId, setRoute }) => {
     }, []);
 
     return (
-        <View style={[styles.center]}>
+        <View style={[styles.container,styles.center]}>
             <Text style={[styles.header, styles.center]}>Teams!</Text>
+            <ScrollView style={[styles.teams]}>
             {teams.map(team => (
-                        <TouchableOpacity key={team[0]} style={styles.list} onPress={() => setTeamId(team[0])}>
-                            <Text style={[styles.listHeader, styles.center]}> {team[1]} </Text>
+                        <TouchableOpacity style={styles.teamNamesButton} key={team[0]} onPress={() => setTeamId(team[0])}>
+                            <Text style={[styles.teamNamesText, styles.center]}> {team[1]} </Text>
                         </TouchableOpacity>
                     ))}
-            <TouchableOpacity onPress={() => setRoute("joinTeam")}>
+            </ScrollView>
+            <TouchableOpacity style={[styles.button, styles.center]} onPress={() => setRoute("joinTeam")}>
                 <Text style={[styles.buttonText, styles.center]}>Join New Team</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.button, styles.center]} onPress={() => setRoute("createTeam")}>
@@ -39,47 +42,7 @@ const Teams = ({ auth, teamId, setTeamId, setRoute }) => {
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: '100%',
-    },
-    header: {
-        fontSize: 32,
-        marginVertical: 60,
-        color: '#F5F5DC',
-    },
-    text: {
-        fontSize: 24,
-        color: '#F5F5DC',
-    },
-    textInput: {
-        height: 50,
-        backgroundColor: '#F5F5DC',
-        color: '#000000',
-        marginVertical: 30,
-        fontSize: 20,
-        borderRadius: 5,
-        width: '100%',
-    },
-    button: {
-        backgroundColor: '#556B2F',
-        borderRadius: 5,
-        width: '100%',
-        height: 40,
-        maxWidth: 300,
-    },
-    buttonText: {
-        fontSize: 20,
-        color: '#F5F5DC',
-    },
-    center: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',
-    }
-});
+
 
 export default Teams;
 

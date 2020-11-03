@@ -1,6 +1,8 @@
 import { Text, View, StyleSheet, SafeAreaView, Linking, Platform, TouchableOpacity } from 'react-native';
 import { firebase } from '../firebase';
 import React, { useEffect, useState } from 'react';
+import styles from "../assets/Styles";
+
 
 const Activities = ({numUsers, auth, teamInfo, teamId}) => {
   const [myGameVote, setMyGameVote] = useState("");
@@ -72,42 +74,5 @@ const removeVoteGame = (gameName) => {
   )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-  },
-  header: {
-    fontSize: 32,
-    marginVertical: 60,
-    color: '#F5F5DC',
-  },
-  text: {
-    fontSize: 24,
-    color: '#F5F5DC',
-  },
-  list: {
-    fontSize: 15,
-    color: '#F5F5DC',
-    borderRadius: 15,
-    margin: 20,
-  },
-  listHeader: {
-    fontSize: 24,
-    color: '#F5F5DC',
-    textAlign: 'center'
-  },
-  listText: {
-    fontSize: 18,
-    color: '#F5F5DC',
-    textAlign: 'center'
-  },
-  center: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    textAlign: 'center',
-  },
-});
 
 export default Activities;

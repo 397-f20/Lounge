@@ -8,6 +8,8 @@ import Activities from './components/Activities';
 import LoginForm from './components/Login';
 import JoinTeam from './components/JoinTeam';
 import CreateTeam from './components/CreateTeam';
+import styles from "./assets/Styles";
+
 
 export default function App() {
   const [user, setUser] = useState(false);
@@ -144,21 +146,3 @@ export default function App() {
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    width: '90%',
-    height: '100%',
-    maxWidth: 600,
-    minWidth: 200,
-  },
-  background: {
-    backgroundColor: '#8FBC8F',
-    width: '100%',
-    height: '100%',
-  },
-  center: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
-});
