@@ -9,6 +9,7 @@ import LoginForm from './components/Login';
 import JoinTeam from './components/JoinTeam';
 import CreateTeam from './components/CreateTeam';
 import styles from "./assets/Styles";
+import notify from './util/notify';
 
 
 export default function App() {
@@ -46,9 +47,15 @@ export default function App() {
         if (snap.val()) {
           const json = snap.val()
           setUids(Object.keys(json.members))
-          const teamInfo = Object.values(json.members)
+          const updatedTeamInfo = Object.values(json.members)
+          if (teamInfo && teamInfo.length < updatedTeamInfo.length)
+            notify(
+              "A new member joined " + teamInfo.name,
+              "Get started playing a game",
+              "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/237/waving-hand-sign_1f44b.png",
+              window.focus() )
           setTeamName(json.name)
-          setTeamInfo(teamInfo)
+          setTeamInfo(updatedTeamInfo)
         }
       }
       db.on('value', handleData, error => alert(error));
@@ -58,25 +65,27 @@ export default function App() {
 
   // teamInfo closed
   const isLobbyClosed = (teamInfo) => {
-    console.log("teamInfo");
-    console.log(teamInfo);
+    // console.log("teamInfo");
+    // console.log(teamInfo);
     if (teamInfo) {
       // check for both false literal and false as a string just to be safe
-      var arr = teamInfo.filter(user => user.voteToClose == "false" || !user.voteToClose)
-      console.log("arr");
-      console.log(arr);
-      return (arr.length == 0 && teamInfo.length > 1)
+      var onlineUsers = teamInfo.filter(user => user.status == "online")
+      var arr = teamInfo.filter(user => user.status == "online" && (user.voteToClose == "false" || !user.voteToClose) )
+      // console.log("arr");
+      // console.log(arr);
+      return (arr.length == 0 && onlineUsers.length > 1)
     }
     return false
   }
 
   const isGameChosen = (teamInfo) => {
     if (teamInfo) {
-      var arr = teamInfo.filter(user => user.voteGame != null)
+      var onlineUsers = teamInfo.filter(user => user.status == "online")
+      var arr = teamInfo.filter(user => user.status == "online" && user.voteGame != null)
       // console.log(teamInfo)
       // console.log(arr.length)
       // console.log(arr)
-      if (arr.length == teamInfo.length) {
+      if (arr.length == onlineUsers.length) {
         return true
       }
       else
@@ -85,7 +94,7 @@ export default function App() {
   }
 
   const theGameChosen = (teamInfo) => {
-    var arr = teamInfo.filter(user => user.voteGame != null)
+    var arr = teamInfo.filter(user => user.status == "online" && user.voteGame != null)
     var map = {};
     var mostFrequentElement = arr[0].voteGame;
     for (var i = 0; i < arr.length; i++) {
@@ -113,9 +122,8 @@ export default function App() {
     //return uids.join('');
   }
 
-
   return (
-    <ScrollView style={[styles.background] } >
+    <ScrollView style={[styles.background]} >
       <SafeAreaView style={[styles.center]}>
         <View style={[styles.contentContainer, styles.center]}>
           {!isLobbyClosed(teamInfo) ?

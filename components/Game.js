@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, SafeAreaView, Linking, Platform } from 'react-native';
+import { Text, View, TouchableOpacity, Linking, Platform } from 'react-native';
 import { firebase } from '../firebase';
 import styles from "../assets/Styles";
 
@@ -22,22 +22,24 @@ const Game = ({ jitsiLink, gameName }) => {
   }, [gameName]);
 
   return (
-    <View style={[styles.header, styles.container]}> 
-        <View styles={styles.center}>
-          <Text style={[styles.header, styles.center]} >We are playing:{"\n"}   {gameInfo.name}  👀 </Text>
-          <Text style={[styles.list, styles.text, styles.center]} >  {gameInfo.description}  🤣 </Text>
-        </View>
-      <Text style={[styles.center, { color: '#3b45b5', fontWeight: "bold" }]}
-        onPress={() => {
-          if (Platform.OS == 'web') {
-            window.open('https://meet.jit.si/' + JSON.stringify(jitsiLink).slice(1, -1), '_blank');
-          } else {
-            Linking.openURL('https://meet.jit.si/' + JSON.stringify(jitsiLink).slice(1, -1))
+    <View style={[styles.header, styles.container]}>
+      <View styles={styles.center}>
+        <Text style={[styles.header, styles.center]} >We're playing {gameInfo.name}  👀 </Text>
+        <Text style={[styles.list, styles.text, styles.center]} >  {gameInfo.description}  🤣 </Text>
+      </View>
+      <TouchableOpacity style={[styles.button, styles.center]} onPress={() => voteGame(game.name)}>
+        <Text style={[styles.text, styles.center, {fontWeight:"bold"}]}
+          onPress={() => {
+            if (Platform.OS == 'web') {
+              window.open('https://meet.jit.si/' + JSON.stringify(jitsiLink).slice(1, -1), '_blank');
+            } else {
+              Linking.openURL('https://meet.jit.si/' + JSON.stringify(jitsiLink).slice(1, -1))
+            }
           }
-        }
-        }>
-        Join: https://meet.jit.si/{jitsiLink}
-      </Text>
+          }>
+          🥰 Join Call!
+        </Text>
+      </TouchableOpacity>
     </View>
   )
 }

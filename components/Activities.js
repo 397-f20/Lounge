@@ -4,10 +4,10 @@ import React, { useEffect, useState } from 'react';
 import styles from "../assets/Styles";
 
 
-const Activities = ({numUsers, auth, teamInfo, teamId}) => {
+const Activities = ({ numUsers, auth, teamInfo, teamId }) => {
   const [myGameVote, setMyGameVote] = useState("");
   const [votedGames, setVotedGames] = useState([]);
-  
+
   const numUsersStr = (numUsers) => {
     if (numUsers <= 4) {
       return "2-4"
@@ -15,9 +15,9 @@ const Activities = ({numUsers, auth, teamInfo, teamId}) => {
     if ((numUsers > 4) && (numUsers < 8)) {
       return "5-7"
     }
-    else{
+    else {
       return "8+"
-    }   
+    }
   }
 
   const voteGame = (gameName) => {
@@ -26,8 +26,8 @@ const Activities = ({numUsers, auth, teamInfo, teamId}) => {
     setMyGameVote(gameName);
   }
 
-const removeVoteGame = (gameName) => {
-  var voteGameRef = firebase.database().ref('teams/' + teamId + '/members/' + auth.uid);
+  const removeVoteGame = (gameName) => {
+    var voteGameRef = firebase.database().ref('teams/' + teamId + '/members/' + auth.uid);
     voteGameRef.update({ voteGame: null });
     setMyGameVote("");
   }
@@ -47,7 +47,7 @@ const removeVoteGame = (gameName) => {
   }, []);
 
   const countGameVotes = (GameName) => {
-    if (teamInfo){
+    if (teamInfo) {
       var arr = teamInfo.filter(user => user.voteGame == GameName)
       return (arr.length)
     }
@@ -55,22 +55,23 @@ const removeVoteGame = (gameName) => {
       return 0
   }
 
-  return ( 
-     <View>
+  return (
+    <View>
+      <Text style={[styles.header, styles.center]}> 😊 Which game should we play?</Text>
       {games.map(game => (
-      <View key={game.name} style={styles.list}>
+        <View key={game.name} style={styles.list}>
           <Text style={[styles.listHeader, styles.center]}>{game.name}{} </Text>
           <Text style={[styles.listHeader, styles.center]}>{countGameVotes(game.name)}{} </Text>
           {!!!myGameVote &&
-          <TouchableOpacity style={[styles.button, styles.center]} onPress={() => voteGame(game.name)}>
+            <TouchableOpacity style={[styles.button, styles.center]} onPress={() => voteGame(game.name)}>
               <Text style={[styles.text, styles.center]}>Vote for this game</Text>
-          </TouchableOpacity>}
-          {!!myGameVote && (myGameVote==game.name) &&
-          <TouchableOpacity style={[styles.button, styles.center]} onPress={() => removeVoteGame(game.name)}>
+            </TouchableOpacity>}
+          {!!myGameVote && (myGameVote == game.name) &&
+            <TouchableOpacity style={[styles.button, styles.center]} onPress={() => removeVoteGame(game.name)}>
               <Text style={[styles.text, styles.center]}>Remove vote for this game</Text>
-          </TouchableOpacity>}
-      </View>
-      ))}</View> 
+            </TouchableOpacity>}
+        </View>
+      ))}</View>
   )
 }
 
