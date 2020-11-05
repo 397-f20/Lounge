@@ -24,6 +24,8 @@ const Teams = ({ auth, teamId, setTeamId, setRoute }) => {
         <View style={[styles.container,styles.center]}>
             <Text style={[styles.header, styles.center]}>✨ Your Teams </Text>
             <ScrollView style={[styles.teams]}>
+            {teams.length == 0 &&
+                <Text style={[styles.text, styles.center]}> Oops, you're not part of any teams yet! {"\n\n"} Join or create some teams below and send the team ID to your friends!  </Text>}
             {teams.map(team => (
                         <TouchableOpacity style={[styles.button, styles.center]} key={team[0]} onPress={() => setTeamId(team[0])}>
                             <Text style={[styles.text, styles.center]}> {team[1]} </Text>
