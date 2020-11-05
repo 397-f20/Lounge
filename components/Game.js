@@ -37,7 +37,7 @@ const Game = ({ jitsiLink, gameName }) => {
             }
           }
           }>
-          🥰 Join Call!
+          💖 Join Call!
         </Text>
       </TouchableOpacity>
     </View>

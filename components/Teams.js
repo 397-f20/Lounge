@@ -22,7 +22,7 @@ const Teams = ({ auth, teamId, setTeamId, setRoute }) => {
 
     return (
         <View style={[styles.container,styles.center]}>
-            <Text style={[styles.header, styles.center]}>🥰 Your Teams </Text>
+            <Text style={[styles.header, styles.center]}>✨ Your Teams </Text>
             <ScrollView style={[styles.teams]}>
             {teams.map(team => (
                         <TouchableOpacity style={[styles.button, styles.center]} key={team[0]} onPress={() => setTeamId(team[0])}>
@@ -30,6 +30,7 @@ const Teams = ({ auth, teamId, setTeamId, setRoute }) => {
                         </TouchableOpacity>
                     ))}
             </ScrollView>
+            <Text style={[styles.text, styles.paragraph, styles.center]}> Actions </Text>
             <TouchableOpacity style={[styles.button, styles.center]} onPress={() => setRoute("joinTeam")}>
                 <Text style={[styles.text, styles.center]}> 🤝🏿 Join a Team </Text>
             </TouchableOpacity>
