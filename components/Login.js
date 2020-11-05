@@ -77,7 +77,7 @@ const LoginForm = () => {
             {loginType == '' &&
                 <View style={styles.buttonLayout}>
                     <Text style={[styles.header, styles.center]}>👋 Squad up, fam!</Text>
-                    <Text style={[styles.paragraph]}>Get the gang online spontaneously - no need to schedule calls anymore. <br /> <br /> We'll even help you choose games to play with your squad!</Text>
+                    <Text style={[styles.paragraph]}>Get the gang online spontaneously. No need to schedule calls anymore. {"\n\n"} We'll even help you choose games to play with your squad!</Text>
                     <TouchableOpacity style={[styles.button, styles.center]} onPress={() => setLoginType('Login')}>
                         <Text style={[styles.text, styles.center]}>Log in</Text>
                     </TouchableOpacity>

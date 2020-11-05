@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         color: '#F5F5DC',
     },
     paragraph: {
-        alignItems: 'left',
+        textAlign: "center",
         marginBottom: 20,
         fontSize: 20,
         color: '#F5F5DC',
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         marginVertical: 10,
         fontSize: 20,
         borderRadius: 5,
-        maxWidth: 500,
+        minWidth: 250,
         // width: '100%',
     },
     buttonLayout: {
