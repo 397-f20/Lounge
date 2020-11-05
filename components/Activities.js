@@ -63,11 +63,11 @@ const removeVoteGame = (gameName) => {
           <Text style={[styles.listHeader, styles.center]}>{countGameVotes(game.name)}{} </Text>
           {!!!myGameVote &&
           <TouchableOpacity style={[styles.button, styles.center]} onPress={() => voteGame(game.name)}>
-              <Text style={[styles.buttonText, styles.center]}>Vote for this game</Text>
+              <Text style={[styles.text, styles.center]}>Vote for this game</Text>
           </TouchableOpacity>}
           {!!myGameVote && (myGameVote==game.name) &&
           <TouchableOpacity style={[styles.button, styles.center]} onPress={() => removeVoteGame(game.name)}>
-              <Text style={[styles.buttonText, styles.center]}>Remove vote for this game</Text>
+              <Text style={[styles.text, styles.center]}>Remove vote for this game</Text>
           </TouchableOpacity>}
       </View>
       ))}</View> 

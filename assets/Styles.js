@@ -1,12 +1,17 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-    screen:{
-        height:'100%',
-    },
     container: {
         alignItems: 'center',
         width: '100%',
+        flex: 1,
+    },
+    contentContainer: {
+        alignItems: 'center',
+        width: '100%',
+        maxWidth: 800,
+        paddingHorizontal: 20,
+        flex: 1,
     },
     background: {
         backgroundColor: '#373F51',
@@ -18,6 +23,12 @@ const styles = StyleSheet.create({
         margin: 20,
         color: '#F5F5DC',
     },
+    paragraph: {
+        alignItems: 'left',
+        marginBottom: 20,
+        fontSize: 20,
+        color: '#F5F5DC',
+    },
     teamNamesButton:{
         backgroundColor: '#556B2F',
         borderRadius: 5,
@@ -26,11 +37,11 @@ const styles = StyleSheet.create({
         maxWidth: 300,
         marginBottom: 10
     },
-    teamNamesText:{
-        fontSize: 24,
-        color: '#F5F5DC',
-        marginBottom: 10
-    },
+    // teamNamesText:{
+    //     fontSize: 24,
+    //     color: '#F5F5DC',
+    //     marginBottom: 10
+    // },
     teams:{
         marginBottom:40,
     },
@@ -38,20 +49,28 @@ const styles = StyleSheet.create({
         height: 50,
         backgroundColor: '#F5F5DC',
         color: '#000000',
-        marginVertical: 30,
+        marginVertical: 10,
         fontSize: 20,
         borderRadius: 5,
-        width: '100%',
+        maxWidth: 500,
+        // width: '100%',
+    },
+    buttonLayout: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     button: {
         backgroundColor: '#556B2F',
         borderRadius: 5,
-        width: '100%',
+        // width: '100%',
         height: 40,
-        maxWidth: 300,
+        paddingHorizontal: 10,
+        // maxWidth: 300,
         marginBottom: 10
     },
-    buttonText: {
+    text: {
         fontSize: 20,
         color: '#F5F5DC',
     },

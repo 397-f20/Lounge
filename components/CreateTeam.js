@@ -5,21 +5,22 @@ import styles from "../assets/Styles";
 
 
 
-const CreateTeam = ({user, auth, setRoute}) => {
+const CreateTeam = ({ user, auth, setRoute }) => {
     const [teamName, setTeamName] = useState("")
 
 
     function addTeam(teamID) {
         const userUpdate = {
-            firstName: user.firstName, 
-            lastName: user.lastName, 
-            voteToClose: false }
+            firstName: user.firstName,
+            lastName: user.lastName,
+            voteToClose: false
+        }
         var updates = {};
         updates['/teams/' + teamID + '/members/' + auth.uid] = userUpdate;
         updates['/teams/' + teamID + '/name/'] = teamName;
         updates['/users/' + auth.uid + '/teams/' + teamID] = teamName;
         return firebase.database().ref().update(updates)
-            .then( () => setRoute("someRoute"))
+            .then(() => setRoute("someRoute"))
             .catch((error) => alert(error));
     }
 
@@ -32,7 +33,7 @@ const CreateTeam = ({user, auth, setRoute}) => {
         // firebase.database().ref().update(updates)
         // teamRef.once("value", function(snapshot) {
         //     snapshot.val() ? 
-                
+
         //         :
         //         alert("Fail to create");
         // });
@@ -41,13 +42,14 @@ const CreateTeam = ({user, auth, setRoute}) => {
     return (
         <View>
             <View>
+                <Text style={[styles.header, styles.center]}> 🌱 Create a Team </Text>
                 <Text style={[styles.text, styles.center]}> Team Name </Text>
-                <TextInput autoFocus maxLength={40} style={[styles.textInput, styles.center]} value={teamName} onChangeText={text => setTeamName(text)} placeholder="-My first team"/>
+                <TextInput autoFocus maxLength={40} style={[styles.textInput, styles.center]} value={teamName} onChangeText={text => setTeamName(text)} placeholder="eg. Third floor squad" />
                 <TouchableOpacity style={[styles.button, styles.center]} onPress={() => handleOnSubmit()}>
-                    <Text style={[styles.buttonText, styles.center]}>Create Team</Text>
+                    <Text style={[styles.text, styles.center]}>Create Team</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button, styles.center]} onPress={() => setRoute("")}>
-                    <Text style={[styles.buttonText, styles.center]}>Back</Text>
+                    <Text style={[styles.text, styles.center]}>Back</Text>
                 </TouchableOpacity>
             </View>
         </View>

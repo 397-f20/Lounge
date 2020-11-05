@@ -25,8 +25,8 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (auth){
-    const db = firebase.database().ref('/users/' + auth.uid)
+    if (auth) {
+      const db = firebase.database().ref('/users/' + auth.uid)
       const handleData = snap => {
         if (snap.val()) {
           const json = snap.val()
@@ -40,20 +40,20 @@ export default function App() {
 
   // watch data for users in team, etc
   useEffect(() => {
-    if (teamId != ""){
-    const db = firebase.database().ref('/teams/' + teamId);
-    const handleData = snap => {
-      if (snap.val()) {
-        const json = snap.val()
-        setUids(Object.keys(json.members))
-        const teamInfo = Object.values(json.members)
-        setTeamName(json.name)
-        setTeamInfo(teamInfo)
+    if (teamId != "") {
+      const db = firebase.database().ref('/teams/' + teamId);
+      const handleData = snap => {
+        if (snap.val()) {
+          const json = snap.val()
+          setUids(Object.keys(json.members))
+          const teamInfo = Object.values(json.members)
+          setTeamName(json.name)
+          setTeamInfo(teamInfo)
+        }
       }
+      db.on('value', handleData, error => alert(error));
+      return () => { db.off('value', handleData); };
     }
-    db.on('value', handleData, error => alert(error));
-    return () => { db.off('value', handleData); };
-  }
   }, [teamId]);
 
   // teamInfo closed
@@ -76,7 +76,7 @@ export default function App() {
       // console.log(teamInfo)
       // console.log(arr.length)
       // console.log(arr)
-      if (arr.length == teamInfo.length){
+      if (arr.length == teamInfo.length) {
         return true
       }
       else
@@ -88,14 +88,14 @@ export default function App() {
     var arr = teamInfo.filter(user => user.voteGame != null)
     var map = {};
     var mostFrequentElement = arr[0].voteGame;
-    for(var i = 0; i<arr.length; i++){
-      if(!map[arr[i].voteGame]){
-          map[arr[i].voteGame]=1;
-      }else{
-          ++map[arr[i].voteGame];
-          if(map[arr[i].voteGame]>map[mostFrequentElement]){
-              mostFrequentElement = arr[i].voteGame;
-          }
+    for (var i = 0; i < arr.length; i++) {
+      if (!map[arr[i].voteGame]) {
+        map[arr[i].voteGame] = 1;
+      } else {
+        ++map[arr[i].voteGame];
+        if (map[arr[i].voteGame] > map[mostFrequentElement]) {
+          mostFrequentElement = arr[i].voteGame;
+        }
       }
     }
     return mostFrequentElement
@@ -113,41 +113,41 @@ export default function App() {
     //return uids.join('');
   }
 
-  
+
   return (
-    <SafeAreaView style={[styles.background, styles.center]}>
-      <ScrollView>
-      <View style={[styles.container, styles.center]}>
-        {!isLobbyClosed(teamInfo) ?
-          <View style={styles.container}>
-            {!auth ?
-            <LoginForm/> :
-              teamId != "" ?
-                <Lobby auth={auth} teamId={teamId} teamInfo={teamInfo} setTeamId={setTeamId} teamName={teamName}/>
-                :
-                route == "joinTeam" ?
-                  <JoinTeam auth={auth} user={user} setRoute={setRoute}></JoinTeam>
+    <ScrollView style={[styles.background] } >
+      <SafeAreaView style={[styles.center]}>
+        <View style={[styles.contentContainer, styles.center]}>
+          {!isLobbyClosed(teamInfo) ?
+            <View style={styles.container}>
+              {!auth ?
+                <LoginForm /> :
+                teamId != "" ?
+                  <Lobby auth={auth} teamId={teamId} teamInfo={teamInfo} setTeamId={setTeamId} teamName={teamName} />
                   :
-                  route == "createTeam" ?
-                    <CreateTeam auth={auth} user={user} setRoute={setRoute}></CreateTeam>
+                  route == "joinTeam" ?
+                    <JoinTeam auth={auth} user={user} setRoute={setRoute}></JoinTeam>
                     :
-                    <Teams auth={auth} teamId={teamId} setTeamId={setTeamId} setRoute={setRoute}/> 
-            }
-          </View>
-          :
-          !isGameChosen(teamInfo) ?
-            <View style={[styles.container, styles.center]}>
-              <Activities numUsers={teamInfo.length} auth={auth} teamInfo={teamInfo} teamId={teamId}/>
-            </View> 
-            :
-            <View style={[styles.container, styles.center]}>
-              <Game jitsiLink={generateLink(uids)} gameName={theGameChosen(teamInfo)} />
+                    route == "createTeam" ?
+                      <CreateTeam auth={auth} user={user} setRoute={setRoute}></CreateTeam>
+                      :
+                      <Teams auth={auth} teamId={teamId} setTeamId={setTeamId} setRoute={setRoute} />
+              }
             </View>
-        }
-      </View>
-      </ScrollView>
-    </SafeAreaView>
-    
+            :
+            !isGameChosen(teamInfo) ?
+              <View style={[styles.container, styles.center]}>
+                <Activities numUsers={teamInfo.length} auth={auth} teamInfo={teamInfo} teamId={teamId} />
+              </View>
+              :
+              <View style={[styles.container, styles.center]}>
+                <Game jitsiLink={generateLink(uids)} gameName={theGameChosen(teamInfo)} />
+              </View>
+          }
+        </View>
+      </SafeAreaView>
+    </ScrollView>
+
   );
 }
 

@@ -29,20 +29,21 @@ const JoinTeam = ({ user, auth, setRoute }) => {
             snapshot.val() ?
                 addUserToTeam(snapshot.val().name)
                 :
-                alert("Team Does Not Exist");
+                alert("Oops! There's no team with ID '" + teamIDField + "'. Double check the Team ID your friend sent you.");
         });
     }
 
     return (
         <View>
             <View>
+                <Text style={[styles.header, styles.center]}> 🤝🏿 Join a Team </Text>
                 <Text style={[styles.text, styles.center]}> Team ID </Text>
                 <TextInput autoFocus maxLength={40} style={[styles.textInput, styles.center]} value={teamIDField} onChangeText={text => setTeamIDField(text)} placeholder="-TeamID" />
                 <TouchableOpacity style={[styles.button, styles.center]} onPress={() => handleOnSubmit()}>
-                    <Text style={[styles.buttonText, styles.center]}>Join Team</Text>
+                    <Text style={[styles.text, styles.center]}>Join Team</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button, styles.center]} onPress={() => setRoute("")}>
-                    <Text style={[styles.buttonText, styles.center]}>Back</Text>
+                    <Text style={[styles.text, styles.center]}>Back</Text>
                 </TouchableOpacity>
             </View>
         </View>

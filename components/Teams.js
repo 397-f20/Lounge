@@ -22,19 +22,19 @@ const Teams = ({ auth, teamId, setTeamId, setRoute }) => {
 
     return (
         <View style={[styles.container,styles.center]}>
-            <Text style={[styles.header, styles.center]}>Teams!</Text>
+            <Text style={[styles.header, styles.center]}>🥰 Your Teams </Text>
             <ScrollView style={[styles.teams]}>
             {teams.map(team => (
-                        <TouchableOpacity style={styles.teamNamesButton} key={team[0]} onPress={() => setTeamId(team[0])}>
-                            <Text style={[styles.teamNamesText, styles.center]}> {team[1]} </Text>
+                        <TouchableOpacity style={[styles.button, styles.center]} key={team[0]} onPress={() => setTeamId(team[0])}>
+                            <Text style={[styles.text, styles.center]}> {team[1]} </Text>
                         </TouchableOpacity>
                     ))}
             </ScrollView>
             <TouchableOpacity style={[styles.button, styles.center]} onPress={() => setRoute("joinTeam")}>
-                <Text style={[styles.buttonText, styles.center]}>Join New Team</Text>
+                <Text style={[styles.text, styles.center]}> 🤝🏿 Join a Team </Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.button, styles.center]} onPress={() => setRoute("createTeam")}>
-                    <Text style={[styles.buttonText, styles.center]}>Create Team</Text>
+                    <Text style={[styles.text, styles.center]}> 🌱 Create Team </Text>
                 </TouchableOpacity>
             <LogoutButton teamId={teamId} setTeamId={setTeamId}  auth={auth} />
         </View>

@@ -17,7 +17,7 @@ const LogoutButton = ({ teamId, setTeamId, auth}) => {
 
     return (
         <TouchableOpacity style={[styles.button, styles.center]} onPress={() => logOut()}>
-            <Text style={[styles.buttonText, styles.center]}>Logout</Text>
+            <Text style={[styles.text, styles.center]}> ✌️ Logout</Text>
         </TouchableOpacity>
     )
 }

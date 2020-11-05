@@ -29,7 +29,7 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName }) => {
 
     const copyTeamID = (teamId) => {
         Clipboard.setString(teamId);
-        alert("Team ID copied to clipboard");
+        alert("Team ID copied to clipboard. Send it to friends so they can join your squad!");
     }
 
     const onlineUsers = (teamInfo) => {
@@ -61,38 +61,39 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName }) => {
         <View style={styles.container}>
             <Text style={[styles.header, styles.center]}>{teamName}</Text>
             <TouchableOpacity style={[styles.button, styles.center]} title={"Join Lounge"} onPress={() => copyTeamID(teamId)} >
-                <Text style={[styles.buttonText, styles.center]} >Team ID: {teamId}</Text>
+                <Text style={[styles.text, styles.center]} >📋 Copy team ID</Text>
             </TouchableOpacity>
             {(!joinLobby) &&
                 <TouchableOpacity style={[styles.button, styles.center]} title={"Join Lounge"} onPress={goOnlineInTeam} >
-                    <Text style={styles.buttonText}>Join Lounge</Text>
+                    <Text style={styles.text}> 😄 Go Online </Text>
                 </TouchableOpacity>
             }
             {teamInfo ? (
                 <View style={[styles.container, styles.center]}>
                     {!myVote && joinLobby &&
                         <TouchableOpacity style={[styles.button, styles.center]} title={"Vote to Close"} onPress={voteToClose}>
-                            <Text style={[styles.buttonText, styles.center]}>Vote to Close Lobby</Text>
+                            <Text style={[styles.text, styles.center]}> ✅ Vote to Close Lobby </Text>
                         </TouchableOpacity>}
                     {myVote && joinLobby &&
                         <TouchableOpacity style={[styles.button, styles.center]} title={"Cancel vote"} onPress={removeVote}>
-                            <Text style={[styles.buttonText, styles.center]}>Cancel vote</Text>
+                            <Text style={[styles.text, styles.center]}> 🚫 Cancel vote </Text>
                         </TouchableOpacity>}
-                    
-                        <Text style={styles.header}>Online Users</Text>
+                        <Text style={styles.header}> Online </Text>
+                        { onlineUsers(teamInfo).length == 0 &&
+                            <Text style={styles.text}> No one's online at the moment </Text>}
                         {onlineUsers(teamInfo).map(user => (
                             <View key={user.firstName} style={styles.list}>
                                 <Text style={[styles.listText, styles.center]}>{user.firstName}{user.voteToClose == "true" && " ✅"} </Text>
                             </View>
                         ))}
-                        <Text style={styles.header}>Offline Users</Text>
+                        <Text style={styles.header}> Offline </Text>
                         {offlineUsers(teamInfo).map(user => (
                             <View key={user.firstName} style={styles.list}>
                                 <Text style={[styles.listText, styles.center]}>{user.firstName}</Text>
                             </View>
                         ))}
                     <TouchableOpacity style={[styles.button, styles.center]} title={"Cancel vote"} onPress={back}>
-                        <Text style={[styles.buttonText, styles.center]}>Back</Text>
+                        <Text style={[styles.text, styles.center]}> Back </Text>
                     </TouchableOpacity>
                 </View>)
                 :
