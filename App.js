@@ -20,6 +20,7 @@ export default function App() {
   const [teamInfo, setTeamInfo] = useState(null);
   const [route, setRoute] = useState("")
   const [teamName, setTeamName] = useState("")
+  const [lobbyClosed, setLobbyClosed] = useState(false);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(setAuth)
@@ -48,12 +49,13 @@ export default function App() {
           const json = snap.val()
           setUids(Object.keys(json.members))
           const updatedTeamInfo = Object.values(json.members)
-          if (teamInfo && teamInfo.length < updatedTeamInfo.length)
-            notify(
-              "A new member joined " + teamInfo.name,
-              "Get started playing a game",
-              "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/237/waving-hand-sign_1f44b.png",
-              window.focus() )
+          // Doesn't work right - notifies when just joining a team if previously joined team had fewer members
+          // if (teamInfo && teamInfo.length > 0 && teamInfo.length < updatedTeamInfo.length)
+          //   notify(
+          //     "A new member joined " + teamInfo.name,
+          //     "Get started playing a game",
+          //     "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/237/waving-hand-sign_1f44b.png",
+          //     window.focus() )
           setTeamName(json.name)
           setTeamInfo(updatedTeamInfo)
         }
@@ -70,12 +72,21 @@ export default function App() {
     if (teamInfo) {
       // check for both false literal and false as a string just to be safe
       var onlineUsers = teamInfo.filter(user => user.status == "online")
-      var arr = teamInfo.filter(user => user.status == "online" && (user.voteToClose == "false" || !user.voteToClose) )
+      var arr = teamInfo.filter(user => user.status == "online" && (user.voteToClose == "false" || !user.voteToClose))
       // console.log("arr");
       // console.log(arr);
-      return (arr.length == 0 && onlineUsers.length > 1)
+      var closed = arr.length == 0 && onlineUsers.length > 1
+      if (closed && !lobbyClosed) {
+        notify(
+          teamName + " lobby closed!",
+          "Vote to help the squad choose a game",
+          "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/237/waving-hand-sign_1f44b.png",
+          window.focus());
+          setLobbyClosed(closed);
+      }
+      return closed;
     }
-    return false
+    return false;
   }
 
   const isGameChosen = (teamInfo) => {

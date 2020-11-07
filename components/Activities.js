@@ -39,6 +39,7 @@ const Activities = ({ numUsers, auth, teamInfo, teamId }) => {
       if (snap.val()) {
         const json = snap.val()
         const games = Object.values(json)
+        console.log(games);
         setGames(games)
       }
     }
