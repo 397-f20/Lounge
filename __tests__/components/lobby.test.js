@@ -8,6 +8,7 @@ const auth = {
     email: "drew@parsons.net"
 }
 const teamId = "-asdfjnasljkdfasdf"
+const teamName = "some team name"
 const teamInfo = [{
     firstName: "Drew",
     lastName: "Parsons",
@@ -16,8 +17,8 @@ const teamInfo = [{
 }]
 
 describe('<Lobby />', () => {
-    it('has 4 children', () => {
-      const login = renderer.create(<Lobby auth={auth} teamID={teamId} teamInfo={teamInfo} />)
+    it('has 4 children', async () => {
+      const login = renderer.create(<Lobby auth={auth} teamID={teamId} teamInfo={teamInfo} teamName={teamName} />)
       const tree = login.toJSON();
       // console.log(tree)
       // console.log(tree.children[0].children)

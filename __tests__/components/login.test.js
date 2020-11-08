@@ -4,7 +4,7 @@ import renderer from 'react-test-renderer';
 import LoginForm from '../../components/Login'
 
 describe('<LoginForm />', () => {
-    it('has 1 child', () => {
+    it('has 1 child', async () => {
       const login = renderer.create(<LoginForm/>)
       const tree = login.toJSON();
       // console.log(tree)

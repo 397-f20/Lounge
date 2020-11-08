@@ -22,10 +22,10 @@ describe('Test Signup', () => {
   it('launches', () => {
     // Navigate to the Sign Up page
     cy.visit('/');
-    cy.contains("Sign Up").click();
+    cy.contains("Sign up").click();
     // Test Sign Up
     var email_test = makeid(3) + '@' + makeid(3) + ".com";
-    cy.get('input[placeholder="eg. JohnDoe@email.com"]')
+    cy.get('input[placeholder="eg. john@email.com"]').focus().should('be.enabled')
       .type(email_test)
       .should("have.value", email_test);
     cy.get('input[placeholder="eg. John"]')
@@ -44,6 +44,6 @@ describe('Test Signup', () => {
       .should("have.value", "123456");
     // Finalize sign up
     // It only works the first time you sign up.
-    cy.contains("Sign Up").click({ force: true });
+    cy.contains("Sign up").click({ force: true });
   });
 }); 

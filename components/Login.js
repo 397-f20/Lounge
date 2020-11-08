@@ -40,13 +40,13 @@ const LoginForm = () => {
         <View style={[styles.background, styles.container]}>
             {loginType == 'Login' &&
                 <View style={[styles.background, styles.container]}>
-                    <Text style={[styles.header]}>Log in</Text>
+                    <Text style={[styles.header]}>Login</Text>
                     <Text style={[styles.text]}> Username </Text>
                     <TextInput autoFocus maxLength={40} style={[styles.textInput, styles.center]} value={emailField} placeholder="eg. john@email.com" onChangeText={text => setEmailField(text)} />
                     <Text style={[styles.text]}> Password </Text>
                     <TextInput autoFocus maxLength={40} style={[styles.textInput, styles.center]} value={passField} onChangeText={text => setPassField(text)} secureTextEntry />
                     <TouchableOpacity style={[styles.button, styles.center]} onPress={() => handleOnSubmit()}>
-                        <Text style={[styles.text, styles.center]}>Login</Text>
+                        <Text style={[styles.text, styles.center]}>Log in</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[styles.button, styles.center]} onPress={() => setLoginType("")}>
                         <Text style={[styles.text, styles.center]}> Back</Text>
@@ -67,7 +67,7 @@ const LoginForm = () => {
                     <Text style={[styles.text, styles.center]}> Confirm Password </Text>
                     <TextInput autoFocus maxLength={40} style={[styles.textInput, styles.center]} value={confirmPassField} onChangeText={text => setConfirmPassField(text)} secureTextEntry />
                     <TouchableOpacity style={[styles.button, styles.center]} onPress={() => handleOnSubmit()}>
-                        <Text style={[styles.text, styles.center]}>Sign Up</Text>
+                        <Text style={[styles.text, styles.center]}>Sign up</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[ styles.button, styles.center]} onPress={() => setLoginType("")}>
                         <Text style={[styles.text, styles.center]}> Back </Text>
