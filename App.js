@@ -81,7 +81,7 @@ export default function App() {
           teamName + " lobby closed!",
           "Vote to help the squad choose a game",
           "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/237/waving-hand-sign_1f44b.png",
-          window.focus());
+          () => {if (Platform.OS == 'web') window.focus() });
           setLobbyClosed(closed);
       }
       return closed;

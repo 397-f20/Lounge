@@ -47,7 +47,7 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName }) => {
                     "Someone came online in " + teamName,
                     "Close the lobby to start the chillsesh",
                     "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/237/waving-hand-sign_1f44b.png",
-                    window.focus() )
+                    () => {if (Platform.OS == 'web') window.focus() } )
             // console.log("online");
             // console.log(arr);
             setOnlineUsers(arr);
