@@ -21,6 +21,7 @@ export default function App() {
   const [route, setRoute] = useState("")
   const [teamName, setTeamName] = useState("")
   const [lobbyClosed, setLobbyClosed] = useState(false);
+  const [myVote, setMyVote] = useState(false);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(setAuth)
@@ -142,7 +143,7 @@ export default function App() {
               {!auth ?
                 <LoginForm /> :
                 teamId != "" ?
-                  <Lobby auth={auth} teamId={teamId} teamInfo={teamInfo} setTeamId={setTeamId} teamName={teamName} />
+                  <Lobby auth={auth} teamId={teamId} teamInfo={teamInfo} setTeamId={setTeamId} teamName={teamName} myVote={myVote} setMyVote={setMyVote} />
                   :
                   route == "joinTeam" ?
                     <JoinTeam auth={auth} user={user} setRoute={setRoute}></JoinTeam>

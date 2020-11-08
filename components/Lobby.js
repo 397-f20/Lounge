@@ -6,9 +6,8 @@ import LogoutButton from './LogoutButton';
 import { firebase } from '../firebase';
 import styles from "../assets/Styles";
 
-const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName }) => {
+const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName, myVote, setMyVote }) => {
     const teamUserRef = firebase.database().ref('/teams/' + teamId + "/members/" + auth.uid);
-    const [myVote, setMyVote] = useState(false);
     const [joinLobby, setJoinLobby] = useState(false);
     const [onlineUsers, setOnlineUsers] = useState([]);
 
