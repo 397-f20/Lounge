@@ -70,7 +70,7 @@ export default function App() {
   const isLobbyClosed = (teamInfo) => {
     // console.log("teamInfo");
     // console.log(teamInfo);
-    if (teamInfo) {
+    if (myVote && teamInfo) {
       // check for both false literal and false as a string just to be safe
       var onlineUsers = teamInfo.filter(user => user.status == "online")
       var arr = teamInfo.filter(user => user.status == "online" && (user.voteToClose == "false" || !user.voteToClose))
