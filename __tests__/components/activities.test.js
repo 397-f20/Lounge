@@ -4,11 +4,10 @@ import renderer from 'react-test-renderer';
 import Activities from '../../components/Activities'
 
 describe('<Lobby />', () => {
-    it('has 4 children', async () => {
+    it('has 1 child', async () => {
         const activities = renderer.create(<Activities />)
-        const tree = activites.toJSON();
-        console.log(tree)
+        const tree = activities.toJSON();
 
-      expect(tree.children.length).toBe(4);
+      expect(tree.children.length).toBe(1);
     });
   });
