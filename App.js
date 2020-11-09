@@ -18,7 +18,7 @@ export default function App() {
   const [uids, setUids] = useState([]);
   const [teamId, setTeamId] = useState("");
   const [teamInfo, setTeamInfo] = useState(null);
-  const [route, setRoute] = useState("")
+  const [route, setRoute] = useState("Login")
   const [teamName, setTeamName] = useState("")
   const [lobbyClosed, setLobbyClosed] = useState(false);
   const [myVote, setMyVote] = useState(false);
@@ -84,6 +84,7 @@ export default function App() {
           "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/237/waving-hand-sign_1f44b.png",
           () => {if (Platform.OS == 'web') window.focus() });
           setLobbyClosed(closed);
+          setRoute("GameVoting");
       }
       return closed;
     }
@@ -134,11 +135,48 @@ export default function App() {
     //return uids.join('');
   }
 
+  useEffect(() => {
+    console.log(auth)
+    console.log(teamId)
+    console.log(teamInfo)
+    if (!auth){
+      setRoute("Login")
+    }
+    else if (teamId == ""){
+      setRoute("Teams")
+    }
+    else if (teamId != "" && !isLobbyClosed(teamInfo)){
+      setRoute("Lobby")
+    }
+    else if (isLobbyClosed(teamInfo) && !isGameChosen(teamInfo)){
+      setRoute("Activities")
+    }
+    else if (isGameChosen(teamInfo)){
+      setRoute("Game")
+    }
+  }, [auth,teamId, teamInfo]);
+
+  const renderSwitch = (route) => {
+    switch(route) {
+      case 'Login': return <LoginForm />;
+      case 'Teams': return <Teams auth={auth} teamId={teamId} setTeamId={setTeamId} setRoute={setRoute} />;
+      case "Lobby": return <Lobby auth={auth} teamId={teamId} teamInfo={teamInfo} setTeamId={setTeamId} teamName={teamName} myVote={myVote} setMyVote={setMyVote} />;
+      case "Activities" : return <View style={[styles.container, styles.center]}>
+      <Activities numUsers={teamInfo.length} auth={auth} teamInfo={teamInfo} teamId={teamId} />
+    </View>;
+      case "Game": return <View style={[styles.container, styles.center]}>
+      <Game jitsiLink={generateLink(uids)} gameName={theGameChosen(teamInfo)} />
+    </View>;
+    case "joinTeam": return <JoinTeam auth={auth} user={user} setRoute={setRoute}></JoinTeam>;
+    case "createTeam": return <CreateTeam auth={auth} user={user} setRoute={setRoute}></CreateTeam>;
+  }};
+
   return (
     <ScrollView style={[styles.background]} >
       <SafeAreaView style={[styles.center]}>
         <View style={[styles.contentContainer, styles.center]}>
-          {!isLobbyClosed(teamInfo) ?
+         {renderSwitch(route)}
+          {/* {!isLobbyClosed(teamInfo) ?
             <View style={styles.container}>
               {!auth ?
                 <LoginForm /> :
@@ -163,7 +201,7 @@ export default function App() {
               <View style={[styles.container, styles.center]}>
                 <Game jitsiLink={generateLink(uids)} gameName={theGameChosen(teamInfo)} />
               </View>
-          }
+          } */}
         </View>
       </SafeAreaView>
     </ScrollView>
