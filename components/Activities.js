@@ -77,7 +77,14 @@ const Activities = ({ numUsers, auth, teamInfo, teamId, setIsPlaying, jitsiLink}
         var historyId = generateHistoryId(teamInfo);
         var historyIdRef = firebase.database().ref('teams/' + teamId + '/history/' + historyId);
         historyIdRef.update(updates);
-        setIsPlaying(historyId);
+
+        setIsPlaying(historyId)
+        const teamUserRef = firebase.database().ref('/teams/' + teamId + "/members/" + auth.uid);
+        const offlineStatus = {
+            status: "offline",
+            voteToClose: "false"
+        };
+        teamUserRef.update(offlineStatus);
       }
     }
   },[teamInfo]);
