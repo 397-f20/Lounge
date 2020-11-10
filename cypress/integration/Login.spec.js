@@ -18,10 +18,10 @@ describe('Test Login', () => {
         .should("have.value", password);
   
       // Click login button
-      cy.contains("Login").click({ force: true });
+      cy.contains("Log in").click({ force: true });
   
-      cy.contains("Join New Team")
-        .should("have.text", "Join New Team");
+      cy.contains("Join a Team")
+        .should("have.text", " 🤝🏿 Join a Team ");
   
       cy.contains("Logout").click({ force: true });
   
