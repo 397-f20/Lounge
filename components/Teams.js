@@ -39,7 +39,7 @@ const Teams = ({ auth, teamId, setTeamId, setRoute }) => {
             <TouchableOpacity style={[styles.button, styles.center]} onPress={() => setRoute("createTeam")}>
                     <Text style={[styles.text, styles.center]}> 🌱 Create Team </Text>
                 </TouchableOpacity>
-            <LogoutButton teamId={teamId} setTeamId={setTeamId}  auth={auth} />
+            <LogoutButton teamId={teamId} setTeamId={setTeamId} auth={auth} setRoute={setRoute}/>
         </View>
         
     );

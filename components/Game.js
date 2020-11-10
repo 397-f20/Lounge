@@ -4,9 +4,24 @@ import { firebase } from '../firebase';
 import styles from "../assets/Styles";
 
 
-const Game = ({ jitsiLink, gameName }) => {
+const Game = ({ isPlaying, teamId }) => {
   const [gameInfo, setGameInfo] = useState({});
+  const [gameName, setGameName] = useState("");
+  const [link, setLink] = useState("");
+  
+  var getHistoryRef = firebase.database().ref('teams/' + teamId + '/history/' + isPlaying);
   var getGameRef = firebase.database().ref('games/' + gameName + "/");
+
+  useEffect(() => {
+    const handleData = snap => {
+      if (snap.val()) {
+        setLink(snap.val().link);
+        setGameName(snap.val().gameName);
+      }
+    }
+    getHistoryRef.once('value', handleData, error => alert(error));
+    return () => { getHistoryRef.off('value', handleData); };
+  }, []);
 
   useEffect(() => {
     const handleData = snap => {
@@ -30,9 +45,9 @@ const Game = ({ jitsiLink, gameName }) => {
         <Text style={[styles.text, styles.center, {fontWeight:"bold"}]}
           onPress={() => {
             if (Platform.OS == 'web') {
-              window.open('https://meet.jit.si/' + JSON.stringify(jitsiLink).slice(1, -1), '_blank');
+              window.open('https://meet.jit.si/' + JSON.stringify(link).slice(1, -1), '_blank');
             } else {
-              Linking.openURL('https://meet.jit.si/' + JSON.stringify(jitsiLink).slice(1, -1))
+              Linking.openURL('https://meet.jit.si/' + JSON.stringify(link).slice(1, -1))
             }
           }
           }>

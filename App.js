@@ -22,6 +22,7 @@ export default function App() {
   const [teamName, setTeamName] = useState("")
   const [lobbyClosed, setLobbyClosed] = useState(false);
   const [myVote, setMyVote] = useState(false);
+  const [isPlaying, setIsPlaying] = useState("");
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(setAuth)
@@ -86,41 +87,13 @@ export default function App() {
           setLobbyClosed(closed);
           setRoute("GameVoting");
       }
+      if (closed) {
+        const db = firebase.database().ref('/teams/' + teamId + '/history');
+        
+      }
       return closed;
     }
     return false;
-  }
-
-  const isGameChosen = (teamInfo) => {
-    if (teamInfo) {
-      var onlineUsers = teamInfo.filter(user => user.status == "online")
-      var arr = teamInfo.filter(user => user.status == "online" && user.voteGame != null)
-      // console.log(teamInfo)
-      // console.log(arr.length)
-      // console.log(arr)
-      if (arr.length == onlineUsers.length) {
-        return true
-      }
-      else
-        return false
-    }
-  }
-
-  const theGameChosen = (teamInfo) => {
-    var arr = teamInfo.filter(user => user.status == "online" && user.voteGame != null)
-    var map = {};
-    var mostFrequentElement = arr[0].voteGame;
-    for (var i = 0; i < arr.length; i++) {
-      if (!map[arr[i].voteGame]) {
-        map[arr[i].voteGame] = 1;
-      } else {
-        ++map[arr[i].voteGame];
-        if (map[arr[i].voteGame] > map[mostFrequentElement]) {
-          mostFrequentElement = arr[i].voteGame;
-        }
-      }
-    }
-    return mostFrequentElement
   }
 
   // useEffect(() => {
@@ -136,24 +109,22 @@ export default function App() {
   }
 
   useEffect(() => {
-    console.log(auth)
-    console.log(teamId)
-    console.log(teamInfo)
     if (!auth){
       setRoute("Login")
     }
     else if (teamId == ""){
       setRoute("Teams")
     }
+    else if (isPlaying != ""){
+      setRoute("Game")
+    }
     else if (teamId != "" && !isLobbyClosed(teamInfo)){
       setRoute("Lobby")
     }
-    else if (isLobbyClosed(teamInfo) && !isGameChosen(teamInfo)){
+    else if (isLobbyClosed(teamInfo) && isPlaying == ""){
       setRoute("Activities")
     }
-    else if (isGameChosen(teamInfo)){
-      setRoute("Game")
-    }
+    
   }, [auth,teamId, teamInfo]);
 
   const renderSwitch = (route) => {
@@ -162,10 +133,10 @@ export default function App() {
       case 'Teams': return <Teams auth={auth} teamId={teamId} setTeamId={setTeamId} setRoute={setRoute} />;
       case "Lobby": return <Lobby auth={auth} teamId={teamId} teamInfo={teamInfo} setTeamId={setTeamId} teamName={teamName} myVote={myVote} setMyVote={setMyVote} />;
       case "Activities" : return <View style={[styles.container, styles.center]}>
-      <Activities numUsers={teamInfo.length} auth={auth} teamInfo={teamInfo} teamId={teamId} />
+      <Activities numUsers={teamInfo.length} auth={auth} teamInfo={teamInfo} teamId={teamId} setIsPlaying={setIsPlaying} jitsiLink={generateLink(uids)} />
     </View>;
       case "Game": return <View style={[styles.container, styles.center]}>
-      <Game jitsiLink={generateLink(uids)} gameName={theGameChosen(teamInfo)} />
+      <Game isPlaying={isPlaying} teamId={teamId}/>
     </View>;
     case "joinTeam": return <JoinTeam auth={auth} user={user} setRoute={setRoute}></JoinTeam>;
     case "createTeam": return <CreateTeam auth={auth} user={user} setRoute={setRoute}></CreateTeam>;

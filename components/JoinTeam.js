@@ -19,7 +19,7 @@ const JoinTeam = ({ user, auth, setRoute }) => {
         updates['/teams/' + teamIDField + '/members/' + auth.uid] = userUpdate;
         updates['/users/' + auth.uid + '/teams/' + teamIDField] = teamName;
         return firebase.database().ref().update(updates)
-            .then(() => setRoute("someRoute"))
+            .then(() => setRoute("Teams"))
             .catch((error) => alert(error));
     }
 

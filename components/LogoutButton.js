@@ -4,7 +4,7 @@ import { firebase } from '../firebase';
 import styles from "../assets/Styles";
 
 
-const LogoutButton = ({ teamId, setTeamId, auth}) => {
+const LogoutButton = ({ teamId, setTeamId, auth, setRoute}) => {
     const teamUserRef = firebase.database().ref('/teams/' + teamId + "/members/" + auth.uid);
     const logOut = () => {
         const offlineStatus = {
@@ -12,6 +12,7 @@ const LogoutButton = ({ teamId, setTeamId, auth}) => {
             voteToClose: "false"
         };
         setTeamId("");
+        setRoute("Login");
         teamUserRef.update(offlineStatus).then(() => firebase.auth().signOut());
     }
 

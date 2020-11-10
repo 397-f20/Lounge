@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import styles from "../assets/Styles";
 
 
-const Activities = ({ numUsers, auth, teamInfo, teamId }) => {
+const Activities = ({ numUsers, auth, teamInfo, teamId, setIsPlaying, jitsiLink}) => {
   const [myGameVote, setMyGameVote] = useState("");
   const [votedGames, setVotedGames] = useState([]);
 
@@ -54,6 +54,50 @@ const Activities = ({ numUsers, auth, teamInfo, teamId }) => {
     }
     else
       return 0
+  }
+
+  const generateHistoryId = (teamInfo) => {
+    var onlineUsers = teamInfo.filter(user => user.status == "online");
+    var arr = onlineUsers.map(obj => Object.values(obj)[0]);
+    return arr.join();
+  }
+
+  useEffect(() =>{
+    if (teamInfo) {
+      var onlineUsers = teamInfo.filter(user => user.status == "online");
+      var arr = teamInfo.filter(user => user.status == "online" && user.voteGame != null);
+
+      if (arr.length == onlineUsers.length) {
+        const updates = {
+          gameName: theGameChosen(teamInfo),
+          playUsers: onlineUsers,
+          link: jitsiLink,
+        };
+        
+        var historyId = generateHistoryId(teamInfo);
+        var historyIdRef = firebase.database().ref('teams/' + teamId + '/history/' + historyId);
+        historyIdRef.update(updates);
+        setIsPlaying(historyId);
+      }
+    }
+  },[teamInfo]);
+
+
+  const theGameChosen = (teamInfo) => {
+    var arr = teamInfo.filter(user => user.status == "online" && user.voteGame != null)
+    var map = {};
+    var mostFrequentElement = arr[0].voteGame;
+    for (var i = 0; i < arr.length; i++) {
+      if (!map[arr[i].voteGame]) {
+        map[arr[i].voteGame] = 1;
+      } else {
+        ++map[arr[i].voteGame];
+        if (map[arr[i].voteGame] > map[mostFrequentElement]) {
+          mostFrequentElement = arr[i].voteGame;
+        }
+      }
+    }
+    return mostFrequentElement
   }
 
   return (
