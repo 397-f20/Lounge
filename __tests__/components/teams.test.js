@@ -1,7 +1,7 @@
 import React from 'react';
 import renderer from 'react-test-renderer';
 
-import Teams from '../../components/teams'
+import Teams from '../../components/Teams'
 
 const auth = {
     uid: "pabaqb6xLONDsFw7zRazRaHMAQ52",
