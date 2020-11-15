@@ -25,11 +25,12 @@ const History = ({ teamId, setRoute, setIsPlaying }) => {
 
     return (
         <View>
-            <Text style={[styles.header, styles.center]}> History Here </Text>
+            <Text style={[styles.header, styles.center]}> History 🦕 </Text>
             {teamHistory.map(game => (
-                <View>
-                    <Text>{game[1].gameName}</Text>
-                    <Text>{game[1].created}</Text>
+                <View style={[styles.paragraph]}>
+                    <Text style={styles.text}>{game[1].gameName}</Text>
+                    <Text style={styles.text}>{game[1].created}</Text>
+                    <Text style={styles.text}>{game[1].playUsers[0].firstName + ", " + game[1].playUsers[1].firstName + " & " + (game[1].playUsers.length - 2) + " others!"}</Text>
                     <TouchableOpacity style={[styles.button, styles.center]} onPress={() => {
                         if (Platform.OS == 'web') {
                             window.open('https://meet.jit.si/' + JSON.stringify(game[1].link).slice(1, -1), '_blank');
@@ -39,11 +40,14 @@ const History = ({ teamId, setRoute, setIsPlaying }) => {
                         }
                     }}>
                         <Text style={[styles.text, styles.center, { fontWeight: "bold" }]}>
-                            💖 Join Call!
+                            Join Call
                         </Text>
                     </TouchableOpacity>
                 </View>
             ))}
+            <TouchableOpacity style={[styles.button, styles.center]} title={"Back button"} onPress={() => setRoute('Lobby')}>
+                <Text style={[styles.text, styles.center]}> Back </Text>
+            </TouchableOpacity>
         </View>
     )
 }

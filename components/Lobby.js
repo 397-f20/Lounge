@@ -109,7 +109,7 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName, myVote, setMyVote,
                             <Text style={[styles.listText, styles.center]}>{user.firstName}</Text>
                         </View>
                     ))}
-                    <TouchableOpacity style={[styles.button, styles.center]} title={"Cancel vote"} onPress={back}>
+                    <TouchableOpacity style={[styles.button, styles.center]} title={"Back button"} onPress={back}>
                         <Text style={[styles.text, styles.center]}> Back </Text>
                     </TouchableOpacity>
                 </View>)
