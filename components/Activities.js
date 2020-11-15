@@ -72,6 +72,7 @@ const Activities = ({ numUsers, auth, teamInfo, teamId, setIsPlaying, jitsiLink}
           gameName: theGameChosen(teamInfo),
           playUsers: onlineUsers,
           link: jitsiLink,
+          created: firebase.database.ServerValue.TIMESTAMP,
         };
         
         var historyId = generateHistoryId(teamInfo);

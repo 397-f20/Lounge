@@ -6,7 +6,7 @@ import LogoutButton from './LogoutButton';
 import { firebase } from '../firebase';
 import styles from "../assets/Styles";
 
-const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName, myVote, setMyVote }) => {
+const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName, myVote, setMyVote, setRoute, }) => {
     const teamUserRef = firebase.database().ref('/teams/' + teamId + "/members/" + auth.uid);
     const [joinLobby, setJoinLobby] = useState(false);
     const [onlineUsers, setOnlineUsers] = useState([]);
@@ -76,6 +76,9 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName, myVote, setMyVote 
             <Text style={[styles.header, styles.center]}>{teamName}</Text>
             <TouchableOpacity style={[styles.button, styles.center]} title={"Join Lounge"} onPress={() => copyTeamID(teamId)} >
                 <Text style={[styles.text, styles.center]} >📋 Copy team ID</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={[styles.button, styles.center]} title={"History"} onPress={() => setRoute('history')}>
+                <Text style={[styles.text, styles.center]}> 🦕🦖 Game History </Text>
             </TouchableOpacity>
             {(!joinLobby) &&
                 <TouchableOpacity style={[styles.button, styles.center]} title={"Join Lounge"} onPress={goOnlineInTeam} >

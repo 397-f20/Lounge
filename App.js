@@ -10,6 +10,7 @@ import JoinTeam from './components/JoinTeam';
 import CreateTeam from './components/CreateTeam';
 import styles from "./assets/Styles";
 import notify from './util/notify';
+import History from './components/History';
 
 
 export default function App() {
@@ -131,7 +132,7 @@ export default function App() {
     switch(route) {
       case 'Login': return <LoginForm />;
       case 'Teams': return <Teams auth={auth} teamId={teamId} setTeamId={setTeamId} setRoute={setRoute} />;
-      case "Lobby": return <Lobby auth={auth} teamId={teamId} teamInfo={teamInfo} setTeamId={setTeamId} teamName={teamName} myVote={myVote} setMyVote={setMyVote} />;
+      case "Lobby": return <Lobby auth={auth} teamId={teamId} teamInfo={teamInfo} setTeamId={setTeamId} teamName={teamName} myVote={myVote} setMyVote={setMyVote} setRoute={setRoute} />;
       case "Activities" : return <View style={[styles.container, styles.center]}>
       <Activities numUsers={teamInfo.length} auth={auth} teamInfo={teamInfo} teamId={teamId} setIsPlaying={setIsPlaying} jitsiLink={generateLink(uids)} />
     </View>;
@@ -140,6 +141,7 @@ export default function App() {
     </View>;
     case "joinTeam": return <JoinTeam auth={auth} user={user} setRoute={setRoute}></JoinTeam>;
     case "createTeam": return <CreateTeam auth={auth} user={user} setRoute={setRoute}></CreateTeam>;
+    case "history": return <History teamId={teamId} setRoute={setRoute} setIsPlaying={setIsPlaying}></History>;
   }};
 
   return (
