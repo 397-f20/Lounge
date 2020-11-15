@@ -78,7 +78,7 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName, myVote, setMyVote,
                 <Text style={[styles.text, styles.center]} >📋 Copy team ID</Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.button, styles.center]} title={"History"} onPress={() => setRoute('history')}>
-                <Text style={[styles.text, styles.center]}> 🦕🦖 Game History </Text>
+                <Text style={[styles.text, styles.center]}> 🦕 Game History </Text>
             </TouchableOpacity>
             {(!joinLobby) &&
                 <TouchableOpacity style={[styles.button, styles.center]} title={"Join Lounge"} onPress={goOnlineInTeam} >
