@@ -1,6 +1,5 @@
-describe('Test JoinTeam', () => {
-    var teamid = "cypress-testing-team";
-    var teamName = "cypress testing team";
+describe('Test CreateTeam', () => {
+    var teamName = "My new team name";
     it('Join New Team', () => {
         // Navigate to the login page
         cy.visit('/');
@@ -21,14 +20,13 @@ describe('Test JoinTeam', () => {
 
         // Navigate to the joinTeam page
         // Click join new team
-        cy.contains("Join a Team").click({ force: true });
-        cy.get('input[placeholder="-TeamID"]')
-        .type(teamid)
-        .should("have.value", teamid);
-        cy.contains("Join Team").click();
-        
-        cy.contains(teamName).should('be.visible');
+        cy.contains(" 🌱 Create Team ").click({ force: true });
+        cy.get('input[placeholder="eg. Third floor squad"]')
+        .type(teamName)
+        .should("have.value", teamName);
+        cy.contains("Create Team").click();
 
+        cy.contains(teamName).should('be.visible');
         // Navigate to the login page
         cy.contains("Logout").click({ force: true });
     });
