@@ -71,6 +71,17 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName, myVote, setMyVote,
         teamUserRef.update(offlineStatus);
     };
 
+    const leave = () => {
+        var updates = {};
+        updates['/teams/' + teamId + '/members/' + auth.uid] = null;
+        updates['/users/' + auth.uid + '/teams/' + teamId] = null;
+        setTeamId("");
+        return firebase.database().ref().update(updates)
+            .then(() => setRoute("Teams"))
+            .catch((error) => alert(error));
+
+    };
+
     return ( //Clipboard.setString('hello world');
         <View style={styles.container}>
             <Text style={[styles.header, styles.center]}>{teamName}</Text>
@@ -109,6 +120,9 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName, myVote, setMyVote,
                             <Text style={[styles.listText, styles.center]}>{user.firstName}</Text>
                         </View>
                     ))}
+                    <TouchableOpacity style={[styles.button, styles.center]} title={"Leave Button"} onPress={leave}>
+                        <Text style={[styles.text, styles.center]}> Leave </Text>
+                    </TouchableOpacity>
                     <TouchableOpacity style={[styles.button, styles.center]} title={"Back button"} onPress={back}>
                         <Text style={[styles.text, styles.center]}> Back </Text>
                     </TouchableOpacity>

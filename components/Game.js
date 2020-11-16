@@ -4,7 +4,7 @@ import { firebase } from '../firebase';
 import styles from "../assets/Styles";
 
 
-const Game = ({ isPlaying, teamId, setIsPlaying}) => {
+const Game = ({ isPlaying, teamId, setReset}) => {
   const [gameInfo, setGameInfo] = useState({});
   const [gameName, setGameName] = useState("");
   const [link, setLink] = useState("");
@@ -55,7 +55,7 @@ const Game = ({ isPlaying, teamId, setIsPlaying}) => {
         </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={[styles.button, styles.center]} onPress={() => setIsPlaying("")}>
+      <TouchableOpacity style={[styles.button, styles.center]} onPress={() => setReset(true)}>
           <Text style={[styles.text, styles.center]}>Back</Text>
       </TouchableOpacity>
     </View>

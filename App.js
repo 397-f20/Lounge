@@ -24,6 +24,18 @@ export default function App() {
   const [lobbyClosed, setLobbyClosed] = useState(false);
   const [myVote, setMyVote] = useState(false);
   const [isPlaying, setIsPlaying] = useState("");
+  const [reset, setReset] = useState(false)
+
+
+  useEffect(() => {
+    if(reset == true){
+      setIsPlaying("");
+      setMyVote(false);
+      setLobbyClosed(false);
+      setReset(false);
+    }
+  }, [reset]);
+
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged(setAuth)
@@ -137,7 +149,7 @@ export default function App() {
       <Activities numUsers={teamInfo.length} auth={auth} teamInfo={teamInfo} teamId={teamId} isPlaying={isPlaying} setIsPlaying={setIsPlaying} jitsiLink={generateLink(uids)} />
     </View>;
       case "Game": return <View style={[styles.container, styles.center]}>
-      <Game isPlaying={isPlaying} teamId={teamId} setIsPlaying={setIsPlaying}/>
+      <Game isPlaying={isPlaying} teamId={teamId} setReset={setReset}/>
     </View>;
     case "joinTeam": return <JoinTeam auth={auth} user={user} setRoute={setRoute}></JoinTeam>;
     case "createTeam": return <CreateTeam auth={auth} user={user} setRoute={setRoute}></CreateTeam>;
