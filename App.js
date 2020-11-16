@@ -126,7 +126,7 @@ export default function App() {
       setRoute("Activities")
     }
     
-  }, [auth,teamId, teamInfo]);
+  }, [auth,teamId, teamInfo, isPlaying]);
 
   const renderSwitch = (route) => {
     switch(route) {
@@ -134,10 +134,10 @@ export default function App() {
       case 'Teams': return <Teams auth={auth} teamId={teamId} setTeamId={setTeamId} setRoute={setRoute} />;
       case "Lobby": return <Lobby auth={auth} teamId={teamId} teamInfo={teamInfo} setTeamId={setTeamId} teamName={teamName} myVote={myVote} setMyVote={setMyVote} setRoute={setRoute} />;
       case "Activities" : return <View style={[styles.container, styles.center]}>
-      <Activities numUsers={teamInfo.length} auth={auth} teamInfo={teamInfo} teamId={teamId} setIsPlaying={setIsPlaying} jitsiLink={generateLink(uids)} />
+      <Activities numUsers={teamInfo.length} auth={auth} teamInfo={teamInfo} teamId={teamId} isPlaying={isPlaying} setIsPlaying={setIsPlaying} jitsiLink={generateLink(uids)} />
     </View>;
       case "Game": return <View style={[styles.container, styles.center]}>
-      <Game isPlaying={isPlaying} teamId={teamId}/>
+      <Game isPlaying={isPlaying} teamId={teamId} setIsPlaying={setIsPlaying}/>
     </View>;
     case "joinTeam": return <JoinTeam auth={auth} user={user} setRoute={setRoute}></JoinTeam>;
     case "createTeam": return <CreateTeam auth={auth} user={user} setRoute={setRoute}></CreateTeam>;

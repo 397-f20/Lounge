@@ -4,9 +4,8 @@ import React, { useEffect, useState } from 'react';
 import styles from "../assets/Styles";
 
 
-const Activities = ({ numUsers, auth, teamInfo, teamId, setIsPlaying, jitsiLink}) => {
+const Activities = ({ numUsers, auth, teamInfo, teamId, isPlaying, setIsPlaying, jitsiLink}) => {
   const [myGameVote, setMyGameVote] = useState("");
-  const [votedGames, setVotedGames] = useState([]);
 
   const numUsersStr = (numUsers) => {
     if (numUsers <= 4) {
@@ -63,7 +62,7 @@ const Activities = ({ numUsers, auth, teamInfo, teamId, setIsPlaying, jitsiLink}
   }
 
   useEffect(() =>{
-    if (teamInfo) {
+    if (teamInfo && isPlaying == '') {
       var onlineUsers = teamInfo.filter(user => user.status == "online");
       var arr = teamInfo.filter(user => user.status == "online" && user.voteGame != null);
 
@@ -79,13 +78,16 @@ const Activities = ({ numUsers, auth, teamInfo, teamId, setIsPlaying, jitsiLink}
         var historyIdRef = firebase.database().ref('teams/' + teamId + '/history/' + historyId);
         historyIdRef.update(updates);
 
-        setIsPlaying(historyId)
+      
         const teamUserRef = firebase.database().ref('/teams/' + teamId + "/members/" + auth.uid);
         const offlineStatus = {
             status: "offline",
-            voteToClose: "false"
+            voteGame: null,
+            voteToClose: "false",
         };
         teamUserRef.update(offlineStatus);
+        setIsPlaying(historyId);
+        setMyGameVote("");
       }
     }
   },[teamInfo]);
