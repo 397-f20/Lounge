@@ -42,7 +42,7 @@ const JoinTeam = ({ user, auth, setRoute }) => {
                 <TouchableOpacity style={[styles.button, styles.center]} onPress={() => handleOnSubmit()}>
                     <Text style={[styles.text, styles.center]}>Join Team</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, styles.center]} onPress={() => setRoute("")}>
+                <TouchableOpacity style={[styles.button, styles.center]} onPress={() => setRoute("Teams")}>
                     <Text style={[styles.text, styles.center]}>Back</Text>
                 </TouchableOpacity>
             </View>

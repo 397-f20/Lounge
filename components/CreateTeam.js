@@ -20,7 +20,7 @@ const CreateTeam = ({ user, auth, setRoute }) => {
         updates['/teams/' + teamID + '/name/'] = teamName;
         updates['/users/' + auth.uid + '/teams/' + teamID] = teamName;
         return firebase.database().ref().update(updates)
-            .then(() => setRoute("someRoute"))
+            .then(() => setRoute("Teams"))
             .catch((error) => alert(error));
     }
 
@@ -48,7 +48,7 @@ const CreateTeam = ({ user, auth, setRoute }) => {
                 <TouchableOpacity style={[styles.button, styles.center]} onPress={() => handleOnSubmit()}>
                     <Text style={[styles.text, styles.center]}>Create Team</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.button, styles.center]} onPress={() => setRoute("")}>
+                <TouchableOpacity style={[styles.button, styles.center]} onPress={() => setRoute("Teams")}>
                     <Text style={[styles.text, styles.center]}>Back</Text>
                 </TouchableOpacity>
             </View>
