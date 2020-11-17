@@ -70,6 +70,9 @@ const styles = StyleSheet.create({
         // maxWidth: 300,
         marginBottom: 10
     },
+    danger: {
+        backgroundColor: '#4f0100',
+    },
     text: {
         fontSize: 20,
         color: '#F5F5DC',

@@ -31,9 +31,27 @@ const History = ({ teamId, setRoute, setIsPlaying }) => {
         else if (nameArray.length == 3)
             finalString = nameArray[0] + ", " + nameArray[1] + ", and 1 other joined";
         else
-            finalString = nameArray[0] + ", " + nameArray[1] + ", and " + (nameArray.length-2) + " others joined";
+            finalString = nameArray[0] + ", " + nameArray[1] + ", and " + (nameArray.length - 2) + " others joined";
         return finalString
-        }
+    }
+
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+
+    const formatDate = (date) => {
+        let minutesString = "";
+        const val = date.getMinutes();
+        if(val < 10) minutesString = "0" + val;
+        else minutesString = val.toString();
+
+        return (
+            date.getDate() + " " +
+            monthNames[date.getMonth()] + ", " +
+            date.getHours() + ":" +
+            minutesString
+        );
+    }
 
     return (
         <View>
@@ -41,7 +59,7 @@ const History = ({ teamId, setRoute, setIsPlaying }) => {
             {teamHistory.map(game => (
                 <View style={[styles.paragraph]}>
                     <Text style={styles.text}>{game[1].gameName}</Text>
-                    <Text style={styles.text}>{game[1].created}</Text>
+                    <Text style={[styles.text, styles.list]}>{formatDate(new Date(game[1].created))}</Text>
                     <Text style={[styles.text, styles.list]}>{formatTeamMembers(game[0])}</Text>
                     <TouchableOpacity style={[styles.button, styles.center]} onPress={() => {
                         if (Platform.OS == 'web') {

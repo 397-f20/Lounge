@@ -100,11 +100,11 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName, myVote, setMyVote,
                 <View style={[styles.container, styles.center]}>
                     {!myVote && joinLobby &&
                         <TouchableOpacity style={[styles.button, styles.center]} title={"Vote to Close"} onPress={voteToClose}>
-                            <Text style={[styles.text, styles.center]}> ✅ Vote to Close Lobby </Text>
+                            <Text style={[styles.text, styles.center]}> ✅ Mark Ready </Text>
                         </TouchableOpacity>}
                     {myVote && joinLobby &&
                         <TouchableOpacity style={[styles.button, styles.center]} title={"Cancel vote"} onPress={removeVote}>
-                            <Text style={[styles.text, styles.center]}> 🚫 Cancel vote </Text>
+                            <Text style={[styles.text, styles.center]}> 🚫 Mark Not Ready </Text>
                         </TouchableOpacity>}
                     <Text style={styles.header}> Online </Text>
                     { onlineUsers.length == 0 &&
@@ -120,11 +120,11 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName, myVote, setMyVote,
                             <Text style={[styles.listText, styles.center]}>{user.firstName}</Text>
                         </View>
                     ))}
-                    <TouchableOpacity style={[styles.button, styles.center]} title={"Leave Button"} onPress={leave}>
-                        <Text style={[styles.text, styles.center]}> Leave </Text>
-                    </TouchableOpacity>
                     <TouchableOpacity style={[styles.button, styles.center]} title={"Back button"} onPress={back}>
                         <Text style={[styles.text, styles.center]}> Back </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[styles.button, styles.center, styles.danger]} title={"Leave Team Button"} onPress={leave}>
+                        <Text style={[styles.text, styles.center]}> Abandon Team </Text>
                     </TouchableOpacity>
                 </View>)
                 :
