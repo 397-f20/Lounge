@@ -13,7 +13,8 @@ const JoinTeam = ({ user, auth, setRoute }) => {
         const userUpdate = {
             firstName: user.firstName,
             lastName: user.lastName,
-            voteToClose: false
+            voteToClose: false,
+            admin: false
         }
         var updates = {};
         updates['/teams/' + teamIDField + '/members/' + auth.uid] = userUpdate;

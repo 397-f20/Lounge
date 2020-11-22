@@ -39,19 +39,40 @@ const History = ({ teamId, setRoute, setIsPlaying }) => {
         "July", "August", "September", "October", "November", "December"
     ];
 
-    const formatDate = (date) => {
-        let minutesString = "";
-        const val = date.getMinutes();
-        if(val < 10) minutesString = "0" + val;
-        else minutesString = val.toString();
+    // const formatDate = (date) => {
+    //     var currentDate = new Date().getDate();
+    //     let minutesString = "";
+    //     const val = date.getMinutes();
+    //     if(val < 10) minutesString = "0" + val;
+    //     else minutesString = val.toString();
 
-        return (
-            date.getDate() + " " +
-            monthNames[date.getMonth()] + ", " +
-            date.getHours() + ":" +
-            minutesString
-        );
-    }
+    //     return (
+    //         date.getDate() + " " +
+    //         monthNames[date.getMonth()] + ", " +
+    //         date.getHours() + ":" +
+    //         minutesString
+    //     );
+    // }
+
+    function formatDate(timeStamp) {
+        var now = new Date(),
+          secondsPast = (now.getTime() - timeStamp) / 1000;
+        if (secondsPast < 60) {
+          return parseInt(secondsPast) + 's ago';
+        }
+        if (secondsPast < 3600) {
+          return parseInt(secondsPast / 60) + 'm ago';
+        }
+        if (secondsPast <= 86400) {
+          return parseInt(secondsPast / 3600) + 'h ago';
+        }
+        if (secondsPast > 86400) {
+          day = timeStamp.getDate();
+          month = timeStamp.toDateString().match(/ [a-zA-Z]*/)[0].replace(" ", "");
+          year = timeStamp.getFullYear() == now.getFullYear() ? "" : " " + timeStamp.getFullYear();
+          return day + " " + month + year + " ago";
+        }
+      }
 
     return (
         <View>

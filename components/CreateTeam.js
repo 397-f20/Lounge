@@ -13,12 +13,14 @@ const CreateTeam = ({ user, auth, setRoute }) => {
         const userUpdate = {
             firstName: user.firstName,
             lastName: user.lastName,
-            voteToClose: false
+            voteToClose: false,
+            admin: true
         }
         var updates = {};
         updates['/teams/' + teamID + '/members/' + auth.uid] = userUpdate;
         updates['/teams/' + teamID + '/name/'] = teamName;
         updates['/users/' + auth.uid + '/teams/' + teamID] = teamName;
+        
         return firebase.database().ref().update(updates)
             .then(() => setRoute("Teams"))
             .catch((error) => alert(error));
