@@ -57,7 +57,7 @@ const Activities = ({ numUsers, auth, teamInfo, teamId, isPlaying, setIsPlaying,
 
   const generateHistoryId = (teamInfo) => {
     var onlineUsers = teamInfo.filter(user => user.status == "online");
-    var arr = onlineUsers.map(obj => Object.values(obj)[0]);
+    var arr = onlineUsers.map(obj => Object.values(obj)['firstName']);
     return arr.join();
   }
 
