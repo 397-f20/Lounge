@@ -10,7 +10,7 @@ const Game = ({ isPlaying, teamId, setReset}) => {
   const [link, setLink] = useState("");
   
   var getHistoryRef = firebase.database().ref('teams/' + teamId + '/history/' + isPlaying);
-  var getGameRef = firebase.database().ref('games/' + gameName + "/");
+  var getGameRef = firebase.database().ref('games/' + teamId + "/" + gameName + "/");
 
   useEffect(() => {
     const handleData = snap => {

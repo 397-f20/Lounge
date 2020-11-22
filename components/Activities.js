@@ -31,7 +31,7 @@ const Activities = ({ numUsers, auth, teamInfo, teamId, isPlaying, setIsPlaying,
     setMyGameVote("");
   }
 
-  var gamesRef = firebase.database().ref('games').orderByChild('numPlayers').equalTo(numUsersStr(numUsers));
+  var gamesRef = firebase.database().ref('games/' + teamId).orderByChild('numPlayers').equalTo(numUsersStr(numUsers));
   const [games, setGames] = useState([]);
   useEffect(() => {
     const handleData = snap => {
