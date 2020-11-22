@@ -10,11 +10,27 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName, myVote, setMyVote,
     const teamUserRef = firebase.database().ref('/teams/' + teamId + "/members/" + auth.uid);
     const [joinLobby, setJoinLobby] = useState(false);
     const [onlineUsers, setOnlineUsers] = useState([]);
+    console.log(teamInfo);
+    // const admin = teamInfo.filter()
 
     useEffect(() => {
         updateOnlineUsers(teamInfo);
     }, [teamInfo]);
 
+
+    const admin = (teamInfo) => {
+        if (teamInfo){
+            var ret = false;
+            teamUserRef.once("value", function (snapshot) {
+                snapshot.val() ?
+                    ret = snapshot.val().admin:
+                    ret =  false;
+            });
+            return ret;
+        }
+        else return false;
+    }
+    
     const voteToClose = () => {
         teamUserRef.update({ voteToClose: "true" });
         setMyVote(true);
@@ -85,9 +101,11 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName, myVote, setMyVote,
     return ( //Clipboard.setString('hello world');
         <View style={styles.container}>
             <Text style={[styles.header, styles.center]}>{teamName}</Text>
-            <TouchableOpacity style={[styles.button, styles.center]} title={"Join Lounge"} onPress={() => copyTeamID(teamId)} >
+            {admin(teamInfo) && 
+            <TouchableOpacity style={[styles.button, styles.center]} title={"Copy Team ID"} onPress={() => copyTeamID(teamId)} >
                 <Text style={[styles.text, styles.center]} >📋 Copy team ID</Text>
             </TouchableOpacity>
+            }
             <TouchableOpacity style={[styles.button, styles.center]} title={"History"} onPress={() => setRoute('history')}>
                 <Text style={[styles.text, styles.center]}> 🦕 Game History </Text>
             </TouchableOpacity>
