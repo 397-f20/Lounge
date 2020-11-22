@@ -102,9 +102,14 @@ const Lobby = ({ auth, teamInfo, teamId, setTeamId, teamName, myVote, setMyVote,
         <View style={styles.container}>
             <Text style={[styles.header, styles.center]}>{teamName}</Text>
             {admin(teamInfo) && 
+            <View>
             <TouchableOpacity style={[styles.button, styles.center]} title={"Copy Team ID"} onPress={() => copyTeamID(teamId)} >
                 <Text style={[styles.text, styles.center]} >📋 Copy team ID</Text>
             </TouchableOpacity>
+            <TouchableOpacity style={[styles.button, styles.center]} title={"Copy Team ID"} onPress={() => setRoute('manageGames')} >
+                <Text style={[styles.text, styles.center]} >🔧 Manage Games</Text>
+            </TouchableOpacity>
+            </View>
             }
             <TouchableOpacity style={[styles.button, styles.center]} title={"History"} onPress={() => setRoute('history')}>
                 <Text style={[styles.text, styles.center]}> 🦕 Game History </Text>

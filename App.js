@@ -11,6 +11,8 @@ import CreateTeam from './components/CreateTeam';
 import styles from "./assets/Styles";
 import notify from './util/notify';
 import History from './components/History';
+import ManageGames from './components/ManageGames';
+import AddGame from './components/AddGame';
 
 
 export default function App() {
@@ -154,6 +156,8 @@ export default function App() {
     case "joinTeam": return <JoinTeam auth={auth} user={user} setRoute={setRoute}></JoinTeam>;
     case "createTeam": return <CreateTeam auth={auth} user={user} setRoute={setRoute}></CreateTeam>;
     case "history": return <History teamId={teamId} setRoute={setRoute} setIsPlaying={setIsPlaying}></History>;
+    case "manageGames": return <ManageGames teamId={teamId} setRoute={setRoute}></ManageGames>;
+    case "addGame": return <AddGame teamId={teamId} setRoute={setRoute}></AddGame>;
   }};
 
   return (

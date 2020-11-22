@@ -6,6 +6,7 @@ import styles from "../assets/Styles";
 
 const Activities = ({ numUsers, auth, teamInfo, teamId, isPlaying, setIsPlaying, jitsiLink}) => {
   const [myGameVote, setMyGameVote] = useState("");
+  const [games, setGames] = useState([]);
 
   const numUsersStr = (numUsers) => {
     if (numUsers <= 4) {
@@ -32,7 +33,6 @@ const Activities = ({ numUsers, auth, teamInfo, teamId, isPlaying, setIsPlaying,
   }
 
   var gamesRef = firebase.database().ref('games/' + teamId).orderByChild('numPlayers').equalTo(numUsersStr(numUsers));
-  const [games, setGames] = useState([]);
   useEffect(() => {
     const handleData = snap => {
       if (snap.val()) {
@@ -126,7 +126,8 @@ const Activities = ({ numUsers, auth, teamInfo, teamId, isPlaying, setIsPlaying,
               <Text style={[styles.text, styles.center]}>Remove vote for this game</Text>
             </TouchableOpacity>}
         </View>
-      ))}</View>
+      ))}
+    </View>
   )
 }
 
