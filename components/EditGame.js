@@ -4,10 +4,11 @@ import { firebase } from '../firebase';
 import styles from "../assets/Styles";
 
 
-const AddGame = ({ teamId, setRoute }) => {
-    const [gameNameField, setGameNameField] = useState("")
-    const [gameDescriptionField, setGameDescriptionField] = useState("")
-    const [numPlayers, setNumPlayers] = useState("2-4")
+const EditGame = ({ teamId, setRoute, game }) => {
+    const [gameNameField, setGameNameField] = useState(game.name)
+    const [gameDescriptionField, setGameDescriptionField] = useState(game.description)
+    const [numPlayers, setNumPlayers] = useState(game.numPlayers)
+
 
     function handleOnSubmit() {
         // var gamesRef = firebase.database().ref('games/' + teamId)
@@ -23,11 +24,19 @@ const AddGame = ({ teamId, setRoute }) => {
             .catch((error) => alert(error));
     }
 
+    const deleteGame = () => {
+        var updates = {};
+        updates['/games/' + teamId + '/' + game.name] = null;
+        return firebase.database().ref().update(updates)
+            .then(() => setRoute("manageGames"))
+            .catch((error) => alert(error));
+
+    };
 
     return (
         <View>
             <View>
-                <Text style={[styles.header, styles.center]}> Add a Game </Text>
+                <Text style={[styles.header, styles.center]}> Edit a Game </Text>
 
                 <Text style={[styles.text, styles.center]}> Game Name </Text>
                 <TextInput autoFocus maxLength={40} style={[styles.textInput, styles.center]} value={gameNameField} onChangeText={text => setGameNameField(text)} placeholder="New Game" />
@@ -46,10 +55,14 @@ const AddGame = ({ teamId, setRoute }) => {
                     <Picker.Item label="8+" value="8+" />
                 </Picker>
 
-
                 <TouchableOpacity style={[styles.button, styles.center]} onPress={() => handleOnSubmit()}>
                     <Text style={[styles.text, styles.center]}>Add</Text>
                 </TouchableOpacity>
+
+                <TouchableOpacity style={[styles.button, styles.center, styles.danger]} onPress={deleteGame}>
+                    <Text style={[styles.text, styles.center]}>Delete</Text>
+                </TouchableOpacity>
+
                 <TouchableOpacity style={[styles.button, styles.center]} onPress={() => setRoute("manageGames")}>
                     <Text style={[styles.text, styles.center]}>Back</Text>
                 </TouchableOpacity>
@@ -58,4 +71,4 @@ const AddGame = ({ teamId, setRoute }) => {
     )
 }
 
-export default AddGame;
+export default EditGame;

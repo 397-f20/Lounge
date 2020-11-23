@@ -13,6 +13,7 @@ import notify from './util/notify';
 import History from './components/History';
 import ManageGames from './components/ManageGames';
 import AddGame from './components/AddGame';
+import EditGame from './components/EditGame';
 
 
 export default function App() {
@@ -26,8 +27,9 @@ export default function App() {
   const [lobbyClosed, setLobbyClosed] = useState(false);
   const [myVote, setMyVote] = useState(false);
   const [isPlaying, setIsPlaying] = useState("");
-  const [reset, setReset] = useState(false)
+  const [reset, setReset] = useState(false);
 
+  const [game, setGame] = useState({});
 
   useEffect(() => {
     if(reset == true){
@@ -156,8 +158,9 @@ export default function App() {
     case "joinTeam": return <JoinTeam auth={auth} user={user} setRoute={setRoute}></JoinTeam>;
     case "createTeam": return <CreateTeam auth={auth} user={user} setRoute={setRoute}></CreateTeam>;
     case "history": return <History teamId={teamId} setRoute={setRoute} setIsPlaying={setIsPlaying}></History>;
-    case "manageGames": return <ManageGames teamId={teamId} setRoute={setRoute}></ManageGames>;
+    case "manageGames": return <ManageGames teamId={teamId} setRoute={setRoute} setGame={setGame}></ManageGames>;
     case "addGame": return <AddGame teamId={teamId} setRoute={setRoute}></AddGame>;
+    case "editGame": return <EditGame teamId={teamId} setRoute={setRoute} game={game}></EditGame>;
   }};
 
   return (

@@ -4,7 +4,7 @@ import { firebase } from '../firebase';
 import styles from "../assets/Styles";
 
 
-const ManageGames = ({ teamId, setRoute }) => {
+const ManageGames = ({ teamId, setRoute, setGame }) => {
     const [games, setGames] = useState([]);
     var gamesRef = firebase.database().ref('games/' + teamId).orderByChild('numPlayers')
 
@@ -26,9 +26,13 @@ const ManageGames = ({ teamId, setRoute }) => {
         <View style={styles.container}>
             <Text style={[styles.header, styles.center]}>🔧 Manage Games</Text>
             {games.map(game => (
-                <View key={game.name} style={styles.list}>
-                    <Text style={[styles.listHeader, styles.center]}>{game.name}{ } </Text>
-                </View>
+                <TouchableOpacity style={[styles.button, styles.center]} 
+                    onPress={() => {
+                        setRoute('editGame')
+                        setGame(game)
+                        }}>
+                    <Text style={[styles.listHeader, styles.center]}>{game.name}</Text>
+                    </TouchableOpacity>
             ))}
             <TouchableOpacity style={[styles.button, styles.center]} onPress={() => setRoute('addGame')}>
                 <Text style={[styles.text, styles.center]}> Add Game </Text>
