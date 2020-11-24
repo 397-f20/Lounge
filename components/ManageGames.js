@@ -25,17 +25,19 @@ const ManageGames = ({ teamId, setRoute, setGame }) => {
     return (
         <View style={styles.container}>
             <Text style={[styles.header, styles.center]}>🔧 Manage Games</Text>
-            {games.map(game => (
-                <TouchableOpacity style={[styles.button, styles.center]} 
-                    onPress={() => {
-                        setRoute('editGame')
-                        setGame(game)
-                        }}>
-                    <Text style={[styles.listHeader, styles.center]}>{game.name}</Text>
-                    </TouchableOpacity>
-            ))}
+            <View style={[styles.list]}>
+                {games.map(game => (
+                    <TouchableOpacity style={[styles.button, styles.center]} 
+                        onPress={() => {
+                            setRoute('editGame')
+                            setGame(game)
+                            }}>
+                        <Text style={[styles.listHeader, styles.center]}>{game.name}</Text>
+                        </TouchableOpacity>
+                ))}
+            </View>
             <TouchableOpacity style={[styles.button, styles.center]} onPress={() => setRoute('addGame')}>
-                <Text style={[styles.text, styles.center]}> Add Game </Text>
+                <Text style={[styles.text, styles.center]}> Create Game </Text>
             </TouchableOpacity>
             <TouchableOpacity style={[styles.button, styles.center]} title={"Back button"} onPress={() => setRoute('Lobby')}>
                 <Text style={[styles.text, styles.center]}> Back </Text>

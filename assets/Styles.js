@@ -100,4 +100,48 @@ const styles = StyleSheet.create({
     }
 });
 
+const inputStyles = StyleSheet.create({
+    inputIOS: {
+        marginTop: 10,
+        fontSize: 16,
+        paddingVertical: 12,
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        backgroundColor: '#F5F5DC',
+        borderRadius: 5,
+        color: 'black',
+        textAlign: 'center',
+        paddingRight: 30, // to ensure the text is never behind the icon
+        marginBottom: 40,
+      },
+      inputAndroid: {
+        marginTop: 10,
+        fontSize: 20,
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        borderWidth: 0.5,
+        backgroundColor: '#F5F5DC',
+        textAlign: 'center',
+        borderRadius: 5,
+        color: 'black',
+        paddingRight: 30, // to ensure the text is never behind the icon
+        marginBottom: 40,
+      },
+      inputWeb: {
+        marginTop: 10,
+        fontSize: 20,
+        paddingHorizontal: 10,
+        paddingVertical: 8,
+        borderWidth: 0.5,
+        backgroundColor: '#F5F5DC',
+        textAlign: 'center',
+        borderRadius: 5,
+        color: 'black',
+        minHeight: 40,
+        paddingRight: 30, // to ensure the text is never behind the icon
+        marginBottom: 40,
+      }
+});
+
 export default styles;
+export {inputStyles}; 

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, TextInput, Platform, Text, View, StyleSheet, Picker } from 'react-native';
+import RNPickerSelect from 'react-native-picker-select';
 import { firebase } from '../firebase';
-import styles from "../assets/Styles";
-
+import styles, {inputStyles} from "../assets/Styles";
 
 const AddGame = ({ teamId, setRoute }) => {
     const [gameNameField, setGameNameField] = useState("")
@@ -30,25 +30,27 @@ const AddGame = ({ teamId, setRoute }) => {
                 <Text style={[styles.header, styles.center]}> Add a Game </Text>
 
                 <Text style={[styles.text, styles.center]}> Game Name </Text>
-                <TextInput autoFocus maxLength={40} style={[styles.textInput, styles.center]} value={gameNameField} onChangeText={text => setGameNameField(text)} placeholder="New Game" />
+                <TextInput autoFocus maxLength={30} style={[styles.textInput, styles.center]} value={gameNameField} onChangeText={text => setGameNameField(text)} placeholder="New Game" />
 
                 <Text style={[styles.text, styles.center]}> Description </Text>
-                <TextInput autoFocus maxLength={40} style={[styles.textInput, styles.center]} value={gameDescriptionField} onChangeText={text => setGameDescriptionField(text)} placeholder="Add a description of how to play the game here." />
+                <TextInput autoFocus maxLength={200} multiline style={[{minHeight: 160}, styles.textInput, styles.center]} value={gameDescriptionField} onChangeText={text => setGameDescriptionField(text)} placeholder="Add a description of how to play the game here." />
 
                 <Text style={[styles.text, styles.center]}> Number of Players </Text>
-                <Picker
-                    selectedValue={numPlayers}
-                    style={{ height: 50, width: 150 }}
-                    onValueChange={(itemValue, itemIndex) => setNumPlayers(itemValue)}
-                >
-                    <Picker.Item label="2-4" value="2-4" />
-                    <Picker.Item label="5-7" value="5-7" />
-                    <Picker.Item label="8+" value="8+" />
-                </Picker>
+                <RNPickerSelect
+                    useNativeAndroidPickerStyle={false}
+                    placeholder={{}}
+                    style={inputStyles}
+                    onValueChange={ value => setNumPlayers(value) }
+                    value={numPlayers}
+                    items={[
+                        { label: '2-4', value: '2-4' },
+                        { label: '5-7', value: '5-7' },
+                        { label: '8+', value: '8+' },
+                    ]} />
 
 
                 <TouchableOpacity style={[styles.button, styles.center]} onPress={() => handleOnSubmit()}>
-                    <Text style={[styles.text, styles.center]}>Add</Text>
+                    <Text style={[styles.text, styles.center]}>Create Game</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.button, styles.center]} onPress={() => setRoute("manageGames")}>
                     <Text style={[styles.text, styles.center]}>Back</Text>
