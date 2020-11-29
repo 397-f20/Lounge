@@ -126,6 +126,10 @@ export default function App() {
   }
 
   useEffect(() => {
+    if (route == 'editGame' || route == 'addGame' || route == 'manageGames' || route == 'history' || route == 'createTeam' || route == "joinTeam")
+    {
+      return;
+    }
     if (!auth){
       setRoute("Login")
     }
