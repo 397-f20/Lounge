@@ -6,7 +6,7 @@ import styles from "../assets/Styles";
 
 const History = ({ teamId, setRoute, setIsPlaying }) => {
     const [teamHistory, setTeamHistory] = useState([]);
-    var getHistoryRef = firebase.database().ref('teams/' + teamId + '/history/');
+    var getHistoryRef = firebase.database().ref('teams/' + teamId + '/history');
 
 
     useEffect(() => {
@@ -14,11 +14,14 @@ const History = ({ teamId, setRoute, setIsPlaying }) => {
             if (snap.val()) {
                 const json = snap.val();
                 var history = Object.entries(json);
+                history = history.sort(function(a, b) {
+                    return b[1].created - a[1].created;
+                });
                 setTeamHistory(history);
-                console.log(history)
+                // console.log(history)
             }
         }
-        getHistoryRef.on('value', handleData, error => alert(error));
+        getHistoryRef.orderByChild('created').limitToLast(10).on('value', handleData, error => alert(error));
         return () => { getHistoryRef.off('value', handleData); };
     }, []);
 
